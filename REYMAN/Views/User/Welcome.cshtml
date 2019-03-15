@@ -1,0 +1,26 @@
+﻿@using BizLogic.Authentication
+@model RegisterUsuarioCommand
+
+<head>
+    <title>Signed up</title>
+</head>
+<body>
+    <h1>Congratulations @Model.FirstName @Model.SecondName!!! You are alredy signed up</h1>
+    <div>Your main email for all transactions is @Model.Email</div>
+    <h2>Your Actions</h2>
+    <section>
+        @*@if ((int)Model.per == 0)
+        {
+            @Html.Partial("CommonActions")
+        }
+        else if ((int)Model.per == 1)
+        {
+            @Html.Partial("EditorActions")
+        }
+        else
+        {
+            @Html.Partial("AdminActions")
+        }*@
+    </section>
+</body>
+

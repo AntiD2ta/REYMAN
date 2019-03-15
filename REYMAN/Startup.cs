@@ -9,21 +9,75 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using DataLayer.EfCode;
+using BizDbAccess.GenericInterfaces;
+using Microsoft.AspNetCore.Routing;
+using BizData.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using TripManager2._0.Policies;
+using Microsoft.AspNetCore.Authorization;
 
-namespace REYMAN
+namespace TripManager2._0
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<Usuario, IdentityRole>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+                cfg.Password.RequiredLength = 4;
+            })
+            .AddEntityFrameworkStores<EfCoreContext>();
+
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
+
+                });
+
+            Dictionary<string, int> levels = new Dictionary<string, int>
+                {
+                   { "common", 1 },
+                   { "edit",  2  },
+                   { "admin", 3  }
+                };
+
+            services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy(
+                    "LevelTwoAuth",
+                    policyBuilder => policyBuilder.AddRequirements(
+                        new LevelAuthRequirement(levels, "Permission", 2)
+                        ));
+
+                cfg.AddPolicy(
+                    "LevelThreeAuth",
+                    policyBuilder => policyBuilder.AddRequirements(
+                        new LevelAuthRequirement(levels, "Permission", 3)
+                        ));
+            });
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -31,8 +85,24 @@ namespace REYMAN
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var connection = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<EfCoreContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connection,
+                b => b.MigrationsAssembly("DataLayer")));
+
+            services.AddScoped<IUnitOfWork, EfCoreContext>();
+
+            services.AddTransient<EfSeeder>();
+
+            services.AddSingleton<IAuthorizationHandler, LevelHandler>();
+
+            services.AddMvc(opt =>
+            {
+                if (Env.IsProduction())
+                {
+                    opt.Filters.Add(new RequireHttpsAttribute());
+                }
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,12 +123,24 @@ namespace REYMAN
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
+            app.UseAuthentication();
+
+            if (env.IsDevelopment())
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                //Seed the database
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var seeder = scope.ServiceProvider.GetService<EfSeeder>();
+                    seeder.Seed();
+                }
+            }
+
+            app.UseMvc(ConfigureRoutes);
+        }
+
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            routeBuilder.MapRoute("Default", "{controller=Account}/{action=Login}");
         }
     }
 }

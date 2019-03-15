@@ -1,0 +1,18 @@
+﻿[
+  {
+    "FirstName": "Miguel",
+    "SecondName": null,
+    "FirstLastName": "Tenorio",
+    "SecondLastName": "Potrony",
+    "Email": "mtp@gmail.com",
+    "Permission": "1"
+  },
+  {
+    "FirstName": "Juan",
+    "SecondName": "David",
+    "FirstLastName": "Menendez",
+    "SecondLastName": "del Cueto",
+    "Email": "jdm@gmail.com",
+    "Permission": "0"
+  }
+]

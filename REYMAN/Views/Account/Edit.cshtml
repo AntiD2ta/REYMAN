@@ -1,0 +1,74 @@
+﻿@using BizLogic.Authentication
+@using BizData.Entities
+@model RegisterUsuarioCommand
+@{
+    Layout = "_Login-Register";
+    ViewData["Title"] = "Update Account";
+}
+
+
+<CENTER>
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="col-md-6 col-md-offset-3">
+        <form asp-action="@ViewData["ReturnUrl"]" method="post">
+            <h4>Change your information.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            @*<div class="form-group" hidden="hidden">
+                <label asp-for="UsuarioID"></label>
+                <input asp-for="UsuarioID" class="form-control" />
+                <span asp-validation-for="UsuarioID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" hidden="hidden">
+                <label asp-for="Permission"></label>
+                <select asp-for="Permission" asp-items="@Html.GetEnumSelectList<PermisoTipo>()" class="form-control" ></select>
+                <span asp-validation-for="Permission" class="text-danger"></span>
+            </div>*@
+
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SecondName"></label>
+                <input asp-for="SecondName" class="form-control" />
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstLastName"></label>
+                <input asp-for="FirstLastName" class="form-control" />
+                <span asp-validation-for="FirstLastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SecondLastName"></label>
+                <input asp-for="SecondLastName" class="form-control" />
+                <span asp-validation-for="SecondLastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Register</button>
+        </form>
+        <hr />
+    </div>
+</CENTER>

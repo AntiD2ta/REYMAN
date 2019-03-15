@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top"></nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+            <div class="col-md-6 col-md-offset-3">
+                <CENTER>
+                    <div> <a asp-area="" asp-controller="Home" asp-action="About">About</a> </div>
+                    <div> <a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a> </div>
+                    <p>&copy; 2018 - ISMT</p>
+                </CENTER>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>

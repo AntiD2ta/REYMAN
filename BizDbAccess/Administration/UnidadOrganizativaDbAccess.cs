@@ -32,7 +32,7 @@ namespace BizDbAccess.Authentication
 
         public IEnumerable<UnidadOrganizativa> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.UnidadesOrganizativas;
         }
 
         public void Update(UnidadOrganizativa entity)

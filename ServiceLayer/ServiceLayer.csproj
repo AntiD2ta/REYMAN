@@ -9,8 +9,4 @@
     <ProjectReference Include="..\BizLogic\BizLogic.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AdminServices\" />
-  </ItemGroup>
-
 </Project>

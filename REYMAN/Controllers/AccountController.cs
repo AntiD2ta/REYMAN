@@ -16,6 +16,7 @@ using BizData.Entities;
 
 namespace REYMAN.Controllers
 {
+    [Authorize("LevelOneAuth")]
     public class AccountController : Controller
     {
         private readonly IUnitOfWork _context;
@@ -35,7 +36,6 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public IActionResult Edit(string email)
         {
             /*Edit Post
@@ -80,6 +80,7 @@ namespace REYMAN.Controllers
                 if (result.Succeeded)
                 {   
                     var claim = new Claim("Permission", "common");
+        
                     await _userManager.AddClaimAsync(user, claim);
 
                     await _signInManager.SignInAsync(user, false);
@@ -140,6 +141,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -147,6 +149,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
             if (ModelState.IsValid)

@@ -31,7 +31,8 @@ namespace REYMAN.Policies
             foreach (var permission in permissions)
             {
                 if (permission.Type == requirement.TypeClaimPermission &&
-                   requirement.Permissions[permission.Value] >= requirement.Priority)
+                   requirement.Permissions[permission.Value] >= requirement.Priority &&
+                   context.User.HasClaim("Pending", "false"))
                 {
                     context.Succeed(requirement);
                     break;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class IdentitySchema : Migration
+    public partial class InitialSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,89 @@ namespace DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Materiales",
+                columns: table => new
+                {
+                    MaterialID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: true),
+                    UnidadMedida = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Materiales", x => x.MaterialID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Planes",
+                columns: table => new
+                {
+                    PlanID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Presupuesto = table.Column<double>(nullable: false),
+                    Año = table.Column<int>(nullable: false),
+                    TipoPlan = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Planes", x => x.PlanID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Provincias",
+                columns: table => new
+                {
+                    ProvinciaID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Provincias", x => x.ProvinciaID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnidadesOrganizativas",
+                columns: table => new
+                {
+                    UnidadOrganizativaID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: true),
+                    ProvinciaID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnidadesOrganizativas", x => x.UnidadOrganizativaID);
+                    table.ForeignKey(
+                        name: "FK_UnidadesOrganizativas_Provincias_ProvinciaID",
+                        column: x => x.ProvinciaID,
+                        principalTable: "Provincias",
+                        principalColumn: "ProvinciaID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,45 +127,38 @@ namespace DataLayer.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     SecondName = table.Column<string>(nullable: true),
                     FirstLastName = table.Column<string>(nullable: true),
-                    SecondLastName = table.Column<string>(nullable: true)
+                    SecondLastName = table.Column<string>(nullable: true),
+                    UnidadOrganizativaID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Visa",
-                columns: table => new
-                {
-                    VisaID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Visa", x => x.VisaID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetRoleClaims",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<string>(nullable: false),
-                    ClaimType = table.Column<string>(nullable: true),
-                    ClaimValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_AspNetUsers_UnidadesOrganizativas_UnidadOrganizativaID",
+                        column: x => x.UnidadOrganizativaID,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Inmuebles",
+                columns: table => new
+                {
+                    InmuebleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Direccion = table.Column<string>(nullable: true),
+                    UOUnidadOrganizativaID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Inmuebles", x => x.InmuebleID);
+                    table.ForeignKey(
+                        name: "FK_Inmuebles_UnidadesOrganizativas_UOUnidadOrganizativaID",
+                        column: x => x.UOUnidadOrganizativaID,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,175 +247,120 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pasaportes",
+                name: "ObjetosObra",
                 columns: table => new
                 {
-                    PasaporteID = table.Column<int>(nullable: false)
+                    ObjetoObraID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UsuarioCI = table.Column<long>(nullable: false),
-                    FechaCreacion = table.Column<DateTime>(nullable: false),
-                    FechaVencimiento = table.Column<DateTime>(nullable: false),
-                    Actualizaciones = table.Column<int>(nullable: false),
-                    Tipo = table.Column<int>(nullable: false),
-                    UsuarioId = table.Column<string>(nullable: true)
+                    InmuebleID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pasaportes", x => x.PasaporteID);
+                    table.PrimaryKey("PK_ObjetosObra", x => x.ObjetoObraID);
                     table.ForeignKey(
-                        name: "FK_Pasaportes_AspNetUsers_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
+                        name: "FK_ObjetosObra_Inmuebles_InmuebleID",
+                        column: x => x.InmuebleID,
+                        principalTable: "Inmuebles",
+                        principalColumn: "InmuebleID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Viajes",
+                name: "AccionesCons",
                 columns: table => new
                 {
-                    ViajeID = table.Column<int>(nullable: false)
+                    AccionConstructivaID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    MotivoViaje = table.Column<int>(nullable: false),
-                    FechaInicio = table.Column<DateTime>(nullable: false),
-                    FechaFin = table.Column<DateTime>(nullable: false),
-                    Costo = table.Column<int>(nullable: false),
-                    UsuarioId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Viajes", x => x.ViajeID);
-                    table.ForeignKey(
-                        name: "FK_Viajes_AspNetUsers_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pasaporte_Visa",
-                columns: table => new
-                {
-                    Pasaporte_VisaID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PasaporteID = table.Column<int>(nullable: true),
-                    VisaID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pasaporte_Visa", x => x.Pasaporte_VisaID);
-                    table.ForeignKey(
-                        name: "FK_Pasaporte_Visa_Pasaportes_PasaporteID",
-                        column: x => x.PasaporteID,
-                        principalTable: "Pasaportes",
-                        principalColumn: "PasaporteID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pasaporte_Visa_Visa_VisaID",
-                        column: x => x.VisaID,
-                        principalTable: "Visa",
-                        principalColumn: "VisaID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Instituciones",
-                columns: table => new
-                {
-                    InstitucionID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Especialidad = table.Column<string>(nullable: true),
                     Nombre = table.Column<string>(nullable: true),
-                    ViajeID = table.Column<int>(nullable: true)
+                    ObjetoObraID = table.Column<int>(nullable: true),
+                    PlanID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instituciones", x => x.InstitucionID);
+                    table.PrimaryKey("PK_AccionesCons", x => x.AccionConstructivaID);
                     table.ForeignKey(
-                        name: "FK_Instituciones_Viajes_ViajeID",
-                        column: x => x.ViajeID,
-                        principalTable: "Viajes",
-                        principalColumn: "ViajeID",
+                        name: "FK_AccionesCons_ObjetosObra_ObjetoObraID",
+                        column: x => x.ObjetoObraID,
+                        principalTable: "ObjetosObra",
+                        principalColumn: "ObjetoObraID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AccionesCons_Planes_PlanID",
+                        column: x => x.PlanID,
+                        principalTable: "Planes",
+                        principalColumn: "PlanID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Paises",
+                name: "AccionC_Material",
                 columns: table => new
                 {
-                    PaisID = table.Column<string>(nullable: false),
-                    ViajeID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Paises", x => x.PaisID);
-                    table.ForeignKey(
-                        name: "FK_Paises_Viajes_ViajeID",
-                        column: x => x.ViajeID,
-                        principalTable: "Viajes",
-                        principalColumn: "ViajeID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Ciudades",
-                columns: table => new
-                {
-                    CiudadID = table.Column<int>(nullable: false)
+                    AccionC_MaterialID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nombre = table.Column<string>(nullable: true),
-                    PaisID = table.Column<string>(nullable: true),
-                    ViajeID = table.Column<int>(nullable: true)
+                    Precio = table.Column<double>(nullable: false),
+                    AccionConstructivaID = table.Column<int>(nullable: true),
+                    MaterialID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ciudades", x => x.CiudadID);
+                    table.PrimaryKey("PK_AccionC_Material", x => x.AccionC_MaterialID);
                     table.ForeignKey(
-                        name: "FK_Ciudades_Paises_PaisID",
-                        column: x => x.PaisID,
-                        principalTable: "Paises",
-                        principalColumn: "PaisID",
+                        name: "FK_AccionC_Material_AccionesCons_AccionConstructivaID",
+                        column: x => x.AccionConstructivaID,
+                        principalTable: "AccionesCons",
+                        principalColumn: "AccionConstructivaID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Ciudades_Viajes_ViajeID",
-                        column: x => x.ViajeID,
-                        principalTable: "Viajes",
-                        principalColumn: "ViajeID",
+                        name: "FK_AccionC_Material_Materiales_MaterialID",
+                        column: x => x.MaterialID,
+                        principalTable: "Materiales",
+                        principalColumn: "MaterialID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pais_Visa",
+                name: "ManosObra",
                 columns: table => new
                 {
-                    Pais_VisaID = table.Column<int>(nullable: false)
+                    ManoObraID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PaisID = table.Column<string>(nullable: true),
-                    ViajeID = table.Column<int>(nullable: true),
-                    VisaID = table.Column<int>(nullable: true)
+                    Cantidad = table.Column<int>(nullable: false),
+                    UnidadMedida = table.Column<string>(nullable: true),
+                    Precio = table.Column<double>(nullable: false),
+                    AccionConstructivaID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pais_Visa", x => x.Pais_VisaID);
+                    table.PrimaryKey("PK_ManosObra", x => x.ManoObraID);
                     table.ForeignKey(
-                        name: "FK_Pais_Visa_Paises_PaisID",
-                        column: x => x.PaisID,
-                        principalTable: "Paises",
-                        principalColumn: "PaisID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pais_Visa_Viajes_ViajeID",
-                        column: x => x.ViajeID,
-                        principalTable: "Viajes",
-                        principalColumn: "ViajeID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pais_Visa_Visa_VisaID",
-                        column: x => x.VisaID,
-                        principalTable: "Visa",
-                        principalColumn: "VisaID",
+                        name: "FK_ManosObra_AccionesCons_AccionConstructivaID",
+                        column: x => x.AccionConstructivaID,
+                        principalTable: "AccionesCons",
+                        principalColumn: "AccionConstructivaID",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccionC_Material_AccionConstructivaID",
+                table: "AccionC_Material",
+                column: "AccionConstructivaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccionC_Material_MaterialID",
+                table: "AccionC_Material",
+                column: "MaterialID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccionesCons_ObjetoObraID",
+                table: "AccionesCons",
+                column: "ObjetoObraID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AccionesCons_PlanID",
+                table: "AccionesCons",
+                column: "PlanID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -381,63 +402,36 @@ namespace DataLayer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudades_PaisID",
-                table: "Ciudades",
-                column: "PaisID");
+                name: "IX_AspNetUsers_UnidadOrganizativaID",
+                table: "AspNetUsers",
+                column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ciudades_ViajeID",
-                table: "Ciudades",
-                column: "ViajeID");
+                name: "IX_Inmuebles_UOUnidadOrganizativaID",
+                table: "Inmuebles",
+                column: "UOUnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Instituciones_ViajeID",
-                table: "Instituciones",
-                column: "ViajeID");
+                name: "IX_ManosObra_AccionConstructivaID",
+                table: "ManosObra",
+                column: "AccionConstructivaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pais_Visa_PaisID",
-                table: "Pais_Visa",
-                column: "PaisID");
+                name: "IX_ObjetosObra_InmuebleID",
+                table: "ObjetosObra",
+                column: "InmuebleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pais_Visa_ViajeID",
-                table: "Pais_Visa",
-                column: "ViajeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pais_Visa_VisaID",
-                table: "Pais_Visa",
-                column: "VisaID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Paises_ViajeID",
-                table: "Paises",
-                column: "ViajeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pasaporte_Visa_PasaporteID",
-                table: "Pasaporte_Visa",
-                column: "PasaporteID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pasaporte_Visa_VisaID",
-                table: "Pasaporte_Visa",
-                column: "VisaID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pasaportes_UsuarioId",
-                table: "Pasaportes",
-                column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Viajes_UsuarioId",
-                table: "Viajes",
-                column: "UsuarioId");
+                name: "IX_UnidadesOrganizativas_ProvinciaID",
+                table: "UnidadesOrganizativas",
+                column: "ProvinciaID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AccionC_Material");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -454,34 +448,34 @@ namespace DataLayer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Ciudades");
+                name: "ManosObra");
 
             migrationBuilder.DropTable(
-                name: "Instituciones");
-
-            migrationBuilder.DropTable(
-                name: "Pais_Visa");
-
-            migrationBuilder.DropTable(
-                name: "Pasaporte_Visa");
+                name: "Materiales");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Paises");
-
-            migrationBuilder.DropTable(
-                name: "Pasaportes");
-
-            migrationBuilder.DropTable(
-                name: "Visa");
-
-            migrationBuilder.DropTable(
-                name: "Viajes");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AccionesCons");
+
+            migrationBuilder.DropTable(
+                name: "ObjetosObra");
+
+            migrationBuilder.DropTable(
+                name: "Planes");
+
+            migrationBuilder.DropTable(
+                name: "Inmuebles");
+
+            migrationBuilder.DropTable(
+                name: "UnidadesOrganizativas");
+
+            migrationBuilder.DropTable(
+                name: "Provincias");
         }
     }
 }

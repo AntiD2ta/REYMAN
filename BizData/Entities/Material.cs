@@ -10,6 +10,6 @@ namespace BizData.Entities
         public string Nombre { get; set; }
         public string UnidadMedida { get; set; }
 
-        public virtual ICollection<AccionConstructiva> AccionesConstructivas { get; set; }
+        public virtual ICollection<AccionC_Material> AccionesConstructivas { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TripManager2._0.Policies
+namespace RAYMAN.Policies
 {
     public class LevelAuthRequirement : IAuthorizationRequirement
     {

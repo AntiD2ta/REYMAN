@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TripManager2._0.Views.Account
+namespace RAYMAN.Views.Account
 {
     public class RegisterModel : PageModel
     {

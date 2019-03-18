@@ -14,7 +14,7 @@ using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
 
-namespace TripManager2._0.Controllers
+namespace RAYMAN.Controllers
 {
     public class AccountController : Controller
     {

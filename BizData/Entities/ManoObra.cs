@@ -9,7 +9,7 @@ namespace BizData.Entities
         public int ManoObraID { get; set; }
         public int Cantidad { get; set; }
         public string UnidadMedida { get; set; }
-        public Decimal Precio { get; set; }
+        public double Precio { get; set; }
 
         public virtual AccionConstructiva AccionConstructiva { get; set; }
     }

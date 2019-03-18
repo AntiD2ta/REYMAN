@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using REYMAN.Models;
 
-namespace TripManager2._0.Controllers
+namespace RAYMAN.Controllers
 {
     public class HomeController : Controller
     {

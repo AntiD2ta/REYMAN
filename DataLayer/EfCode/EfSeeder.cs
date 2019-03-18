@@ -29,44 +29,44 @@ namespace DataLayer.EfCode
         {
             _ctx.Database.EnsureCreated();
 
-            if (_userManager.FindByEmailAsync("raul@gmail.com").Result == null)
-            {
-                var karl = new Usuario()
-                {
-                    FirstName = "Karl",
-                    SecondName = "Lewis",
-                    FirstLastName = "Sosa",
-                    SecondLastName = "Justiz",
-                    Email = "klsj@gmail.com",
-                    UserName = "klsj@gmail.com"
-                };
+            //if (_userManager.FindByEmailAsync("raul@gmail.com").Result == null)
+            //{
+            //    var karl = new Usuario()
+            //    {
+            //        FirstName = "Karl",
+            //        SecondName = "Lewis",
+            //        FirstLastName = "Sosa",
+            //        SecondLastName = "Justiz",
+            //        Email = "klsj@gmail.com",
+            //        UserName = "klsj@gmail.com"
+            //    };
 
-                var uo = new UnidadOrganizativa()
-                {
-                    Nombre = "Plaza",
-                    Provincia = new Provincia()
-                    {
-                        Nombre = "La Habana"
-                    },
-                    Inversionistas = new List<Usuario>()
-                };
+            //    var uo = new UnidadOrganizativa()
+            //    {
+            //        Nombre = "Plaza",
+            //        Provincia = new Provincia()
+            //        {
+            //            Nombre = "La Habana"
+            //        },
+            //        Inversionistas = new List<Usuario>()
+            //    };
 
-                _userManager.CreateAsync(karl, "T3n!");
-                _ctx.Add(uo);
+            //    _userManager.CreateAsync(karl, "T3n!");
+            //    _ctx.Add(uo);
 
-                /*var filepath = Path.Combine(_hosting.ContentRootPath, "wwwroot/json/usuarios.json");
-                var json = File.ReadAllText(filepath);
-                var usuarios = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(json);
+            //    /*var filepath = Path.Combine(_hosting.ContentRootPath, "wwwroot/json/usuarios.json");
+            //    var json = File.ReadAllText(filepath);
+            //    var usuarios = JsonConvert.DeserializeObject<IEnumerable<Usuario>>(json);
 
-                foreach (var user in usuarios)
-                {
-                    _userManager.CreateAsync(user, "1234");
-                   // _userManager.AddClaimAsync(user, new Claim("Permission", "common"));
-                }*/
+            //    foreach (var user in usuarios)
+            //    {
+            //        _userManager.CreateAsync(user, "1234");
+            //       // _userManager.AddClaimAsync(user, new Claim("Permission", "common"));
+            //    }*/
 
-                _ctx.SaveChanges();
-                _userManager.AddClaimAsync(karl, new Claim("Permission", "admin"));
-            }
+            //    _ctx.SaveChanges();
+            //    _userManager.AddClaimAsync(karl, new Claim("Permission", "admin"));
+            //}
    
         }
     }

@@ -12,6 +12,6 @@ namespace BizData.Entities
         public string FirstLastName { get; set; }
         public string SecondLastName { get; set; }
 
-        public UnidadOrganizativa UnidadOrganizativa { get; set; }
+        public virtual UnidadOrganizativa UnidadOrganizativa { get; set; }
     }
 }

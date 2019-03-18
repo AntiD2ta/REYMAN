@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20190310231756_Identity Schema")]
-    partial class IdentitySchema
+    [Migration("20190318141226_InitialSchema")]
+    partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,123 +21,163 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BizData.Entities.Ciudad", b =>
+            modelBuilder.Entity("BizData.Entities.AccionC_Material", b =>
                 {
-                    b.Property<int>("CiudadID")
+                    b.Property<int>("AccionC_MaterialID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccionConstructivaID");
+
+                    b.Property<int?>("MaterialID");
+
+                    b.Property<double>("Precio");
+
+                    b.HasKey("AccionC_MaterialID");
+
+                    b.HasIndex("AccionConstructivaID");
+
+                    b.HasIndex("MaterialID");
+
+                    b.ToTable("AccionC_Material");
+                });
+
+            modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
+                {
+                    b.Property<int>("AccionConstructivaID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Especialidad");
+
+                    b.Property<string>("Nombre");
+
+                    b.Property<int?>("ObjetoObraID");
+
+                    b.Property<int?>("PlanID");
+
+                    b.HasKey("AccionConstructivaID");
+
+                    b.HasIndex("ObjetoObraID");
+
+                    b.HasIndex("PlanID");
+
+                    b.ToTable("AccionesCons");
+                });
+
+            modelBuilder.Entity("BizData.Entities.Inmueble", b =>
+                {
+                    b.Property<int>("InmuebleID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Direccion");
+
+                    b.Property<int?>("UOUnidadOrganizativaID");
+
+                    b.HasKey("InmuebleID");
+
+                    b.HasIndex("UOUnidadOrganizativaID");
+
+                    b.ToTable("Inmuebles");
+                });
+
+            modelBuilder.Entity("BizData.Entities.ManoObra", b =>
+                {
+                    b.Property<int>("ManoObraID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccionConstructivaID");
+
+                    b.Property<int>("Cantidad");
+
+                    b.Property<double>("Precio");
+
+                    b.Property<string>("UnidadMedida");
+
+                    b.HasKey("ManoObraID");
+
+                    b.HasIndex("AccionConstructivaID");
+
+                    b.ToTable("ManosObra");
+                });
+
+            modelBuilder.Entity("BizData.Entities.Material", b =>
+                {
+                    b.Property<int>("MaterialID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nombre");
 
-                    b.Property<string>("PaisID");
+                    b.Property<string>("UnidadMedida");
 
-                    b.Property<int?>("ViajeID");
+                    b.HasKey("MaterialID");
 
-                    b.HasKey("CiudadID");
-
-                    b.HasIndex("PaisID");
-
-                    b.HasIndex("ViajeID");
-
-                    b.ToTable("Ciudades");
+                    b.ToTable("Materiales");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Institucion", b =>
+            modelBuilder.Entity("BizData.Entities.ObjetoObra", b =>
                 {
-                    b.Property<int>("InstitucionID")
+                    b.Property<int>("ObjetoObraID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("InmuebleID");
+
+                    b.HasKey("ObjetoObraID");
+
+                    b.HasIndex("InmuebleID");
+
+                    b.ToTable("ObjetosObra");
+                });
+
+            modelBuilder.Entity("BizData.Entities.Plan", b =>
+                {
+                    b.Property<int>("PlanID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Año");
+
+                    b.Property<double>("Presupuesto");
+
+                    b.Property<string>("TipoPlan");
+
+                    b.HasKey("PlanID");
+
+                    b.ToTable("Planes");
+                });
+
+            modelBuilder.Entity("BizData.Entities.Provincia", b =>
+                {
+                    b.Property<int>("ProvinciaID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nombre");
 
-                    b.Property<int?>("ViajeID");
+                    b.HasKey("ProvinciaID");
 
-                    b.HasKey("InstitucionID");
-
-                    b.HasIndex("ViajeID");
-
-                    b.ToTable("Instituciones");
+                    b.ToTable("Provincias");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Pais", b =>
+            modelBuilder.Entity("BizData.Entities.UnidadOrganizativa", b =>
                 {
-                    b.Property<string>("PaisID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ViajeID");
-
-                    b.HasKey("PaisID");
-
-                    b.HasIndex("ViajeID");
-
-                    b.ToTable("Paises");
-                });
-
-            modelBuilder.Entity("BizData.Entities.Pais_Visa", b =>
-                {
-                    b.Property<int>("Pais_VisaID")
+                    b.Property<int>("UnidadOrganizativaID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("PaisID");
+                    b.Property<string>("Nombre");
 
-                    b.Property<int?>("ViajeID");
+                    b.Property<int?>("ProvinciaID");
 
-                    b.Property<int?>("VisaID");
+                    b.HasKey("UnidadOrganizativaID");
 
-                    b.HasKey("Pais_VisaID");
+                    b.HasIndex("ProvinciaID");
 
-                    b.HasIndex("PaisID");
-
-                    b.HasIndex("ViajeID");
-
-                    b.HasIndex("VisaID");
-
-                    b.ToTable("Pais_Visa");
-                });
-
-            modelBuilder.Entity("BizData.Entities.Pasaporte", b =>
-                {
-                    b.Property<int>("PasaporteID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Actualizaciones");
-
-                    b.Property<DateTime>("FechaCreacion");
-
-                    b.Property<DateTime>("FechaVencimiento");
-
-                    b.Property<int>("Tipo");
-
-                    b.Property<long>("UsuarioCI");
-
-                    b.Property<string>("UsuarioId");
-
-                    b.HasKey("PasaporteID");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Pasaportes");
-                });
-
-            modelBuilder.Entity("BizData.Entities.Pasaporte_Visa", b =>
-                {
-                    b.Property<int>("Pasaporte_VisaID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("PasaporteID");
-
-                    b.Property<int?>("VisaID");
-
-                    b.HasKey("Pasaporte_VisaID");
-
-                    b.HasIndex("PasaporteID");
-
-                    b.HasIndex("VisaID");
-
-                    b.ToTable("Pasaporte_Visa");
+                    b.ToTable("UnidadesOrganizativas");
                 });
 
             modelBuilder.Entity("BizData.Entities.Usuario", b =>
@@ -183,6 +223,8 @@ namespace DataLayer.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int?>("UnidadOrganizativaID");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -196,43 +238,9 @@ namespace DataLayer.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("UnidadOrganizativaID");
+
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("BizData.Entities.Viaje", b =>
-                {
-                    b.Property<int>("ViajeID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Costo");
-
-                    b.Property<DateTime>("FechaFin");
-
-                    b.Property<DateTime>("FechaInicio");
-
-                    b.Property<int>("MotivoViaje");
-
-                    b.Property<string>("UsuarioId");
-
-                    b.HasKey("ViajeID");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Viajes");
-                });
-
-            modelBuilder.Entity("BizData.Entities.Visa", b =>
-                {
-                    b.Property<int>("VisaID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("VisaID");
-
-                    b.ToTable("Visa");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -345,69 +353,61 @@ namespace DataLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Ciudad", b =>
+            modelBuilder.Entity("BizData.Entities.AccionC_Material", b =>
                 {
-                    b.HasOne("BizData.Entities.Pais", "Pais")
-                        .WithMany()
-                        .HasForeignKey("PaisID");
+                    b.HasOne("BizData.Entities.AccionConstructiva", "AccionConstructiva")
+                        .WithMany("Materiales")
+                        .HasForeignKey("AccionConstructivaID");
 
-                    b.HasOne("BizData.Entities.Viaje")
-                        .WithMany("Ciudades")
-                        .HasForeignKey("ViajeID");
+                    b.HasOne("BizData.Entities.Material", "Material")
+                        .WithMany("AccionesConstructivas")
+                        .HasForeignKey("MaterialID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Institucion", b =>
+            modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
                 {
-                    b.HasOne("BizData.Entities.Viaje")
-                        .WithMany("Instituciones")
-                        .HasForeignKey("ViajeID");
+                    b.HasOne("BizData.Entities.ObjetoObra", "ObjetoObra")
+                        .WithMany("AccionesConstructivas")
+                        .HasForeignKey("ObjetoObraID");
+
+                    b.HasOne("BizData.Entities.Plan", "Plan")
+                        .WithMany("AccionesConstructivas")
+                        .HasForeignKey("PlanID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Pais", b =>
+            modelBuilder.Entity("BizData.Entities.Inmueble", b =>
                 {
-                    b.HasOne("BizData.Entities.Viaje")
-                        .WithMany("Pais")
-                        .HasForeignKey("ViajeID");
+                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UO")
+                        .WithMany("Inmuebles")
+                        .HasForeignKey("UOUnidadOrganizativaID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Pais_Visa", b =>
+            modelBuilder.Entity("BizData.Entities.ManoObra", b =>
                 {
-                    b.HasOne("BizData.Entities.Pais", "Pais")
-                        .WithMany("Visas")
-                        .HasForeignKey("PaisID");
-
-                    b.HasOne("BizData.Entities.Viaje", "Viaje")
-                        .WithMany()
-                        .HasForeignKey("ViajeID");
-
-                    b.HasOne("BizData.Entities.Visa")
-                        .WithMany("Paises")
-                        .HasForeignKey("VisaID");
+                    b.HasOne("BizData.Entities.AccionConstructiva", "AccionConstructiva")
+                        .WithMany("ManoObra")
+                        .HasForeignKey("AccionConstructivaID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Pasaporte", b =>
+            modelBuilder.Entity("BizData.Entities.ObjetoObra", b =>
                 {
-                    b.HasOne("BizData.Entities.Usuario", "Usuario")
-                        .WithMany("Pasaportes")
-                        .HasForeignKey("UsuarioId");
+                    b.HasOne("BizData.Entities.Inmueble", "Inmueble")
+                        .WithMany("ObjetosDeObra")
+                        .HasForeignKey("InmuebleID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Pasaporte_Visa", b =>
+            modelBuilder.Entity("BizData.Entities.UnidadOrganizativa", b =>
                 {
-                    b.HasOne("BizData.Entities.Pasaporte", "Pasaporte")
-                        .WithMany("Visas")
-                        .HasForeignKey("PasaporteID");
-
-                    b.HasOne("BizData.Entities.Visa", "Visa")
-                        .WithMany("Pasaportes")
-                        .HasForeignKey("VisaID");
+                    b.HasOne("BizData.Entities.Provincia", "Provincia")
+                        .WithMany("UnidadesOrganizativas")
+                        .HasForeignKey("ProvinciaID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Viaje", b =>
+            modelBuilder.Entity("BizData.Entities.Usuario", b =>
                 {
-                    b.HasOne("BizData.Entities.Usuario", "Usuario")
-                        .WithMany("Viajes")
-                        .HasForeignKey("UsuarioId");
+                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
+                        .WithMany("Inversionistas")
+                        .HasForeignKey("UnidadOrganizativaID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

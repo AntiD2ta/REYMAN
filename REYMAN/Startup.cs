@@ -17,10 +17,10 @@ using BizData.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TripManager2._0.Policies;
+using REYMAN.Policies;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TripManager2._0
+namespace REYMAN
 {
     public class Startup
     {

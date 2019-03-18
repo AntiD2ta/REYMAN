@@ -29,7 +29,7 @@ namespace DataLayer.EfCode
         {
             _ctx.Database.EnsureCreated();
 
-            if (_userManager.FindByEmailAsync("raul@gmail.com").Result == null)
+            if (_userManager.FindByEmailAsync("klsj@gmail.com").Result == null)
             {
                 var karl = new Usuario()
                 {

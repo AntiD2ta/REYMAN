@@ -66,6 +66,12 @@ namespace REYMAN
             services.AddAuthorization(cfg =>
             {
                 cfg.AddPolicy(
+                    "LevelOneAuth",
+                    policyBuilder => policyBuilder.AddRequirements(
+                        new LevelAuthRequirement(levels, "Permission", 1)
+                        ));
+
+                cfg.AddPolicy(
                     "LevelTwoAuth",
                     policyBuilder => policyBuilder.AddRequirements(
                         new LevelAuthRequirement(levels, "Permission", 2)

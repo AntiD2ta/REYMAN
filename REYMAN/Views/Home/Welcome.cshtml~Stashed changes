@@ -1,0 +1,18 @@
+﻿@using BizLogic.Administration
+@using System.Security.Claims
+@model  UserViewModel;
+<head>
+    <title>Signed up</title>
+</head>
+
+    <h1>Congratulations @Model.Name !!! You are alredy signed up</h1>
+    <div>Your main email for all transactions is </div>
+    <h2>Your Actions</h2>
+
+<div class="vertical-menu">
+    <a href="#" class="active">Opciones</a>
+    <a href="hola">L</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+    <a href="#">Link 4</a>
+</div> 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RAYMAN.Policies
+namespace REYMAN.Policies
 {
     public class LevelAuthRequirement : IAuthorizationRequirement
     {

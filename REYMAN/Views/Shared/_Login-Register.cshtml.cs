@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RAYMAN.Views.Shared
+namespace REYMAN.Views.Shared
 {
     public class _Login_RegisterModel : PageModel
     {

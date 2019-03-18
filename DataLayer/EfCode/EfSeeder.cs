@@ -29,17 +29,17 @@ namespace DataLayer.EfCode
         {
             _ctx.Database.EnsureCreated();
 
-            //if (_userManager.FindByEmailAsync("raul@gmail.com").Result == null)
-            //{
-            //    var karl = new Usuario()
-            //    {
-            //        FirstName = "Karl",
-            //        SecondName = "Lewis",
-            //        FirstLastName = "Sosa",
-            //        SecondLastName = "Justiz",
-            //        Email = "klsj@gmail.com",
-            //        UserName = "klsj@gmail.com"
-            //    };
+            if (_userManager.FindByEmailAsync("klsj@gmail.com").Result == null)
+            {
+                var karl = new Usuario()
+                {
+                    FirstName = "Karl",
+                    SecondName = "Lewis",
+                    FirstLastName = "Sosa",
+                    SecondLastName = "Justiz",
+                    Email = "klsj@gmail.com",
+                    UserName = "klsj@gmail.com"
+                };
 
             //    var uo = new UnidadOrganizativa()
             //    {

@@ -14,7 +14,7 @@ using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
 
-namespace RAYMAN.Controllers
+namespace REYMAN.Controllers
 {
     public class AccountController : Controller
     {
@@ -50,7 +50,13 @@ namespace RAYMAN.Controllers
              *     and pass to the _loginService.EditUser(...) a RegisterUsuarioCommand
              *     builded from this principal user, i think that this is a better way ;)
             */
-            
+
+            /*Example for the use of GetterAll
+             * var getter = new GetterAll(new Dictionary<string, string> { { "Usuario", "UserDbAccess" } },
+                new AssemblyName("BizData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
+                _context, _signInManager, _userManager);
+            var result1 = getter.GetAll("Usuario") as IEnumerable<Usuario>;*/
+          
             return View();
         }
 
@@ -72,7 +78,7 @@ namespace RAYMAN.Controllers
                 var result = await _registerService.RegisterUsuarioAsync(user, cmd.Password);
 
                 if (result.Succeeded)
-                {
+                {   
                     var claim = new Claim("Permission", "common");
                     await _userManager.AddClaimAsync(user, claim);
 
@@ -84,7 +90,7 @@ namespace RAYMAN.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Welcome", "User");
+                        return RedirectToAction("Welcome", "Home");
                     }
                 }
                 AddErrors(result);
@@ -122,7 +128,7 @@ namespace RAYMAN.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Welcome", "User");
+                        return RedirectToAction("Welcome", "Home");
                     }
                 }
             }

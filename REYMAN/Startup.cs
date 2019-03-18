@@ -17,10 +17,10 @@ using BizData.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using RAYMAN.Policies;
+using REYMAN.Policies;
 using Microsoft.AspNetCore.Authorization;
 
-namespace RAYMAN
+namespace REYMAN
 {
     public class Startup
     {

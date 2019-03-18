@@ -5,8 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using REYMAN.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace RAYMAN.Controllers
+namespace REYMAN.Controllers
 {
     public class HomeController : Controller
     {
@@ -16,6 +17,12 @@ namespace RAYMAN.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [HttpGet, AllowAnonymous]
+        public IActionResult Welcome()
         {
             return View();
         }

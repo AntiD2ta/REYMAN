@@ -33,7 +33,7 @@ namespace BizDbAccess.Authentication
 
         public IEnumerable<Provincia> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Provincias;
         }
 
         public void Update(Provincia entity)

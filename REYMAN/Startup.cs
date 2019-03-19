@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using REYMAN.Policies;
 using Microsoft.AspNetCore.Authorization;
+using BizDbAccess.Utils;
 
 namespace REYMAN
 {
@@ -101,6 +102,8 @@ namespace REYMAN
             services.AddTransient<EfSeeder>();
 
             services.AddSingleton<IAuthorizationHandler, LevelHandler>();
+
+            services.AddScoped<IGetterUtils, GetterUtils>();
 
             services.AddMvc(opt =>
             {

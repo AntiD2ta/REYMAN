@@ -79,8 +79,7 @@ namespace REYMAN.Controllers
 
                 if (result.Succeeded)
                 {   
-                    var claim = new Claim("Permission", "common");
-        
+                    var claim = new Claim("Pending", "true");
                     await _userManager.AddClaimAsync(user, claim);
 
                     await _signInManager.SignInAsync(user, false);
@@ -120,15 +119,24 @@ namespace REYMAN.Controllers
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
-
+                
                 if (result.Succeeded)
                 {
-                    if (Request.Query.Keys.Contains("ReturnUrl"))
+                    if (User.HasClaim("Pending", "false"))
                     {
-                        return Redirect(Request.Query["ReturnUrl"].First());
+                        if (Request.Query.Keys.Contains("ReturnUrl"))
+                        {
+                            return Redirect(Request.Query["ReturnUrl"].First());
+                        }
+                        else
+                        {
+                            //TODO: direccionar al home cuando se cree
+                            return RedirectToAction("Welcome", "Home");
+                        }
                     }
                     else
                     {
+                        //TODO: direccionar al pending view
                         return RedirectToAction("Welcome", "Home");
                     }
                 }

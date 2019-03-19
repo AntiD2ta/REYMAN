@@ -1,0 +1,16 @@
+﻿@using BizData.Entities
+@model IEnumerable<Provincia>
+
+<table>
+    <th>
+        Provincia
+    </th>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Nombre
+            </td>
+        </tr>
+    }
+</table>

@@ -7,7 +7,7 @@ namespace BizLogic.Administration
 {
     public class ProvinciaViewModel
     {
-        [Required, StringLength(100)]
+        [Required, StringLength(100,MinimumLength =1)]
         public string Nombre { get; set; }
 
     }

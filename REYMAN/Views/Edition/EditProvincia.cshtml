@@ -1,0 +1,9 @@
+﻿@using BizData.Entities
+@model IEnumerable<Provincia>
+
+@Html.Partial("Provincia",Model)
+
+<form method="post">
+    <input type="text" placeholder="Nueva Provincia" name="Nombre"/>
+    <button class="button" type="submit" name="Add">   <span>Añadir</span> </button>
+</form>

@@ -45,9 +45,12 @@ namespace REYMAN.Controllers
         public IActionResult Provincia()
         {
             AdminService ad = new AdminService(_context);
-            
             return View(ad.GetProvincias());
 
+        }
+        public IActionResult Edition()
+        {
+            return RedirectToAction("FirstPage", "Edition");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

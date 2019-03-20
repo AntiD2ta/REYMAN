@@ -14,12 +14,15 @@ namespace ServiceLayer.InvestorServices
     {
         private readonly RunnerWriteDb<PlanCommand, Plan> _runnerPlan;
         private readonly PlanDbAccess _planDbAccess;
+        private readonly IUnitOfWork _context;
 
         public InvestorServices(IUnitOfWork context)
         {
+            _context = context;
             _runnerPlan = new RunnerWriteDb<PlanCommand, Plan>(
-                new RegisterPlanAction(new PlanDbAccess(context)), context);
-            _planDbAccess = new PlanDbAccess(context);
+                new RegisterPlanAction(new PlanDbAccess(_context)), _context);
+            _planDbAccess = new PlanDbAccess(_context);
+
         }
 
         public long RegisterPlan(PlanCommand cmd)
@@ -42,6 +45,7 @@ namespace ServiceLayer.InvestorServices
             upd.PlanID = plan.PlanID;
 
             _planDbAccess.Update(upd);
+            _context.Commit();
         }
     }
 }

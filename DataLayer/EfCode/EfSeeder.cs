@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataLayer.EfCode
 {
@@ -25,7 +26,7 @@ namespace DataLayer.EfCode
             _userManager = userManager;
         }
 
-        public void Seed()
+        public async Task Seed()
         {
             _ctx.Database.EnsureCreated();
 
@@ -51,7 +52,10 @@ namespace DataLayer.EfCode
                     Inversionistas = new List<Usuario>()
                 };
 
-                _userManager.CreateAsync(karl, "T3n!");
+                await _userManager.CreateAsync(karl, "T3n!");
+                var claim = new Claim("Permission", "admin");
+                await _userManager.AddClaimAsync(karl, claim);
+
                 _ctx.Add(uo);
 
                 //    /*var filepath = Path.Combine(_hosting.ContentRootPath, "wwwroot/json/usuarios.json");
@@ -65,7 +69,6 @@ namespace DataLayer.EfCode
                 //    }*/
 
                 _ctx.SaveChanges();
-                _userManager.AddClaimAsync(karl, new Claim("Permission", "admin"));
             }
 
         }

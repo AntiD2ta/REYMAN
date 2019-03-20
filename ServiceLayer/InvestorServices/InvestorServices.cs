@@ -13,6 +13,7 @@ namespace ServiceLayer.InvestorServices
     public class InvestorServices
     {
         private readonly RunnerWriteDb<PlanCommand, Plan> _runnerPlan;
+        private readonly RunnerWriteDb<InmuebleCommand, Inmueble> _runnerInmueble;
         private readonly PlanDbAccess _planDbAccess;
         private readonly IUnitOfWork _context;
 
@@ -46,6 +47,13 @@ namespace ServiceLayer.InvestorServices
 
             _planDbAccess.Update(upd);
             _context.Commit();
+        }
+
+        public long RegisterInmueble(InmuebleCommand cmd)
+        {
+            var inm = cmd.ToInmueble();
+
+            
         }
     }
 }

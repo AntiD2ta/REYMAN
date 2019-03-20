@@ -15,7 +15,7 @@ namespace BizLogic.Planning
             {
                 Direccion = Direccion,
                 UO = UO
-            }
+            };
         }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class CorrectedSchema10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,7 @@ namespace DataLayer.Migrations
                 {
                     PlanID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Presupuesto = table.Column<double>(nullable: false),
+                    Presupuesto = table.Column<decimal>(nullable: false),
                     Año = table.Column<int>(nullable: false),
                     TipoPlan = table.Column<string>(nullable: true)
                 },
@@ -252,6 +252,7 @@ namespace DataLayer.Migrations
                 {
                     ObjetoObraID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(nullable: true),
                     InmuebleID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

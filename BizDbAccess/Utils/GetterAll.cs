@@ -11,20 +11,18 @@ namespace BizDbAccess.Utils
     /// </summary>
     public class GetterAll
     {
-        Dictionary<string, string> Repos { get; set; }
-        AssemblyName AssemblyRef { get; set; }
+        private readonly GetterUtils _utils;
         object[] Param { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the BizDbAccess.Utils.GetterAll class
         /// </summary>
-        /// <param name="repos">Dictionary of {Key:entityName, Value:Name_of_repository_of_entityName}</param>
-        /// <param name="assemblyRef">Object representating the assembly containing the entities</param>
+        /// <param name="utils">Object containing the Repositories Names and the Assembly which
+        /// contains the entities</param>
         /// <param name="param">Parameters of the targeted Repository constructor</param>
-        public GetterAll(Dictionary<string, string> repos, AssemblyName assemblyRef, params object[] param)
+        public GetterAll(GetterUtils utils, params object[] param)
         {
-            Repos = repos;
-            AssemblyRef = assemblyRef;
+            _utils = utils;
             Param = param;
             //targetAsm: "BizData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
         }
@@ -37,7 +35,7 @@ namespace BizDbAccess.Utils
         /// <returns>An object containing the IEnumerable of type:entity returned by the GetAll of it Repository</returns>
         public object GetAll(string type)
         {
-            var targetAsm = Assembly.Load(AssemblyRef);
+            var targetAsm = Assembly.Load(_utils.targetAssembly);
             var actualAsm = Assembly.GetExecutingAssembly();
 
             foreach (var entity in targetAsm.ExportedTypes)
@@ -46,7 +44,7 @@ namespace BizDbAccess.Utils
                 {
                     foreach (var def in actualAsm.GetTypes())
                     {
-                        if (def.Name == Repos[type])
+                        if (def.Name == _utils.ReposNames[type])
                         {
                             foreach (var method in def.GetMethods())
                             {

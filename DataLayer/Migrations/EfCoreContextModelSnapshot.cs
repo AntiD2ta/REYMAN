@@ -29,7 +29,7 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("MaterialID");
 
-                    b.Property<decimal>("Precio");
+                    b.Property<double>("Precio");
 
                     b.HasKey("AccionC_MaterialID");
 
@@ -90,7 +90,7 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Cantidad");
 
-                    b.Property<decimal>("Precio");
+                    b.Property<double>("Precio");
 
                     b.Property<string>("UnidadMedida");
 
@@ -123,6 +123,8 @@ namespace DataLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("InmuebleID");
+
+                    b.Property<string>("Nombre");
 
                     b.HasKey("ObjetoObraID");
 

@@ -115,7 +115,7 @@ namespace REYMAN.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(lvm.Email,
+                var result = await _signInManager.PasswordSignInAsync(lvm.Email, 
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);

@@ -24,10 +24,13 @@ namespace BizDbAccess.Authentication
 
         public void Delete(Provincia entity)
         {
-            if (_context.Provincias.Find(entity.ProvinciaID) != null)
+            foreach (var item in _context.Provincias)
             {
-                _context.Provincias.Remove(entity);
-                _context.Commit();
+                if (entity.Nombre == item.Nombre)
+                {
+                    _context.Provincias.Remove(entity);
+                    _context.Commit();
+                }
             }
         }
 

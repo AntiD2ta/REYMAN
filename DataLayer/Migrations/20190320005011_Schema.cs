@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class InitialSchema : Migration
+    public partial class Schema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

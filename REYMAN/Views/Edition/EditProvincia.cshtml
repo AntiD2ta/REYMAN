@@ -1,9 +1,39 @@
 ﻿@using BizData.Entities
 @model IEnumerable<Provincia>
 
-@Html.Partial("Provincia",Model)
-
 <form method="post">
-    <input type="text" placeholder="Nueva Provincia" name="Nombre"/>
-    <button class="button" type="submit" name="Add">   <span>Añadir</span> </button>
+    <table>
+        <th>
+            Provincia
+        </th>
+        <th></th>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Nombre
+                </td>
+                @*<td>
+                        <a href="@item.Nombre" >Opciones</a>
+                    </td>*@
+                <td>
+                    <button class="button" type="submit" value="@item.Nombre" name="NombreBorrar">   <span>Eliminar</span> </button>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>
+                <input type="text" placeholder="Nueva Provincia" name="Nombre" />
+            </td>
+            @*<td>
+                <a href="@item.Nombre" >Opciones</a>
+            </td>*@
+            <td>
+                <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            </td>
+        </tr>
+    </table>
+
+
+   
 </form>

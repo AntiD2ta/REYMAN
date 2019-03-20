@@ -31,11 +31,14 @@ namespace REYMAN.Controllers
             return View(ad.GetProvincias());
         }
         [HttpPost]
-        public IActionResult EditProvincia(ProvinciaViewModel a)
+        public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
             AdminService ad = new AdminService(_context);
-            ad.RegisterProvincia(a);
-            return View(ad.GetProvincias());
+            if (a.button == "Add")
+                ad.RegisterProvincia(a);
+            else 
+                ad.DeleteProvincia(ad.GetProvincias().Where(x=>x.Nombre==a.NombreBorrar).ToList()[0]);
+            return RedirectToAction("EditProvincia", "Edition");
         }
         [HttpGet]
         public IActionResult EditProvincia()

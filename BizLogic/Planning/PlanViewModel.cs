@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace BizData.Entities
+namespace BizLogic.Planning
 {
-    public class Plan
+    public class PlanViewModel
     {
-        public int PlanID { get; set; }
         public Decimal Presupuesto { get; set; }
+
+        [Required, StringLength(4)]
         public int Año { get; set; }
+
+        [Required, StringLength(4)] 
         public string TipoPlan { get; set; }
 
-        public virtual ICollection<AccionConstructiva> AccionesConstructivas { get; set; }
     }
 }

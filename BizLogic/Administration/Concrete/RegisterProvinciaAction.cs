@@ -28,7 +28,7 @@ namespace BizLogic.Administration.Concrete
                 }
             }
             
-            if (!HasErrors)
+            if (!HasErrors && prov.Nombre != null)
                 _dbAccess.Add(prov);
 
             return HasErrors ? null : prov;

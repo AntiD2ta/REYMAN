@@ -1,9 +1,53 @@
 ﻿@using BizData.Entities
 @model IEnumerable<Provincia>
 
-@Html.Partial("Provincia",Model)
+<style>
+    #myTable tr.header, #myTable tr:hover {
+        /* Add a grey background color to the table header and on hover */
+        background-color: #f7cfcf;
+    }
+</style>
 
-<form method="post">
-    <input type="text" placeholder="Nueva Provincia" name="Nombre"/>
-    <button class="button" type="submit" name="Add">   <span>Añadir</span> </button>
-</form>
+<section>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+</section>
+<section>
+    <form method="post">
+        <table id="myTable">
+            <tr>
+                <th>
+                    Provincia
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    @*<td>
+                            <a href="@item.Nombre" >Opciones</a>
+                        </td>*@
+                    <td>
+                        <button class="button" type="submit" value="@item.Nombre" name="NombreBorrar">   <span>Eliminar</span> </button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <input type="text" placeholder="Nueva Provincia" name="Nombre" />
+                </td>
+                @*<td>
+                        <a href="@item.Nombre" >Opciones</a>
+                    </td>*@
+                <td>
+                    <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+                </td>
+            </tr>
+        </table>
+
+
+
+    </form>
+</section>

@@ -34,8 +34,11 @@ namespace REYMAN.Controllers
         public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
             AdminService ad = new AdminService(_context);
-            ad.RegisterProvincia(vm);
-            return View(ad.GetProvincias());
+            if (a.button == "Add")
+                ad.RegisterProvincia(a);
+            else 
+                ad.DeleteProvincia(ad.GetProvincias().Where(x=>x.Nombre==a.NombreBorrar).ToList()[0]);
+            return RedirectToAction("EditProvincia", "Edition");
         }
         [HttpGet]
         public IActionResult EditProvincia()

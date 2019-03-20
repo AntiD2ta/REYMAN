@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
+using Castle.Core.Logging;
 
 namespace REYMAN.Controllers
 {
@@ -115,7 +116,7 @@ namespace REYMAN.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(lvm.Email, 
+                var result = await _signInManager.PasswordSignInAsync(lvm.Email,
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
@@ -148,6 +149,7 @@ namespace REYMAN.Controllers
             return View(lvm);
         }
 
+        //TODO: remove allowanonymous when i have the claims done
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()

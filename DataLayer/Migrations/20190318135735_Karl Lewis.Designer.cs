@@ -4,41 +4,22 @@ using DataLayer.EfCode;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    partial class EfCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20190318135735_Karl Lewis")]
+    partial class KarlLewis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BizData.Entities.AccionC_Material", b =>
-                {
-                    b.Property<int>("AccionC_MaterialID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AccionConstructivaID");
-
-                    b.Property<int?>("MaterialID");
-
-                    b.Property<decimal>("Precio");
-
-                    b.HasKey("AccionC_MaterialID");
-
-                    b.HasIndex("AccionConstructivaID");
-
-                    b.HasIndex("MaterialID");
-
-                    b.ToTable("AccionC_Material");
-                });
 
             modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
                 {
@@ -107,11 +88,15 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AccionesConstructivasAccionConstructivaID");
+
                     b.Property<string>("Nombre");
 
                     b.Property<string>("UnidadMedida");
 
                     b.HasKey("MaterialID");
+
+                    b.HasIndex("AccionesConstructivasAccionConstructivaID");
 
                     b.ToTable("Materiales");
                 });
@@ -351,17 +336,6 @@ namespace DataLayer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BizData.Entities.AccionC_Material", b =>
-                {
-                    b.HasOne("BizData.Entities.AccionConstructiva", "AccionConstructiva")
-                        .WithMany("Materiales")
-                        .HasForeignKey("AccionConstructivaID");
-
-                    b.HasOne("BizData.Entities.Material", "Material")
-                        .WithMany("AccionesConstructivas")
-                        .HasForeignKey("MaterialID");
-                });
-
             modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
                 {
                     b.HasOne("BizData.Entities.ObjetoObra", "ObjetoObra")
@@ -385,6 +359,13 @@ namespace DataLayer.Migrations
                     b.HasOne("BizData.Entities.AccionConstructiva", "AccionConstructiva")
                         .WithMany("ManoObra")
                         .HasForeignKey("AccionConstructivaID");
+                });
+
+            modelBuilder.Entity("BizData.Entities.Material", b =>
+                {
+                    b.HasOne("BizData.Entities.AccionConstructiva", "AccionesConstructivas")
+                        .WithMany("Materiales")
+                        .HasForeignKey("AccionesConstructivasAccionConstructivaID");
                 });
 
             modelBuilder.Entity("BizData.Entities.ObjetoObra", b =>

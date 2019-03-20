@@ -3,6 +3,7 @@ using BizDbAccess.GenericInterfaces;
 using DataLayer.EfCode;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizDbAccess.Authentication
@@ -28,7 +29,7 @@ namespace BizDbAccess.Authentication
             {
                 if (entity.Nombre == item.Nombre)
                 {
-                    _context.Provincias.Remove(entity);
+                    _context.Provincias.Remove(item);
                     _context.Commit();
                 }
             }
@@ -36,7 +37,7 @@ namespace BizDbAccess.Authentication
 
         public IEnumerable<Provincia> GetAll()
         {
-            return _context.Provincias;
+            return _context.Provincias.OrderBy(i => i.Nombre);
         }
 
         public void Update(Provincia entity)

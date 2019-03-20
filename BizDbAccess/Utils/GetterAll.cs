@@ -17,8 +17,8 @@ namespace BizDbAccess.Utils
         /// <summary>
         /// Initializes a new instance of the BizDbAccess.Utils.GetterAll class
         /// </summary>
-        /// <param name="repos">Dictionary of {Key:entityName, Value:Name_of_repository_of_entityName}</param>
-        /// <param name="assemblyRef">Object representating the assembly containing the entities</param>
+        /// <param name="utils">Object containing the Repositories Names and the Assembly which
+        /// contains the entities</param>
         /// <param name="param">Parameters of the targeted Repository constructor</param>
         public GetterAll(GetterUtils utils, params object[] param)
         {

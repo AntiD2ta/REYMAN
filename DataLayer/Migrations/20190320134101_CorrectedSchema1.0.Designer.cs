@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20190318141226_InitialSchema")]
-    partial class InitialSchema
+    [Migration("20190320134101_CorrectedSchema1.0")]
+    partial class CorrectedSchema10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -126,6 +126,8 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("InmuebleID");
 
+                    b.Property<string>("Nombre");
+
                     b.HasKey("ObjetoObraID");
 
                     b.HasIndex("InmuebleID");
@@ -141,7 +143,7 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Año");
 
-                    b.Property<double>("Presupuesto");
+                    b.Property<decimal>("Presupuesto");
 
                     b.Property<string>("TipoPlan");
 

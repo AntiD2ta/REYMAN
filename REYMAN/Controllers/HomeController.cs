@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using BizData.Entities;
 using ServiceLayer.AdminServices;
 using BizDbAccess.GenericInterfaces;
+using BizDbAccess.Utils;
 
 namespace REYMAN.Controllers
 {
@@ -18,11 +19,17 @@ namespace REYMAN.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly IUnitOfWork _context;
-        public HomeController(UserManager<Usuario> userManager, IUnitOfWork context)
+        private readonly GetterUtils _getterUtils;
+
+        public HomeController(UserManager<Usuario> userManager,
+            IUnitOfWork context,
+            IGetterUtils getterUtils)
         {
             _userManager = userManager;
             _context = context;
+            _getterUtils = (GetterUtils)getterUtils;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -44,10 +51,10 @@ namespace REYMAN.Controllers
         }
         public IActionResult Provincia()
         {
-            AdminService ad = new AdminService(_context);
-            return View(ad.GetProvincias());
-
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(getter.GetAll("Provincia"));
         }
+
         public IActionResult Edition()
         {
             return RedirectToAction("FirstPage", "Edition");

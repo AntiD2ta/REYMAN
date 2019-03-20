@@ -7,6 +7,7 @@ namespace BizData.Entities
     public class ObjetoObra
     {
         public int ObjetoObraID { get; set; }
+        public string Nombre { get; set; }
 
         public virtual Inmueble Inmueble { get; set; }
         public virtual ICollection<AccionConstructiva> AccionesConstructivas { get; set; }

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using BizData.Entities;
 using ServiceLayer.AdminServices;
 using BizDbAccess.GenericInterfaces;
-
+using BizDbAccess.Utils;
 
 namespace REYMAN.Controllers
 {
@@ -19,25 +19,30 @@ namespace REYMAN.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly IUnitOfWork _context;
-        public EditionController(UserManager<Usuario> userManager, IUnitOfWork context)
+        private readonly GetterUtils _getterUtils;
+
+        public EditionController(UserManager<Usuario> userManager,
+            IUnitOfWork context,
+            IGetterUtils getterUtils)
         {
             _userManager = userManager;
             _context = context;
+            _getterUtils = (GetterUtils)getterUtils;
         }
         [HttpGet]
         public IActionResult FirstPage()
         {
-            AdminService ad = new AdminService(_context);
-            return View(ad.GetProvincias());
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(getter.GetAll("Provincia"));
         }
         [HttpPost]
         public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
             AdminService ad = new AdminService(_context);
-            if (a.button == "Add")
-                ad.RegisterProvincia(a);
+            if (vm.button == "Add")
+                ad.RegisterProvincia(vm);
             else 
-                ad.DeleteProvincia(ad.GetProvincias().Where(x=>x.Nombre==a.NombreBorrar).ToList()[0]);
+                ad.DeleteProvincia(ad.GetProvincias().Where(x=>x.Nombre==vm.NombreBorrar).ToList()[0]);
             return RedirectToAction("EditProvincia", "Edition");
         }
         [HttpGet]

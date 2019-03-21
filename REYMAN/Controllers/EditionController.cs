@@ -19,29 +19,41 @@ namespace REYMAN.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly IUnitOfWork _context;
+
         public EditionController(UserManager<Usuario> userManager, IUnitOfWork context)
         {
             _userManager = userManager;
             _context = context;
         }
+
         [HttpGet]
         public IActionResult FirstPage()
         {
             AdminService ad = new AdminService(_context);
             return View(ad.GetProvincias());
         }
-        [HttpPost]
-        public IActionResult EditProvincia(ProvinciaViewModel vm)
-        {
-            AdminService ad = new AdminService(_context);
-            ad.RegisterProvincia(vm);
-            return View(ad.GetProvincias());
-        }
+
         [HttpGet]
         public IActionResult EditProvincia()
         {
             AdminService ad = new AdminService(_context);
             return View(ad.GetProvincias());
+        }
+
+        [HttpPost]
+        public IActionResult EditProvincia(ProvinciaViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                AdminService ad = new AdminService(_context);
+                ad.RegisterProvincia(vm);
+                return RedirectToAction("EditProvincia", "Edition");
+            }
+
+            ModelState.AddModelError(string.Empty, "An error occured trying to edit the entity Provincia");
+
+            //If we got to here, something went wrong
+            return RedirectToAction("EditProvincia", "Edition");
         }
     }
     

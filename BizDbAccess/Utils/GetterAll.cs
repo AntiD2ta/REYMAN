@@ -33,7 +33,7 @@ namespace BizDbAccess.Utils
         /// </summary>
         /// <param name="type">The name of the type of the entity</param>
         /// <returns>An object containing the IEnumerable of type:entity returned by the GetAll of it Repository</returns>
-        public object GetAll(string type)
+        public IEnumerable<object> GetAll(string type)
         {
             var targetAsm = Assembly.Load(_utils.targetAssembly);
             var actualAsm = Assembly.GetExecutingAssembly();
@@ -59,7 +59,7 @@ namespace BizDbAccess.Utils
 
                                     var constructor = def.GetConstructor(types);
                                     var instance = constructor.Invoke(Param);
-                                    return method.Invoke(instance, null);
+                                    return method.Invoke(instance, null) as IEnumerable<object>;
                                 }
                             }
                         }

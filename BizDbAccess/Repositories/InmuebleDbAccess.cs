@@ -36,13 +36,14 @@ namespace BizDbAccess.User
             return _context.Inmuebles;
         }
 
-        public void Update(Inmueble entity)
+        public Inmueble Update(Inmueble entity, Inmueble toUpd)
         {
             if (_context.Inmuebles.Find(entity.InmuebleID) != null)
             {
                 _context.Inmuebles.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

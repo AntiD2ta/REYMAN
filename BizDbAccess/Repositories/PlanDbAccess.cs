@@ -36,7 +36,7 @@ namespace BizDbAccess.User
             return _context.Planes;
         }
 
-        public void Update(Plan entity)
+        public Plan Update(Plan entity, Plan toUpd)
         {
             var plan = _context.Planes.Find(entity.PlanID);
 
@@ -50,6 +50,7 @@ namespace BizDbAccess.User
                 (ICollection<AccionConstructiva>)plan.AccionesConstructivas.Concat(entity.AccionesConstructivas);
 
             _context.Planes.Update(entity);
+            return plan;
         }
 
         public Plan GetPlan(int año, string tipo)

@@ -40,20 +40,18 @@ namespace ServiceLayer.InvestorServices
             return _planDbAccess.GetPlan(año, tipo);
         }
 
-        public void UpdatePlan(Plan plan, PlanCommand cmd)
+        public Plan UpdatePlan(Plan entity, Plan toUpd)
         {
-            var upd = cmd.ToPlan();
-            upd.PlanID = plan.PlanID;
-
-            _planDbAccess.Update(upd);
+            var plan = _planDbAccess.Update(entity, toUpd);
             _context.Commit();
+            return plan;
         }
 
         public long RegisterInmueble(InmuebleCommand cmd)
         {
             var inm = cmd.ToInmueble();
 
-            
+            return 0;
         }
     }
 }

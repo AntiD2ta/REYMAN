@@ -36,13 +36,14 @@ namespace BizDbAccess.User
             return _context.ObjetosObra;
         }
 
-        public void Update(ObjetoObra entity)
+        public ObjetoObra Update(ObjetoObra entity, ObjetoObra toUpd)
         {
             if (_context.ObjetosObra.Find(entity.ObjetoObraID) != null)
             {
                 _context.ObjetosObra.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

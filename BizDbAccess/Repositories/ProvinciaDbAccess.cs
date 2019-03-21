@@ -40,13 +40,14 @@ namespace BizDbAccess.Authentication
             return _context.Provincias.OrderBy(i => i.Nombre);
         }
 
-        public void Update(Provincia entity)
+        public Provincia Update(Provincia entity, Provincia toUpd)
         {
             if (_context.Provincias.Find(entity.ProvinciaID) != null)
             {
                 _context.Provincias.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

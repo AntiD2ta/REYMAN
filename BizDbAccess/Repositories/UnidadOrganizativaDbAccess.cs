@@ -35,13 +35,14 @@ namespace BizDbAccess.Authentication
             return _context.UnidadesOrganizativas;
         }
 
-        public void Update(UnidadOrganizativa entity)
+        public UnidadOrganizativa Update(UnidadOrganizativa entity, UnidadOrganizativa toUpd)
         {
             if (_context.UnidadesOrganizativas.Find(entity.UnidadOrganizativaID) != null)
             {
                 _context.UnidadesOrganizativas.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

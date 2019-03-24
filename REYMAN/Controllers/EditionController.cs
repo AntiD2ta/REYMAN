@@ -52,7 +52,7 @@ namespace REYMAN.Controllers
                 if (vm.button == "Add")
                     ad.RegisterProvincia(vm);
                 else
-                    ad.DeleteProvincia(ad.GetProvincias().Where(x => x.Nombre == vm.NombreBorrar).ToList()[0]);
+                    ad.DeleteProvincia(ad.GetProvincias().Where(x => x.Nombre == vm.NombreBorrar).Single());
                 return RedirectToAction("EditProvincia", "Edition");
             }
 

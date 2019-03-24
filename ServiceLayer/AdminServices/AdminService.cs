@@ -61,7 +61,7 @@ namespace ServiceLayer.AdminServices
         }
 
         public IEnumerable<Provincia> GetProvincias()
-        {
+        {  
             return _provDbAccess.GetAll();
         }
     }

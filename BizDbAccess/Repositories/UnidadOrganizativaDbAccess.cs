@@ -2,6 +2,7 @@
 using BizDbAccess.GenericInterfaces;
 using DataLayer.EfCode;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -43,6 +44,11 @@ namespace BizDbAccess.Authentication
                 _context.Commit();
             }
             return toUpd;
+        }
+
+        public UnidadOrganizativa GetUO(string nombreUO)
+        {
+            return _context.UnidadesOrganizativas.Where(uo => uo.Nombre == nombreUO).Single();
         }
     }
 }

@@ -31,6 +31,11 @@ namespace BizDbAccess.User
             }
         }
 
+        public void GetInmueble(UnidadOrganizativa uo, string direccion)
+        {
+            _context.Inmuebles.Where(i => i.UO == uo && i.Direccion == direccion).SingleOrDefault();
+        }
+
         public IEnumerable<Inmueble> GetAll()
         {
             return _context.Inmuebles;

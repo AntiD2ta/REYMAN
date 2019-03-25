@@ -97,6 +97,11 @@ namespace ServiceLayer.InvestorServices
 
         public Inmueble AddObjObraToInm(Inmueble entity, IEnumerable<ObjetoObra> objsObra)
         {
+            if (entity.ObjetosDeObra == null)
+            {
+                entity.ObjetosDeObra = new List<ObjetoObra>();
+            }
+
             _inmuebleDbAccess.AddObjObra(ref entity, objsObra);
             _context.Commit();
             return entity;
@@ -127,5 +132,19 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
             return objObra;
         }
+
+        //public IEnumerable<string> AddEspecialidad(string nombreUO, IEnumerable<string> especialidades)
+        //{
+        //    var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
+            
+        //    if (uo.Especialidades == null)
+        //    {
+        //        uo.Especialidades = new List<string>();
+        //    }
+
+        //    _unidadOrganizativaDbAccess.AddEspecialidad(ref uo, especialidades);
+        //    _context.Commit();
+        //    return uo.Especialidades;
+        //}
     }
 }

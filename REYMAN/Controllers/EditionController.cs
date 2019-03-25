@@ -15,6 +15,8 @@ using BizDbAccess.GenericInterfaces;
 
 namespace REYMAN.Controllers
 {
+    [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class EditionController:Controller
     {
         private readonly UserManager<Usuario> _userManager;
@@ -24,12 +26,14 @@ namespace REYMAN.Controllers
             _userManager = userManager;
             _context = context;
         }
+
         [HttpGet]
         public IActionResult FirstPage()
         {
             AdminService ad = new AdminService(_context);
             return View(ad.GetProvincias());
         }
+
         [HttpPost]
         public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
@@ -37,6 +41,7 @@ namespace REYMAN.Controllers
             ad.RegisterProvincia(vm);
             return View(ad.GetProvincias());
         }
+
         [HttpGet]
         public IActionResult EditProvincia()
         {

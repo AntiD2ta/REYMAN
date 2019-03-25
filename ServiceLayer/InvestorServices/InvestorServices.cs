@@ -49,11 +49,11 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
-        public long RegisterInmueble(InmuebleCommand cmd)
-        {
-            var inm = cmd.ToInmueble();
+        //public long RegisterInmueble(InmuebleCommand cmd)
+        //{
+        //    var inm = cmd.ToInmueble();
 
             
-        }
+        //}
     }
 }

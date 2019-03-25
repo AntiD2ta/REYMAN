@@ -38,12 +38,22 @@ namespace BizDbAccess.User
 
         public ObjetoObra Update(ObjetoObra entity, ObjetoObra toUpd)
         {
-            if (_context.ObjetosObra.Find(entity.ObjetoObraID) != null)
-            {
-                _context.ObjetosObra.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new Exception("No existe el inmueble que se quiere actualizar");
+
+            toUpd.Nombre = entity.Nombre ?? toUpd.Nombre;
+            toUpd.Inmueble = entity.Inmueble ?? toUpd.Inmueble;
+            toUpd.AccionesConstructivas = entity.AccionesConstructivas ?? toUpd.AccionesConstructivas;
+
+            _context.ObjetosObra.Update(toUpd);
             return toUpd;
+        }
+
+        public ObjetoObra GetObjObra(string nombre, string dirInmueble, string nombreUO)
+        {
+            return _context.ObjetosObra.Where(obj => obj.Nombre == nombre &&
+                    obj.Inmueble.Direccion == dirInmueble &&
+                    obj.Inmueble.UO.Nombre == nombreUO).SingleOrDefault();
         }
     }
 }

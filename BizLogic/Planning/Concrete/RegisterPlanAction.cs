@@ -1,4 +1,4 @@
-﻿    using BizData.Entities;
+﻿using BizData.Entities;
 using BizDbAccess.Authentication;
 using BizDbAccess.User;
 using BizLogic.GenericInterfaces;

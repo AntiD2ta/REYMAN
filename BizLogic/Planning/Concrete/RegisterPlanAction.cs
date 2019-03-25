@@ -31,7 +31,7 @@ namespace BizLogic.Planning.Concrete
             {
                 _dbAccess.GetPlan(plan.Año, plan.TipoPlan);
             }
-            catch
+            catch(InvalidOperationException)
             {
                 AddError("Ya existe ese plan");
             }

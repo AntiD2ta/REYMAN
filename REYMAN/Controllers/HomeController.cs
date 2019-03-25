@@ -40,7 +40,7 @@ namespace REYMAN.Controllers
             return View();
         }
 
-        [HttpGet, AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> Welcome()
         {
             UserViewModel a = new UserViewModel();

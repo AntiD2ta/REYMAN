@@ -31,18 +31,33 @@ namespace BizDbAccess.User
             }
         }
 
+        public Inmueble GetInmueble(UnidadOrganizativa uo, string direccion)
+        {
+            return _context.Inmuebles.Where(i => i.UO == uo && i.Direccion == direccion).SingleOrDefault();
+        }
+
         public IEnumerable<Inmueble> GetAll()
         {
             return _context.Inmuebles;
         }
 
-        public void Update(Inmueble entity)
+        public Inmueble Update(Inmueble entity, Inmueble toUpd)
         {
-            if (_context.Inmuebles.Find(entity.InmuebleID) != null)
-            {
-                _context.Inmuebles.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new Exception("No existe el inmueble que se quiere actualizar");
+
+            toUpd.Direccion = entity.Direccion ?? toUpd.Direccion;
+            toUpd.ObjetosDeObra = entity.ObjetosDeObra ?? toUpd.ObjetosDeObra;
+
+            _context.Inmuebles.Update(entity);
+
+            return toUpd;
+        }
+
+        public void AddObjObra(ref Inmueble entity, IEnumerable<ObjetoObra> objsObra)
+        {
+            entity.ObjetosDeObra = entity.ObjetosDeObra.Concat(objsObra).ToList();
+            _context.Inmuebles.Update(entity);
         }
     }
 }

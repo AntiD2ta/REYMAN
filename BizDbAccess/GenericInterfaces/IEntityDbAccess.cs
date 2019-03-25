@@ -9,6 +9,6 @@ namespace BizDbAccess.GenericInterfaces
         IEnumerable<T> GetAll();
         void Add(T entity);
         void Delete(T entity);
-        void Update(T entity);
+        T Update(T entity, T toUpd);
     }
 }

@@ -29,27 +29,38 @@ namespace REYMAN.Controllers
             _context = context;
             _getterUtils = (GetterUtils)getterUtils;
         }
+
         [HttpGet]
         public IActionResult FirstPage()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult EditProvincia()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(getter.GetAll("Provincia"));
         }
+
         [HttpPost]
         public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
-            AdminService ad = new AdminService(_context);
-            if (vm.button == "Add")
-                ad.RegisterProvincia(vm);
-            else 
-                ad.DeleteProvincia(ad.GetProvincias().Where(x=>x.Nombre==vm.NombreBorrar).ToList()[0]);
+            if (ModelState.IsValid)
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                AdminService ad = new AdminService(_context);
+                if (vm.button == "Add")
+                    ad.RegisterProvincia(vm);
+                else
+                    ad.DeleteProvincia((getter.GetAll("Provincia") as IEnumerable<Provincia>).Where(x => x.Nombre == vm.Nombre).Single());
+                return RedirectToAction("EditProvincia", "Edition");
+            }
+
+            ModelState.AddModelError(string.Empty, "An error occured trying to edit the entity Provincia");
+
+            //If we got to here, something went wrong
             return RedirectToAction("EditProvincia", "Edition");
-        }
-        [HttpGet]
-        public IActionResult EditProvincia()
-        {
-            AdminService ad = new AdminService(_context);
-            return View(ad.GetProvincias());
         }
     }
     

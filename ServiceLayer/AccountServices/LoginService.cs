@@ -29,9 +29,9 @@ namespace ServiceLayer.AccountServices
             return await _dbAccess.GetUserByEmailAsync(email);
         }
 
-        public async void EditUserAsync(RegisterUsuarioCommand cmd, string email)
+        public async Task<Usuario> EditUserAsync(Usuario entity, Usuario toUpd)
         {
-            await _dbAccess.UpdateAsync(cmd.ToUsuario(), email);
+            return await _dbAccess.UpdateAsync(entity, toUpd);
         }
     }
 }

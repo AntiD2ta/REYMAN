@@ -3,6 +3,7 @@ using BizDbAccess.GenericInterfaces;
 using DataLayer.EfCode;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizDbAccess.Authentication
@@ -24,25 +25,25 @@ namespace BizDbAccess.Authentication
 
         public void Delete(Provincia entity)
         {
-            if (_context.Provincias.Find(entity.ProvinciaID) != null)
-            {
-                _context.Provincias.Remove(entity);
-                _context.Commit();
-            }
+
+            _context.Provincias.Remove(entity);
+            _context.Commit();
+
         }
 
         public IEnumerable<Provincia> GetAll()
         {
-            return _context.Provincias;
+            return _context.Provincias.OrderBy(i => i.Nombre);
         }
 
-        public void Update(Provincia entity)
+        public Provincia Update(Provincia entity, Provincia toUpd)
         {
             if (_context.Provincias.Find(entity.ProvinciaID) != null)
             {
                 _context.Provincias.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

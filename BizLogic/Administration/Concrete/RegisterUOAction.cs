@@ -41,7 +41,7 @@ namespace BizLogic.Administration.Concrete
             {
                 if (uo.Nombre == u.Nombre)
                 {
-                    AddError($"Ya existe una la unidad organizativa {uo.Nombre}");
+                    AddError($"Ya existe una unidad organizativa con {uo.Nombre}");
                 }
             }
 

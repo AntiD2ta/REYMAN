@@ -50,24 +50,23 @@ namespace BizDbAccess.Authentication
             return _userManager.Users.ToList();
         }
 
-        public async Task<IdentityResult> UpdateAsync(Usuario entity, string email)
+        public async Task<Usuario> UpdateAsync(Usuario entity, Usuario user)
         {
-            var user =  GetUserByEmailAsync(email).Result;
             if (user == null)
                 throw new Exception("User to be updated no exist");
 
             //just for sure that the fields of the viewModel are not null
             //null-coalescing is used
             user.FirstName = entity.FirstName ?? user.FirstName; ;
-            user.FirstLastName = entity.FirstLastName ?? user.FirstLastName;
             user.SecondName = entity.SecondName ?? user.SecondName;
-            user.Email = entity.Email ?? user.Email;
+            user.FirstLastName = entity.FirstLastName ?? user.FirstLastName;
+            user.SecondLastName = entity.SecondLastName ?? user.SecondLastName;
 
-            //this needs to be tested
-            return await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
+            return user;
         }
 
-        public void Update(Usuario entity)
+        public Usuario Update(Usuario entity, Usuario toUpd)
         {
             throw new NotImplementedException();
         }

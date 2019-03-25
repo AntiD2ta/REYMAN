@@ -35,13 +35,14 @@ namespace BizDbAccess.User
             return _context.Materiales;
         }
 
-        public void Update(Material entity)
+        public Material Update(Material entity, Material toUpd)
         {
             if (_context.Materiales.Find(entity.MaterialID) != null)
             {
                 _context.Materiales.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

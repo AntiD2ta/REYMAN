@@ -46,6 +46,14 @@ namespace ServiceLayer.AdminServices
             return prov.ProvinciaID;
         }
 
+        public long DeleteProvincia(ProvinciaViewModel vm)
+        {
+            Provincia prov = new Provincia();
+            prov.Nombre = vm.Nombre;
+            _provDbAccess.Delete(prov);
+            return prov.ProvinciaID;
+        }
+
         public long DeleteProvincia(Provincia prov)
         {
             _provDbAccess.Delete(prov);
@@ -53,7 +61,7 @@ namespace ServiceLayer.AdminServices
         }
 
         public IEnumerable<Provincia> GetProvincias()
-        {
+        {  
             return _provDbAccess.GetAll();
         }
     }

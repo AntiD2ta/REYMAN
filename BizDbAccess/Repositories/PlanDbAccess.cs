@@ -55,5 +55,10 @@ namespace BizDbAccess.User
         {
             return _context.Planes.Where(p => p.Año == año && p.TipoPlan == tipo).SingleOrDefault();
         }
+
+        public Plan GetPlan(long id)
+        {
+            return _context.Planes.Find(id);
+        }
     }
 }

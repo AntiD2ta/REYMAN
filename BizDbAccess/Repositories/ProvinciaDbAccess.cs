@@ -25,10 +25,8 @@ namespace BizDbAccess.Authentication
 
         public void Delete(Provincia entity)
         {
-
             _context.Provincias.Remove(entity);
             _context.Commit();
-
         }
 
         public IEnumerable<Provincia> GetAll()

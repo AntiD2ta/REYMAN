@@ -36,10 +36,8 @@ namespace BizDbAccess.User
             return _context.Planes;
         }
 
-        public Plan Update(Plan entity, Plan toUpd)
+        public Plan Update(Plan entity, Plan plan)
         {
-            var plan = _context.Planes.Find(entity.PlanID);
-
             if (plan == null)
                 throw new Exception("No existe plan que se quiere actualizar");
 
@@ -49,7 +47,7 @@ namespace BizDbAccess.User
             plan.AccionesConstructivas = plan.AccionesConstructivas == null ? entity.AccionesConstructivas : 
                 (ICollection<AccionConstructiva>)plan.AccionesConstructivas.Concat(entity.AccionesConstructivas);
 
-            _context.Planes.Update(entity);
+            _context.Planes.Update(plan);
             return plan;
         }
 

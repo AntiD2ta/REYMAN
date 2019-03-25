@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
-using Castle.Core.Logging;
 
 namespace REYMAN.Controllers
 {
     [Authorize("LevelOneAuth")]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class AccountController : Controller
     {
         private readonly IUnitOfWork _context;
@@ -170,14 +170,13 @@ namespace REYMAN.Controllers
             //If we got to here, something went wrong
             return View(lvm);
         }
-
-        //TODO: remove allowanonymous when i have the claims done
-        [HttpGet]
+        
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return LocalRedirect("/");           
         }
 
         [HttpPost]

@@ -1,6 +1,7 @@
 ﻿using BizData.Entities;
 using BizDbAccess.GenericInterfaces;
 using Castle.Core.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace REYMAN.Controllers
 {
+    [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class AdminController:Controller
     {
         private readonly IUnitOfWork _context;

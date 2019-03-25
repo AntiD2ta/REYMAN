@@ -12,6 +12,8 @@ using BizData.Entities;
 using ServiceLayer.AdminServices;
 using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Utils;
+using ServiceLayer.InvestorServices;
+using BizLogic.Planning;
 
 namespace REYMAN.Controllers
 {
@@ -39,18 +41,49 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        public IActionResult EditPlanes()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(getter.GetAll("Plan"));
+        }
+        public class A
+        {
+            public string button { get; set; }
+        }
+        [HttpPost]
+        public IActionResult EditPlanes(A a)
+        {
+            if (a.button == "Add")
+                return RedirectToAction("AddPlan", "Edition");
+            return RedirectToAction("EditPlanes", "Edition");
+        }
+
+        [HttpGet]
+        public IActionResult AddPlan()
+        {  
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddPlan(PlanCommand cmd)
+        {
+            InvestorServices Is = new InvestorServices(_context);
+            Is.RegisterPlan(cmd);
+            return RedirectToAction("EditPlanes", "Edition");
+        }
+        [HttpGet]
         public IActionResult EditProvincia()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(getter.GetAll("Provincia"));
+            ProvinciaViewModel pvm = new ProvinciaViewModel { GetProvincia = getter.GetAll("Provincia")  };
+            return View(pvm);
         }
 
         [HttpPost]
         public IActionResult EditProvincia(ProvinciaViewModel vm)
         {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
-                GetterAll getter = new GetterAll(_getterUtils, _context);
                 AdminService ad = new AdminService(_context);
                 if (vm.button == "Add")
                     ad.RegisterProvincia(vm);
@@ -62,7 +95,8 @@ namespace REYMAN.Controllers
             ModelState.AddModelError(string.Empty, "An error occured trying to edit the entity Provincia");
 
             //If we got to here, something went wrong
-            return RedirectToAction("EditProvincia", "Edition");
+            vm.GetProvincia = getter.GetAll("Provincia");
+            return View(vm);
         }
     }
     

@@ -8,6 +8,7 @@ namespace BizData.Entities
     {
         public int UnidadOrganizativaID { get; set; }
         public string Nombre { get; set; }
+        public ICollection<string> Especialidades { get; set; }
 
         public virtual Provincia Provincia { get; set; }
         public virtual ICollection<Usuario> Inversionistas { get; set; }

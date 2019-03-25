@@ -133,18 +133,18 @@ namespace ServiceLayer.InvestorServices
             return objObra;
         }
 
-        //public IEnumerable<string> AddEspecialidad(string nombreUO, IEnumerable<string> especialidades)
-        //{
-        //    var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
-            
-        //    if (uo.Especialidades == null)
-        //    {
-        //        uo.Especialidades = new List<string>();
-        //    }
+        public IEnumerable<string> AddEspecialidad(string nombreUO, IEnumerable<string> especialidades)
+        {
+            var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
 
-        //    _unidadOrganizativaDbAccess.AddEspecialidad(ref uo, especialidades);
-        //    _context.Commit();
-        //    return uo.Especialidades;
-        //}
+            if (uo.Especialidades == null)
+            {
+                uo.Especialidades = new List<string>();
+            }
+
+            _unidadOrganizativaDbAccess.AddEspecialidad(ref uo, especialidades);
+            _context.Commit();
+            return uo.Especialidades;
+        }
     }
 }

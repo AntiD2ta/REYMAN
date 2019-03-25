@@ -48,11 +48,12 @@ namespace REYMAN.Controllers
         {
             if (ModelState.IsValid)
             {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
                 AdminService ad = new AdminService(_context);
                 if (vm.button == "Add")
                     ad.RegisterProvincia(vm);
                 else
-                    ad.DeleteProvincia(ad.GetProvincias().Where(x => x.Nombre == vm.NombreBorrar).Single());
+                    ad.DeleteProvincia((getter.GetAll("Provincia") as IEnumerable<Provincia>).Where(x => x.Nombre == vm.Nombre).Single());
                 return RedirectToAction("EditProvincia", "Edition");
             }
 

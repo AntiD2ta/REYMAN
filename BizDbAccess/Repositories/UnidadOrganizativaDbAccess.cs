@@ -51,7 +51,7 @@ namespace BizDbAccess.Authentication
             return _context.UnidadesOrganizativas.Where(uo => uo.Nombre == nombreUO).Single();
         }
 
-        public void AddEspecialidad(ref UnidadOrganizativa entity, IEnumerable<string> especialidades)
+        public void AddEspecialidad(ref UnidadOrganizativa entity, IEnumerable<Especialidad> especialidades)
         {
             entity.Especialidades = entity.Especialidades.Concat(especialidades).ToList();
             _context.Update(entity);

@@ -133,13 +133,13 @@ namespace ServiceLayer.InvestorServices
             return objObra;
         }
 
-        public IEnumerable<string> AddEspecialidad(string nombreUO, IEnumerable<string> especialidades)
+        public IEnumerable<Especialidad> AddEspecialidad(string nombreUO, IEnumerable<Especialidad> especialidades)
         {
             var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
 
             if (uo.Especialidades == null)
             {
-                uo.Especialidades = new List<string>();
+                uo.Especialidades = new List<Especialidad>();
             }
 
             _unidadOrganizativaDbAccess.AddEspecialidad(ref uo, especialidades);

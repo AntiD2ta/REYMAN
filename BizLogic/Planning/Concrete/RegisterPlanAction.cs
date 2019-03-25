@@ -34,7 +34,7 @@ namespace BizLogic.Planning.Concrete
                 if (p != null)
                     AddError("Ya existe ese plan");
             }
-            catch
+            catch(InvalidOperationException)
             {
                 AddError("Ya existe ese plan");
             }

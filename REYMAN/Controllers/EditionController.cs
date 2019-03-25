@@ -17,6 +17,8 @@ using BizLogic.Planning;
 
 namespace REYMAN.Controllers
 {
+    [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class EditionController:Controller
     {
         private readonly UserManager<Usuario> _userManager;

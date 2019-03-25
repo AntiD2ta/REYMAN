@@ -55,5 +55,10 @@ namespace BizDbAccess.User
                     obj.Inmueble.Direccion == dirInmueble &&
                     obj.Inmueble.UO.Nombre == nombreUO).SingleOrDefault();
         }
+
+        public ObjetoObra GetObjObra(long id)
+        {
+            return _context.ObjetosObra.Find(id);
+        }
     }
 }

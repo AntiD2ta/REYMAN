@@ -31,9 +31,9 @@ namespace BizDbAccess.User
             }
         }
 
-        public void GetInmueble(UnidadOrganizativa uo, string direccion)
+        public Inmueble GetInmueble(UnidadOrganizativa uo, string direccion)
         {
-            _context.Inmuebles.Where(i => i.UO == uo && i.Direccion == direccion).SingleOrDefault();
+            return _context.Inmuebles.Where(i => i.UO == uo && i.Direccion == direccion).SingleOrDefault();
         }
 
         public IEnumerable<Inmueble> GetAll()
@@ -43,12 +43,21 @@ namespace BizDbAccess.User
 
         public Inmueble Update(Inmueble entity, Inmueble toUpd)
         {
-            if (_context.Inmuebles.Find(entity.InmuebleID) != null)
-            {
-                _context.Inmuebles.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new Exception("No existe el inmueble que se quiere actualizar");
+
+            toUpd.Direccion = entity.Direccion ?? toUpd.Direccion;
+            toUpd.ObjetosDeObra = entity.ObjetosDeObra ?? toUpd.ObjetosDeObra;
+
+            _context.Inmuebles.Update(entity);
+
             return toUpd;
+        }
+
+        public void AddObjObra(ref Inmueble entity, IEnumerable<ObjetoObra> objsObra)
+        {
+            entity.ObjetosDeObra.Concat(objsObra);
+            _context.Inmuebles.Update(entity);
         }
     }
 }

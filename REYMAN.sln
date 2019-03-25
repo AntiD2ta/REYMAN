@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REYMAN", "REYMAN\REYMAN.csproj", "{900FE139-AF6C-4F4D-8B73-0BBC3B265E00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REYMAN", "REYMAN\REYMAN.csproj", "{900FE139-AF6C-4F4D-8B73-0BBC3B265E00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BizData", "BizData\BizData.csproj", "{DBA5DF0C-33B3-455C-B220-94D02B56A1B3}"
 EndProject

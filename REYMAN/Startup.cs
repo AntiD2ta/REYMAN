@@ -115,7 +115,7 @@ namespace REYMAN
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -140,7 +140,7 @@ namespace REYMAN
                 using (var scope = app.ApplicationServices.CreateScope())
                 {
                     var seeder = scope.ServiceProvider.GetService<EfSeeder>();
-                    seeder.Seed();
+                    await seeder.Seed();
                 }
             }
 

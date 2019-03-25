@@ -25,14 +25,8 @@ namespace BizDbAccess.Authentication
 
         public void Delete(Provincia entity)
         {
-            foreach (var item in _context.Provincias)
-            {
-                if (entity.Nombre == item.Nombre)
-                {
-                    _context.Provincias.Remove(item);
-                    _context.Commit();
-                }
-            }
+            _context.Provincias.Remove(entity);
+            _context.Commit();
         }
 
         public IEnumerable<Provincia> GetAll()
@@ -40,13 +34,14 @@ namespace BizDbAccess.Authentication
             return _context.Provincias.OrderBy(i => i.Nombre);
         }
 
-        public void Update(Provincia entity)
+        public Provincia Update(Provincia entity, Provincia toUpd)
         {
             if (_context.Provincias.Find(entity.ProvinciaID) != null)
             {
                 _context.Provincias.Update(entity);
                 _context.Commit();
             }
+            return toUpd;
         }
     }
 }

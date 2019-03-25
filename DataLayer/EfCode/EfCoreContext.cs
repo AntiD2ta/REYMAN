@@ -23,6 +23,7 @@ namespace DataLayer.EfCode
         public DbSet<ManoObra> ManosObra { get; set; }
         public DbSet<Material> Materiales { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
+        public DbSet<Especialidad> Especialidades { get; set; }
 
         public int Commit()
         {

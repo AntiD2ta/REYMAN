@@ -9,10 +9,10 @@ namespace BizLogic.Planning
     {
         public Decimal Presupuesto { get; set; }
 
-        [Required, StringLength(4)]
+        [Required]
         public int Año { get; set; }
 
-        [Required, StringLength(4)] 
+        [Required] 
         public string TipoPlan { get; set; }
 
     }

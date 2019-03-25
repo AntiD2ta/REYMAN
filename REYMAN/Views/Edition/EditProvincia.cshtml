@@ -1,9 +1,50 @@
-﻿@using BizData.Entities
-@model IEnumerable<Provincia>
+﻿@using BizLogic.Administration
+@using  BizData.Entities
+@model ProvinciaViewModel;
+@{
+    var provincias = Model.GetProvincia as IEnumerable<Provincia>;
+}
 
-@Html.Partial("Provincia",Model)
 
-<form method="post">
-    <input type="text" placeholder="Nueva Provincia" name="Nombre"/>
-    <button class="button" type="submit" name="Add">   <span>Añadir</span> </button>
-</form>
+
+<section>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+</section>
+<section>
+    <form method="post">
+        <table id="myTable">
+            <tr>
+                <th>
+                    Provincia
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in provincias)
+            {
+                <tr>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    @*<td>
+                        <a href="@item.Nombre" >Opciones</a>
+                    </td>*@
+                    <td>
+                        <button class="button" type="submit" value="@item.Nombre" name="Nombre">   <span>Eliminar</span> </button>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <input type="text" placeholder="Nueva Provincia" name="Nombre" />
+                    <span asp-validation-for="Nombre" class="text-danger" ></span>
+                </td>
+                @*<td>
+                    <a href="@item.Nombre" >Opciones</a>
+                </td>*@
+                <td>
+                    <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>

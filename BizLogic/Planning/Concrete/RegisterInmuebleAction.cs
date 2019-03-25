@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BizLogic.Planning.Concrete
 {
-    class RegisterInmuebleAction : BizActionErrors, IBizAction<InmuebleCommand, Inmueble>
+    public class RegisterInmuebleAction : BizActionErrors, IBizAction<InmuebleCommand, Inmueble>
     {
         private readonly InmuebleDbAccess _dbAccess;
 
@@ -18,7 +18,21 @@ namespace BizLogic.Planning.Concrete
 
         public Inmueble Action(InmuebleCommand dto)
         {
-            throw new NotImplementedException();
+            var inm = dto.ToInmueble();
+
+            try
+            {
+                _dbAccess.GetInmueble(inm.UO, inm.Direccion);
+            }
+            catch
+            {
+                AddError($"Ya existe ese inmueble en {inm.UO.Nombre}");
+            }
+
+            if (!HasErrors)
+                _dbAccess.Add(inm);
+
+            return HasErrors ? null : inm;
         }
     }
 }

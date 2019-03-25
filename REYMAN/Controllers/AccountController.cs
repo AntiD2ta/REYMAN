@@ -37,28 +37,50 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(string email)
+        [Authorize]
+        public async Task<IActionResult> Edit(string email)
         {
-            /*Edit Post
-             * You can do two things:
-             * 1-> take a email parameter and in the post method take the current user
-             *      by :  var result = await _loginService.GetUserByEmail(email);
-             *      and pass to the _loginService.EditUser(...) a RegisterUsuarioCommand
-             *      builded from this result.Result user
-             *      
-             * 2-> Make Edit parameterless and in the post method take the current user
-             *     by : var principal = await _userManager.GetUserAsync(User);
-             *     and pass to the _loginService.EditUser(...) a RegisterUsuarioCommand
-             *     builded from this principal user, i think that this is a better way ;)
-            */
+            var user = await _userManager.GetUserAsync(User);
+            var cmd = new RegisterUsuarioCommand();
+            cmd.SetViewModel(user);
+            return View(cmd);
+        }
 
-            /*Example for the use of GetterAll
-             * var getter = new GetterAll(new Dictionary<string, string> { { "Usuario", "UserDbAccess" } },
-                new AssemblyName("BizData, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"),
-                _context, _signInManager, _userManager);
-            var result1 = getter.GetAll("Usuario") as IEnumerable<Usuario>;*/
-          
-            return View();
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(RegisterUsuarioCommand cmd)
+        {
+            if (ModelState.IsValid)
+            {
+                var log = new LoginService(_context, _signInManager, _userManager);
+                var userToUpd = await _userManager.GetUserAsync(User);
+                var user = cmd.ToUsuario();
+
+                user = await log.EditUserAsync(user, userToUpd);
+                await _signInManager.RefreshSignInAsync(user);
+
+                //We need to create UserViewModel
+
+                //var uvm = new UserViewModel();
+                //uvm.SetProperties(cmd);
+                //uvm.Email = User.Identity.Name;
+                //uvm.SetPermissions(User.Claims);
+
+                //if (Request.Query.Keys.Contains("ReturnUrl"))
+                //{
+                //    return Redirect(Request.Query["ReturnUrl"].First());
+                //}
+                //else
+                //{
+                //    return RedirectToAction("Welcome", "User", uvm);
+                //}
+
+            }
+
+            ModelState.AddModelError(string.Empty, "An error occured trying to register the user");
+
+            //If we got to here, something went wrong
+            return View(cmd);
         }
 
         [HttpGet]

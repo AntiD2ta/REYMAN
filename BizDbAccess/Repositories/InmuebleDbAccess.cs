@@ -56,7 +56,7 @@ namespace BizDbAccess.User
 
         public void AddObjObra(ref Inmueble entity, IEnumerable<ObjetoObra> objsObra)
         {
-            entity.ObjetosDeObra.Concat(objsObra);
+            entity.ObjetosDeObra = entity.ObjetosDeObra.Concat(objsObra).ToList();
             _context.Inmuebles.Update(entity);
         }
     }

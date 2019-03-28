@@ -8,8 +8,8 @@ namespace BizData.Entities
     {
         public int MaterialID { get; set; }
         public string Nombre { get; set; }
-        public string UnidadMedida { get; set; }
 
+        public virtual UnidadMedida UnidadMedida { get; set; }
         public virtual ICollection<AccionC_Material> AccionesConstructivas { get; set; }
     }
 }

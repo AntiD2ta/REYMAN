@@ -16,5 +16,7 @@ namespace BizLogic.Planning
         public long PlanID { get; set; }
 
         public long ObjetoObraID { get; set; }
+
+
     }
 }

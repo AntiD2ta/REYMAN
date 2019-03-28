@@ -39,6 +39,8 @@ namespace ServiceLayer.InvestorServices
                 new RegisterInmuebleAction(new InmuebleDbAccess(_context)), _context);
             _runnerAccionCons = new RunnerWriteDb<AccionConsCommand, AccionConstructiva>(
                 new RegisterAccionConsAction(new AccionConstructivaDbAccess(_context)), _context);
+            _runnerObjObra = new RunnerWriteDb<ObjObraCommand, ObjetoObra>(
+                new RegisterObjObraAction(new ObjetoObraDbAccess(_context)), _context);
 
             _planDbAccess = new PlanDbAccess(_context);
             _inmuebleDbAccess = new InmuebleDbAccess(_context);

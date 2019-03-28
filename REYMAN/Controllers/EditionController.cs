@@ -67,7 +67,8 @@ namespace REYMAN.Controllers
         public IActionResult AddPlan(PlanCommand cmd)
         {
             InvestorServices Is = new InvestorServices(_context);
-            Is.RegisterPlan(cmd);
+            //display errors if errors is not null
+            Is.RegisterPlan(cmd, out var errors);
             return RedirectToAction("EditPlanes", "Edition");
         }
         [HttpGet]

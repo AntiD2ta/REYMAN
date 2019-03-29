@@ -21,13 +21,16 @@ namespace ServiceLayer.InvestorServices
         private readonly RunnerWriteDb<InmuebleCommand, Inmueble> _runnerInmueble;
         private readonly RunnerWriteDb<ObjObraCommand, ObjetoObra> _runnerObjObra;
         private readonly RunnerWriteDb<AccionConsCommand, AccionConstructiva> _runnerAccionCons;
+        private readonly RunnerWriteDb<MaterialCommand, Material> _runnerMaterial;
 
         private readonly AccionConstructivaDbAccess _accionConstructivaDbAccess;
         private readonly EspecialidadDbAccess _especialidadDbAccess;
+        private readonly MaterialDbAccess _materialDbAccess;
         private readonly PlanDbAccess _planDbAccess;
         private readonly InmuebleDbAccess _inmuebleDbAccess;
         private readonly ObjetoObraDbAccess _objetoObraDbAccess;
         private readonly UnidadOrganizativaDbAccess _unidadOrganizativaDbAccess;
+        private readonly UnidadMedidaDbAccess _unidadMedidaDbAccess;
         private readonly IUnitOfWork _context;
 
         public InvestorServices(IUnitOfWork context)
@@ -41,6 +44,8 @@ namespace ServiceLayer.InvestorServices
                 new RegisterAccionConsAction(new AccionConstructivaDbAccess(_context)), _context);
             _runnerObjObra = new RunnerWriteDb<ObjObraCommand, ObjetoObra>(
                 new RegisterObjObraAction(new ObjetoObraDbAccess(_context)), _context);
+            //_runnerMaterial = new RunnerWriteDb<MaterialCommand, Material>(
+            //    )
 
             _planDbAccess = new PlanDbAccess(_context);
             _inmuebleDbAccess = new InmuebleDbAccess(_context);
@@ -48,6 +53,8 @@ namespace ServiceLayer.InvestorServices
             _unidadOrganizativaDbAccess = new UnidadOrganizativaDbAccess(_context);
             _accionConstructivaDbAccess = new AccionConstructivaDbAccess(_context);
             _especialidadDbAccess = new EspecialidadDbAccess(_context);
+            _materialDbAccess = new MaterialDbAccess(_context);
+            _unidadMedidaDbAccess = new UnidadMedidaDbAccess(_context);
         }
 
         public long RegisterPlan(PlanCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -175,6 +182,26 @@ namespace ServiceLayer.InvestorServices
             cmd.Especialidad = _especialidadDbAccess.GetEspecialidad(cmd.TipoEspecialidad);
             cmd.ObjetoObra = _objetoObraDbAccess.GetObjObra(cmd.ObjetoObraID);
 
+            var data = cmd.ToAC_M();
+            cmd.MaterialPrecio = new List<(Material, decimal?)>();
+            foreach (var t in data)
+            {
+                if (TryGetMaterial(t.material, out var m))
+                {
+                    cmd.MaterialPrecio.Add((m, t.precio));
+                }
+                else
+                {
+                    cmd.MaterialPrecio.Add((t.material, t.precio));
+                }
+            }
+
+            var mo = cmd.ToManoObra();
+            var umMO = _unidadMedidaDbAccess.GetUM(mo.UnidadMedida.Nombre);
+            if (umMO != null)
+                mo.UnidadMedida = umMO;
+            cmd.ManoObra = mo;
+
             var ac = _runnerAccionCons.RunAction(cmd);
 
             if (_runnerAccionCons.HasErrors)
@@ -183,8 +210,71 @@ namespace ServiceLayer.InvestorServices
                 return -1;
             }
 
+            var aux = ac.Materiales.ToArray();
+            for (int i = 0; i < aux.Length; i++)
+            {
+                if (aux[i].Material.AccionesConstructivas != null)
+                {
+                    //finded remains false if exist the actual material has no ac as
+                    //AccionConstructiva
+                    AccionC_Material temp = new AccionC_Material();
+                    foreach (var item in aux[i].Material.AccionesConstructivas)
+                    {
+                        temp = item;
+                        if (item.AccionConstructiva.Nombre == ac.Nombre)
+                        {
+                            finded = true;
+                            break;
+                        }
+                    }
+
+                    if (!finded)
+                    {
+                        temp.AccionConstructiva = ac;
+                    }
+                }
+                else
+                {   //enter here if actual material not have AccionesContructivas initialized
+                    //and initialize it.
+                    aux[i].Material.AccionesConstructivas = new List<AccionC_Material>()
+                    {
+                        new AccionC_Material()
+                        {
+                            AccionConstructiva = ac,
+                            Material = aux[i].Material
+                        }
+                    };
+                    break;
+                }
+            }
+
             errors = null;
             return ac.AccionConstructivaID;
         }
+
+        public bool TryGetMaterial(Material temp, out Material current)
+        {
+            if (temp.UnidadMedida.Nombre == null)
+            {
+                current = _materialDbAccess.GetMaterial(temp.Nombre);
+            }
+            else
+            {
+                current = _materialDbAccess.GetMaterial(temp.Nombre, temp.UnidadMedida.Nombre);
+            }
+
+            if (current == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public long RegisterMaterial(MaterialCommand cmd, out IImmutableList<ValidationResult> errors)
+        {
+            errors = null;
+            return 0;
+        }
+
     }
 }

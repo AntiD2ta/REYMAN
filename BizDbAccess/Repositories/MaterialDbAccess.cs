@@ -4,6 +4,7 @@ using DataLayer.EfCode;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BizDbAccess.User
 {
@@ -43,6 +44,18 @@ namespace BizDbAccess.User
                 _context.Commit();
             }
             return toUpd;
+        }
+
+        public Material GetMaterial(string nombre, string unidadMedida)
+        {
+            return _context.Materiales.Where(m => m.Nombre == nombre &&
+                                                  m.UnidadMedida.Nombre == unidadMedida)
+                                                  .SingleOrDefault();
+        }
+
+        public Material GetMaterial(string nombre)
+        {
+            return _context.Materiales.Where(m => m.Nombre == nombre).First();
         }
     }
 }

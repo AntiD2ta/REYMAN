@@ -24,8 +24,8 @@ namespace REYMAN
     }
 }
 
-//TODO: Crear tabla para unidad de medida.
 //MEMO: Cuando una accion constructiva sea creada, solo es requerido que se ponga su nombre y el nombre de los materiales.
 //MEMO: Una Accion constructiva solo va a tener una mano de obra asociada.
 //MEMO: Las monedas no se van a cambiar, solo se va a mostrar los precios en la moneda que fue insertado.
 //MEMO: Vamos a dejar que se ponga un precio en las dos monedas, pero se para los reportes se debe especificar al menos un precio en alguna moneda.
+//TODO: Es necesario hacer una nueva migracion ya que el campo Precio de AccionC_Material es ahora Decimal?.

@@ -44,8 +44,8 @@ namespace ServiceLayer.InvestorServices
                 new RegisterAccionConsAction(new AccionConstructivaDbAccess(_context)), _context);
             _runnerObjObra = new RunnerWriteDb<ObjObraCommand, ObjetoObra>(
                 new RegisterObjObraAction(new ObjetoObraDbAccess(_context)), _context);
-            //_runnerMaterial = new RunnerWriteDb<MaterialCommand, Material>(
-            //    )
+            _runnerMaterial = new RunnerWriteDb<MaterialCommand, Material>(
+                new RegisterMaterialAction(new MaterialDbAccess(_context)), _context);
 
             _planDbAccess = new PlanDbAccess(_context);
             _inmuebleDbAccess = new InmuebleDbAccess(_context);
@@ -217,6 +217,7 @@ namespace ServiceLayer.InvestorServices
                 {
                     //finded remains false if exist the actual material has no ac as
                     //AccionConstructiva
+                    bool finded = false;
                     AccionC_Material temp = new AccionC_Material();
                     foreach (var item in aux[i].Material.AccionesConstructivas)
                     {
@@ -252,6 +253,21 @@ namespace ServiceLayer.InvestorServices
             return ac.AccionConstructivaID;
         }
 
+        public AccionConstructiva UpdateAccionConstructiva(AccionConstructiva entity, AccionConstructiva toUpd)
+        {
+            if (entity.Nombre != null && entity.Nombre != toUpd.Nombre &&
+                _accionConstructivaDbAccess.GetAccionCons(entity.Nombre,
+                entity.ObjetoObra) != null)
+            {
+                throw new Exception($"Ya existe una Accion Constructiva con nombre {entity.Nombre} en" +
+                    $" {entity.ObjetoObra.Nombre}");
+            }
+
+            var ac = _accionConstructivaDbAccess.Update(entity, toUpd);
+            _context.Commit();
+            return ac;
+        }
+
         public bool TryGetMaterial(Material temp, out Material current)
         {
             if (temp.UnidadMedida.Nombre == null)
@@ -272,9 +288,41 @@ namespace ServiceLayer.InvestorServices
 
         public long RegisterMaterial(MaterialCommand cmd, out IImmutableList<ValidationResult> errors)
         {
+            var material = _runnerMaterial.RunAction(cmd);
+
+            if (_runnerMaterial.HasErrors)
+            {
+                errors = _runnerMaterial.Errors;
+                return -1;
+            }
+
             errors = null;
-            return 0;
+            return material.MaterialID;
         }
 
+        public Material UpdateMaterial(Material entity, AccionC_Material toUpd, out IImmutableList<ValidationResult> errors)
+        {
+            errors = null;
+            if (entity.Nombre != null && entity.Nombre != toUpd.Material.Nombre &&
+                _materialDbAccess.GetMaterial(entity.Nombre) != null)
+            {
+                throw new Exception($"Ya existe un Material con nombre {entity.Nombre}.");
+            }
+
+            if (entity.UnidadMedida != null)
+            {
+                MaterialCommand cmd = new MaterialCommand(toUpd, entity);
+                var id = RegisterMaterial(cmd, out errors);
+                if (id != -1)
+                {
+                    return _materialDbAccess.GetMaterial(id);
+                }
+                return null;
+            }
+
+            var mat = _materialDbAccess.Update(entity, toUpd.Material);
+            _context.Commit();
+            return mat;
+        }
     }
 }

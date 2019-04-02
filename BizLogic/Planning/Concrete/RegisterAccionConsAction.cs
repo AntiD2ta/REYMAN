@@ -3,6 +3,7 @@ using BizDbAccess.Repositories;
 using BizLogic.GenericInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizLogic.Planning.Concrete
@@ -31,7 +32,19 @@ namespace BizLogic.Planning.Concrete
             }
 
             if (!HasErrors)
+            {
                 _dbAccess.Add(ac);
+                if (dto.MaterialPrecio.Count > 0)
+                {
+                    var data = dto.MaterialPrecio.Select(t => new AccionC_Material()
+                    {
+                        AccionConstructiva = ac,
+                        Material = t.material,
+                        Precio = t.precio
+                    });
+                    ac.Materiales = data.ToList();
+                }
+            }
 
             return HasErrors ? null : ac;
         }

@@ -192,7 +192,7 @@ namespace ServiceLayer.InvestorServices
                 }
                 else
                 {
-                    cmd.MaterialPrecio.Add((t.material, t.precioCUP. precioCUC));
+                    cmd.MaterialPrecio.Add((t.material, t.precioCUP, t.precioCUC));
                 }
             }
 

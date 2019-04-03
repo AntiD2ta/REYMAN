@@ -40,7 +40,8 @@ namespace BizLogic.Planning.Concrete
                     {
                         AccionConstructiva = ac,
                         Material = t.material,
-                        Precio = t.precio
+                        PrecioCUP = t.precioCUP,
+                        PrecioCUC = t.precioCUC
                     });
                     ac.Materiales = data.ToList();
                 }

@@ -9,10 +9,5 @@ namespace BizLogic.Administration
     {
         public IEnumerable<Provincia> Provincias { get; set; }
 
-        public UOCommand(IEnumerable<Provincia> provincias)
-        {
-            Provincias = provincias;
-        }
-
     }
 }

@@ -26,11 +26,12 @@ namespace ServiceLayer.AdminServices
             _provDbAccess = new ProvinciaDbAccess(context);
         }
 
-        public long RegisterUO(UOViewModel vm)
+        public long RegisterUO(UOCommand cmd)
         {
             var provs = GetProvincias();
+            cmd.Provincias = provs;
 
-            var uo = _runnerUO.RunAction(new UOCommand(provs));
+            var uo = _runnerUO.RunAction(cmd);
 
             if (_runnerUO.HasErrors) return 0;
 

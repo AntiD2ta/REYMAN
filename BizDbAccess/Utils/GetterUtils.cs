@@ -19,10 +19,13 @@ namespace BizDbAccess.Utils
         {
             ReposNames = new Dictionary<string, string>
             {
+                { "AccionConstructiva", "AccionConstructivaDbAccess" },
+                { "Especialidad", "EspecialidadDbAccess" },
                 { "Inmueble", "InmuebleDbAccess" },
                 { "Material", "MaterialDbAccess" },
                 { "ObjetoObra", "ObjetoObraDbAccess" },
                 { "Usuario", "UserDbAccess" },
+                { "UnidadMedida", "UnidadMedidaDbAccess" },
                 { "UnidadOrganizativa", "UnidadOrganizativaDbAccess" },
                 { "Provincia", "ProvinciaDbAccess"},
                 { "Plan", "PlanDbAccess" }

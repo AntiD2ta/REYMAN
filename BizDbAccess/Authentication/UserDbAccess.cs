@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace BizDbAccess.Authentication
 {
+    /// <summary>
+    /// Specific implementation of a repository for EntityFrameworkCore. This repository targets 
+    /// EntityFrameworkCore necessarily, since SignInManager and UserManager classes are configured
+    /// with EntityFrameworkCore.
+    /// </summary>
     public class UserDbAccess : IEntityDbAccess<Usuario>
     {
         private readonly EfCoreContext _context;

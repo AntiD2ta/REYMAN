@@ -9,5 +9,7 @@ namespace BizLogic.Administration
     {
         public IEnumerable<Provincia> Provincias { get; set; }
 
+        public string button { get; set; }
+
     }
 }

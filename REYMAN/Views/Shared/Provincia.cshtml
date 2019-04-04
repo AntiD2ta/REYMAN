@@ -1,7 +1,10 @@
 ﻿@using BizData.Entities
 @model IEnumerable<Provincia>
 
-<table>
+<section>
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+</section>
+<table id="myTable">
     <tr>
         <th>
             Provincia

@@ -1,5 +1,5 @@
 ﻿@using BizData.Entities
-@model IEnumerable<Plan>
+@model IEnumerable<UnidadOrganizativa>
 
 <style>
     #myTable tr.header, #myTable tr:hover {
@@ -16,13 +16,10 @@
         <table id="myTable">
             <tr>
                 <th>
-                    Año
+                    Nombre
                 </th>
                 <th>
-                    Presupuesto
-                </th>
-                <th>
-                    Tipo de Plan
+                    Provincia
                 </th>
                 <th>
                 </th>
@@ -31,16 +28,14 @@
             {
                 <tr>
                     <td>
-                        @item.Año
+                        @item.Nombre
                     </td>
                     <td>
-                        @item.Presupuesto
+                        @item.Provincia.Nombre
                     </td>
+                   
                     <td>
-                        @item.TipoPlan
-                    </td>
-                    <td>
-                        <button class="button" type="submit" value="Edit/@item.PlanID" name="button">   <span>Editar</span> </button>
+                        <button class="button" type="submit" value="Edit/@item.UnidadOrganizativaID" name="button">   <span>Editar</span> </button>
                     </td>
                 </tr>
             }

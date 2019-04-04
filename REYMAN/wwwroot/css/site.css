@@ -1,4 +1,16 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿@font-face {
+    font-family: 'Myriad Pro Bold Condensed Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Myriad Pro Bold Condensed Italic'), url('~/fonts/MYRIADPRO-BOLDIT.woff') format('woff');
+}
+@font-face {
+    font-family: 'Myriad Pro Bold';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Myriad Pro Bold'), url('~/fonts/MYRIADPRO-BOLDIT.woff') format('woff');
+}
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
@@ -13,9 +25,10 @@ html {
   font-size: 14px;
 }
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+        font-family: 'Myriad Pro Bold Condensed Italic'
+    }
 }
 
 .border-top {
@@ -91,10 +104,12 @@ table {
 th, td {
     text-align: center;
     padding: 16px;
+    font-family: 'Myriad Pro Bold'
 }
 th {
     color: white;
     background: #a90005;
+    font-family:'Myriad Pro Bold'
 }
 
     th:first-child, td:first-child {
@@ -120,7 +135,7 @@ tr:nth-child(even) {
     color: #ffffff;
     text-align: center;
     font-size: 15px;
-    padding: 10px;
+    font-family: Myriad Pro Bold Condensed Italic;
     width: 110px;
     transition: all 0.5s;
     cursor: pointer;

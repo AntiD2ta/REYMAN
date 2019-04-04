@@ -7,14 +7,24 @@ namespace BizLogic.Planning
 {
     public class PlanCommand : PlanViewModel
     {
+        public string button { get; set; }
+        public int PlanID { get; set; }
         public Plan ToPlan()
         {
             return new Plan
             {
                 Presupuesto = Presupuesto,
                 Año = Año,
-                TipoPlan = TipoPlan
+                TipoPlan = TipoPlan,
+                AccionesConstructivas = new List<AccionConstructiva>()
             };
+        }
+        public void Set(Plan plan)
+        {
+            Presupuesto = plan.Presupuesto;
+            Año = plan.Año;
+            TipoPlan = plan.TipoPlan;
+            PlanID = plan.PlanID;
         }
     }
 }

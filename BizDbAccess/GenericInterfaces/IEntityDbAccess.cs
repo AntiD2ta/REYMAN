@@ -4,6 +4,10 @@ using System.Text;
 
 namespace BizDbAccess.GenericInterfaces
 {
+    /// <summary>
+    /// Represents a repository for the entity, responsible for access to the database. 
+    /// </summary>
+    /// <typeparam name="T">Entity's type</typeparam>
     public interface IEntityDbAccess<T> where T : class
     {
         IEnumerable<T> GetAll();

@@ -183,16 +183,16 @@ namespace ServiceLayer.InvestorServices
             cmd.ObjetoObra = _objetoObraDbAccess.GetObjObra(cmd.ObjetoObraID);
 
             var data = cmd.ToAC_M();
-            cmd.MaterialPrecio = new List<(Material, decimal?)>();
+            cmd.MaterialPrecio = new List<(Material, decimal?, decimal?)>();
             foreach (var t in data)
             {
                 if (TryGetMaterial(t.material, out var m))
                 {
-                    cmd.MaterialPrecio.Add((m, t.precio));
+                    cmd.MaterialPrecio.Add((m, t.precioCUP, t.precioCUC));
                 }
                 else
                 {
-                    cmd.MaterialPrecio.Add((t.material, t.precio));
+                    cmd.MaterialPrecio.Add((t.material, t.precioCUP, t.precioCUC));
                 }
             }
 

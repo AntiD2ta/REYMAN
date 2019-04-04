@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace BizDbAccess.Repositories
 {
+    /// <summary>
+    /// Specific implementation of a repository for EntityFrameworkCore.
+    /// </summary>
     public class UnidadMedidaDbAccess : IEntityDbAccess<UnidadMedida>
     {
         private readonly EfCoreContext _context;

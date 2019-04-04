@@ -8,6 +8,9 @@ using System.Text;
 
 namespace BizDbAccess.Repositories
 {
+    /// <summary>
+    /// Specific implementation of a repository for EntityFrameworkCore.
+    /// </summary>
     public class EspecialidadDbAccess : IEntityDbAccess<Especialidad>
     {
         private readonly EfCoreContext _context;

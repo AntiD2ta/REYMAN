@@ -11,7 +11,7 @@ namespace BizLogic.Planning
         public Especialidad Especialidad { get; set; }
         public ObjetoObra ObjetoObra { get; set; }
         public ManoObra ManoObra { get; set; }
-        public List<(Material material, Decimal? precio)> MaterialPrecio { get; set; }
+        public List<(Material material, Decimal? precioCUP, Decimal? precioCUC)> MaterialPrecio { get; set; }
 
         public AccionConstructiva ToAC()
         {
@@ -30,7 +30,8 @@ namespace BizLogic.Planning
             return new ManoObra()
             {
                 Cantidad = CantidadMO,
-                Precio = Precio,
+                PrecioCUP = PrecioCUP,
+                PrecioCUC = PrecioCUC,
                 UnidadMedida = new UnidadMedida()
                 {
                     Nombre = UM
@@ -38,7 +39,7 @@ namespace BizLogic.Planning
             };
         }
 
-        public IEnumerable<(Material material, Decimal? precio)> ToAC_M()
+        public IEnumerable<(Material material, Decimal? precioCUP, Decimal? precioCUC)> ToAC_M()
         {
             foreach(var t in Materiales)
             {
@@ -51,7 +52,7 @@ namespace BizLogic.Planning
                     }
                 };
 
-                yield return (material, t.precio);
+                yield return (material, t.precioCUP, t.precioCUC);
             }
         }
     }

@@ -29,3 +29,4 @@ namespace REYMAN
 //MEMO: Las monedas no se van a cambiar, solo se va a mostrar los precios en la moneda que fue insertado.
 //MEMO: Vamos a dejar que se ponga un precio en las dos monedas, pero se para los reportes se debe especificar al menos un precio en alguna moneda.
 //TODO: Es necesario hacer una nueva migracion ya que el campo Precio de AccionC_Material es ahora Decimal?.
+//TODO: Ver como arreglar si se altera una UO que no se afecten todas las cosas ancladas a esa UO.

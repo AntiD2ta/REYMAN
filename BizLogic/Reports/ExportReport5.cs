@@ -20,7 +20,7 @@ namespace BizLogic.Reports
 
                 //crear el "encabezado" de la tabla
                 worksheet.Cells[1, 1, 1, 6].Merge = true;
-                worksheet.Cells[1, 1].Value = "Plan de Reparaciones y Mantenimiento Constructivo ";
+                worksheet.Cells[1, 1].Value = "Plan de Reparaciones y Mantenimiento Constructivo";
 
                 worksheet.Cells[2, 1, 2, 6].Merge = true;
                 worksheet.Cells[2, 1].Value = "Listado de materiales por U.O.";

@@ -155,20 +155,6 @@ namespace ServiceLayer.InvestorServices
             return objObra;
         }
 
-        public IEnumerable<Especialidad> AddEspecialidad(string nombreUO, IEnumerable<Especialidad> especialidades)
-        {
-            var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
-
-            if (uo.Especialidades == null)
-            {
-                uo.Especialidades = new List<Especialidad>();
-            }
-
-            _unidadOrganizativaDbAccess.AddEspecialidad(ref uo, especialidades);
-            _context.Commit();
-            return uo.Especialidades;
-        }
-
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             cmd.Plan = _planDbAccess.GetPlan(cmd.PlanID);

@@ -25,6 +25,7 @@ namespace DataLayer.EfCode
         public DbSet<Provincia> Provincias { get; set; }
         public DbSet<Especialidad> Especialidades { get; set; }
         public DbSet<AccionC_Material> AccCons_Mat { get; set; }
+        public DbSet<UnidadMedida> UnidadesMedida { get; set; }
 
         public int Commit()
         {

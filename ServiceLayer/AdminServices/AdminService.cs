@@ -38,6 +38,8 @@ namespace ServiceLayer.AdminServices
             return uo.UnidadOrganizativaID;
         }
 
+        //TODO: EditUO, DeleteUO
+        
         public long RegisterProvincia(ProvinciaViewModel vm)
         {
             var prov = _runnerProv.RunAction(vm);

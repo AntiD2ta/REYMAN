@@ -1,0 +1,10 @@
+﻿@using BizLogic.Planning
+@model AccionConsCommand
+<div class="autocomplete" style="width:300px;">
+    <input asp-for="UM" id="myInput1" type="text" placeholder="UnidadesMedida">
+</div>
+<script>
+    var nombres =  @Html.Raw(Json.Serialize(Model.UnidadesMedida));
+    console.log(nombres);
+    autocomplete(document.getElementById("myInput1"), nombres);
+</script>

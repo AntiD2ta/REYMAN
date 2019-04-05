@@ -26,5 +26,9 @@ namespace BizLogic.Planning
         public long PlanID { get; set; }
 
         public long ObjetoObraID { get; set; }
+
+        public IEnumerable<string> AccionConsts { get; set; }
+
+        public IEnumerable<string> UnidadesMedida { get; set; }
     }
 }

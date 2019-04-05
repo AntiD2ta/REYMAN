@@ -1,0 +1,12 @@
+﻿@using BizLogic.Planning
+@model AccionConsCommand
+<div class="autocomplete" style="width:300px;">
+    <input asp-for="Nombre" id="myInput" type="text" placeholder="Nombre">
+</div>
+<script>
+
+
+    var nombres =  @Html.Raw(Json.Serialize(Model.AccionConsts));
+    console.log(nombres);
+    autocomplete(document.getElementById("myInput"), nombres);
+</script>

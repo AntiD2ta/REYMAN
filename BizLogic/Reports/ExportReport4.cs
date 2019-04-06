@@ -2,6 +2,7 @@
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizLogic.Reports
@@ -72,10 +73,12 @@ namespace BizLogic.Reports
                                 worksheet.Cells[fila, 9].Value = material.unidadMedida;
                                 worksheet.Cells[fila, 10].Value = material.reparaciones;
                                 worksheet.Cells[fila, 11].Value = material.mantenimiento;
-                                worksheet.Cells[fila, 12].Value = material.reparaciones + material.matenimiento;
-
+                                worksheet.Cells[fila, 12].Value = material.reparaciones + material.mantenimiento;
                                 ++fila;
                             }
+
+                            if (((IEnumerable<dynamic>)obj.materiales).Count() == 0)
+                                ++fila;
                         }
                     }
                 }

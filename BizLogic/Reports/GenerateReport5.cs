@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace BizLogic.Reports
 {
@@ -16,8 +18,13 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<UnidadOrganizativa> uos)
+        public async Task<object> GenerateReport(int year, IEnumerable<string> UOs)
         {
+            var uos = from name in UOs
+                      from unidad in _context.UnidadesOrganizativas
+                      where name == unidad.Nombre
+                      select unidad;
+            
             var report = new
             {
                 materiales = from mat in _context.Materiales
@@ -39,18 +46,24 @@ namespace BizLogic.Reports
                                                     where mat.MaterialID == acm.Material.MaterialID
                                                     select acm.Cantidad).Sum()
                            },
-                totales = (from unidad in uos
-                           select (from mat in _context.Materiales
-                                   select (from inm in unidad.Inmuebles
-                                           from obj in inm.ObjetosDeObra
-                                           from ac in obj.AccionesConstructivas
-                                           from acm in ac.Materiales
-                                           where mat.MaterialID == acm.Material.MaterialID
-                                           select acm.Cantidad).Sum()).Sum()).Sum(),
+
+                totales = from mat in (await _context.Materiales.ToListAsync())
+                          select (from unidad in uos
+                                  from inm in unidad.Inmuebles
+                                  from obj in inm.ObjetosDeObra
+                                  from ac in obj.AccionesConstructivas
+                                  from acm in ac.Materiales
+                                  where mat.MaterialID == acm.Material.MaterialID
+                                  select acm.Cantidad).Sum(),
                 año = year
             };
 
             return report;
         }
+
+        //private async Task<object> Test(EfCoreContext context, IEnumerable<UnidadOrganizativa> uos)
+        //{
+        //    return  
+        //}
     }
 }

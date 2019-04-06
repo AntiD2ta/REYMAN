@@ -9,7 +9,7 @@ namespace BizLogic.Reports
         {
             byte[] fileContents;
             int fila = 6;
-
+            
             using (var package = new ExcelPackage())
             {
                 var worksheet = package.Workbook.Worksheets.Add("Reporte 1");
@@ -76,7 +76,7 @@ namespace BizLogic.Reports
                         {
                             worksheet.Cells[fila, 5, fila, 6].Merge = true;
                             worksheet.Cells[fila, 5].Value = obj.nombre;
-
+                       
                             foreach (var especialidad in obj.especialidades)
                             {
                                 worksheet.Cells[fila, 7, fila, 11].Merge = true;
@@ -93,11 +93,11 @@ namespace BizLogic.Reports
                                 worksheet.Cells[fila, 20].Value = especialidad.materialesTotalCUC + especialidad.materialesTotalCUP;
                                 worksheet.Cells[fila, 21].Value = especialidad.materialesTotalCUC;
                                 worksheet.Cells[fila, 22].Value = especialidad.materialesTotalCUP;
-
-                                ++fila;
-
+                                
                                 foreach (var accion in especialidad.acciones)
                                 {
+                                    ++fila;
+
                                     worksheet.Cells[fila, 7, fila, 11].Merge = true;
                                     worksheet.Cells[fila, 7].Value = accion.nombre;
 
@@ -112,10 +112,10 @@ namespace BizLogic.Reports
                                     worksheet.Cells[fila, 20].Value = accion.materialesCUC + accion.materialesCUP;
                                     worksheet.Cells[fila, 21].Value = accion.materialesCUC;
                                     worksheet.Cells[fila, 22].Value = accion.materialesCUP;
-
-                                    ++fila;
-                                }
+                                 }
                             }
+
+                            ++fila;
 
                             worksheet.Cells[fila, 5, fila, 13].Merge = true;
                             worksheet.Cells[fila, 5].Value = "Total del objeto de obra";

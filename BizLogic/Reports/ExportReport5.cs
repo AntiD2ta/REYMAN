@@ -26,7 +26,7 @@ namespace BizLogic.Reports
                 worksheet.Cells[2, 1].Value = "Listado de materiales por U.O.";
 
                 worksheet.Cells[2, 8, 2, 9].Merge = true;
-                worksheet.Cells[2, 8].Value = $"Año: {report.año}";
+                worksheet.Cells[2, 8].Value = $"Año: {report.Result.año}";
 
                 worksheet.Cells[4, 1, 9, 6].Merge = true;
                 worksheet.Cells[4, 1].Value = "Material";
@@ -38,7 +38,7 @@ namespace BizLogic.Reports
                 worksheet.Cells[5, 8].Value = "Total";
 
                 //lenando la tabla
-                foreach (var material in report.materiales)
+                foreach (var material in report.Result.materiales)
                 {
                     worksheet.Cells[fila, 1, fila, 6].Merge = true;
                     worksheet.Cells[fila, 1].Value = material.nombre;
@@ -48,13 +48,13 @@ namespace BizLogic.Reports
                 }
 
                 fila = 10;
-                foreach (var total in report.totales)
+                foreach (var total in report.Result.totales)
                 {
                     worksheet.Cells[fila, 8].Value = total;
                     ++fila;
                 }
 
-                foreach (var unidad in report.unidades)
+                foreach (var unidad in report.Result.unidades)
                 {
                     fila = 10;
                     worksheet.Cells[5, col, 9, col].Merge = true;

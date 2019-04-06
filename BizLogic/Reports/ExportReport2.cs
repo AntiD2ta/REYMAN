@@ -59,7 +59,7 @@ namespace BizLogic.Reports
                         worksheet.Cells[fila, 3, fila, 4].Merge = true;
                         worksheet.Cells[fila, 3, fila, 4].Value = inmueble.nombre;
 
-                        worksheet.Cells[fila, 5].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP + inmueble.mantenimientoCUC + inmueble.mantenimiento.mantenimientoCUP;
+                        worksheet.Cells[fila, 5].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP + inmueble.mantenimientoCUC + inmueble.mantenimientoCUP;
                         worksheet.Cells[fila, 6].Value = inmueble.reparacionesCUC + inmueble.mantenimientoCUC;
                         worksheet.Cells[fila, 7].Value = inmueble.reparacionesCUP + inmueble.mantenimientoCUP;
                         worksheet.Cells[fila, 8].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP;
@@ -75,7 +75,7 @@ namespace BizLogic.Reports
                     worksheet.Cells[fila, 3, fila, 4].Merge = true;
                     worksheet.Cells[fila, 3, fila, 4].Value = "Total de la Unidad Organizativa"; 
 
-                    worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimiento.mantenimientoCUP;
+                    worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimientoCUP;
                     worksheet.Cells[fila, 6].Value = unidad.reparacionesCUC + unidad.mantenimientoCUC;
                     worksheet.Cells[fila, 7].Value = unidad.reparacionesCUP + unidad.mantenimientoCUP;
                     worksheet.Cells[fila, 8].Value = unidad.reparacionesCUC + unidad.reparacionesCUP;

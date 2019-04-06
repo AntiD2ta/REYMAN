@@ -16,8 +16,13 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<UnidadOrganizativa> uos)
+        public object GenerateReport(int year, IEnumerable<string> UOs)
         {
+            var uos = from name in UOs
+                      from unidad in _context.UnidadesOrganizativas
+                      where name == unidad.Nombre
+                      select unidad;
+
             var report = new
             {
                 unidades = from unidad in uos
@@ -37,7 +42,7 @@ namespace BizLogic.Reports
                                                                           select new
                                                                           {
                                                                               nombre = acm.Material.Nombre,
-                                                                              unidadMedida = acm.Material.UnidadMedida,
+                                                                              unidadMedida = acm.Material.UnidadMedida.Nombre,
                                                                               reparaciones = (from mat in ac.Materiales
                                                                                               where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Reparación"
                                                                                               select mat.Cantidad).Sum(),

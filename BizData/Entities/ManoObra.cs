@@ -8,8 +8,8 @@ namespace BizData.Entities
     {
         public int ManoObraID { get; set; }
         public int Cantidad { get; set; }
-        public decimal PrecioCUP { get; set; }
-        public decimal PrecioCUC { get; set; }
+        public decimal? PrecioCUP { get; set; }
+        public decimal? PrecioCUC { get; set; }
 
         public virtual UnidadMedida UnidadMedida { get; set; }
     }

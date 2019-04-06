@@ -6,6 +6,10 @@ using System.Text;
 
 namespace BizDbAccess.Utils
 {
+    /// <summary>
+    /// Helper class, contains GetterAll static's utilities. Modify if
+    /// a new repository arises, or change entities proyect.
+    /// </summary>
     public class GetterUtils : IGetterUtils
     {
         public Dictionary<string, string> ReposNames { get; }
@@ -15,10 +19,13 @@ namespace BizDbAccess.Utils
         {
             ReposNames = new Dictionary<string, string>
             {
+                { "AccionConstructiva", "AccionConstructivaDbAccess" },
+                { "Especialidad", "EspecialidadDbAccess" },
                 { "Inmueble", "InmuebleDbAccess" },
                 { "Material", "MaterialDbAccess" },
                 { "ObjetoObra", "ObjetoObraDbAccess" },
                 { "Usuario", "UserDbAccess" },
+                { "UnidadMedida", "UnidadMedidaDbAccess" },
                 { "UnidadOrganizativa", "UnidadOrganizativaDbAccess" },
                 { "Provincia", "ProvinciaDbAccess"},
                 { "Plan", "PlanDbAccess" }

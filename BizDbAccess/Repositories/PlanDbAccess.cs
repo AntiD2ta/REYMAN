@@ -8,6 +8,9 @@ using System.Text;
 
 namespace BizDbAccess.User
 {
+    /// <summary>
+    /// Specific implementation of a repository for EntityFrameworkCore.
+    /// </summary>
     public class PlanDbAccess : IEntityDbAccess<Plan>
     {
         public readonly EfCoreContext _context;
@@ -38,14 +41,14 @@ namespace BizDbAccess.User
 
         public Plan Update(Plan entity, Plan plan)
         {
+            
             if (plan == null)
                 throw new Exception("No existe plan que se quiere actualizar");
 
             plan.Año = entity.Año == 0 ? plan.Año : entity.Año;
             plan.Presupuesto = entity.Presupuesto == 0 ? plan.Presupuesto : entity.Presupuesto;
             plan.TipoPlan = entity.TipoPlan ?? plan.TipoPlan;
-            plan.AccionesConstructivas = plan.AccionesConstructivas == null ? entity.AccionesConstructivas : 
-                (ICollection<AccionConstructiva>)plan.AccionesConstructivas.Concat(entity.AccionesConstructivas);
+            plan.AccionesConstructivas = plan.AccionesConstructivas == null ? entity.AccionesConstructivas : (plan.AccionesConstructivas.Concat(entity.AccionesConstructivas)).ToList();
 
             _context.Planes.Update(plan);
             return plan;

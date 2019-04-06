@@ -24,6 +24,8 @@
                 <th>
                     Tipo de Plan
                 </th>
+                <th>
+                </th>
             </tr>
             @foreach (var item in Model)
             {
@@ -38,7 +40,7 @@
                         @item.TipoPlan
                     </td>
                     <td>
-                        <button class="button" type="submit" value=@item.PlanID name="Id">   <span>Editar</span> </button>
+                        <button class="button" type="submit" value="Edit/@item.PlanID" name="button">   <span>Editar</span> </button>
                     </td>
                 </tr>
             }

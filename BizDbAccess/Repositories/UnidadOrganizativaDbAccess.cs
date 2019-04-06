@@ -8,6 +8,9 @@ using System.Text;
 
 namespace BizDbAccess.Authentication
 {
+    /// <summary>
+    /// Specific implementation of a repository for EntityFrameworkCore.
+    /// </summary>
     public class UnidadOrganizativaDbAccess : IEntityDbAccess<UnidadOrganizativa>
     {
         public readonly EfCoreContext _context;

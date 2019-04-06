@@ -16,6 +16,9 @@ using BizData.Entities;
 
 namespace REYMAN.Controllers
 {
+    /// <summary>
+    /// Manage all the views related to authentication
+    /// </summary>
     [Authorize("LevelOneAuth")]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class AccountController : Controller
@@ -25,6 +28,15 @@ namespace REYMAN.Controllers
         private readonly SignInManager<Usuario> _signInManager;
         private readonly IConfiguration _config;
 
+        /// <summary>
+        /// Constructor for the controller.
+        /// </summary>
+        /// <param name="context">Unit of Work in charge of the access to the database. Configured
+        /// in Startup/ConfigureServices</param>
+        /// <param name="signInManager">Object of ASP.NET CORE Identity, in charge of make effective
+        /// the sign in and sign out of a user.</param>
+        /// <param name="userManager">Object of ASP.NET CORE Identity. Is the repository for Usuario entity</param>
+        /// <param name="config">Is used for the bearer token in CreateToken method.</param>
         public AccountController(IUnitOfWork context,
             SignInManager<Usuario> signInManager,
             UserManager<Usuario> userManager,
@@ -36,9 +48,13 @@ namespace REYMAN.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// GET (Async)method for Edit account page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Edit(string email)
+        public async Task<IActionResult> Edit()
         {
             var user = await _userManager.GetUserAsync(User);
             var cmd = new RegisterUsuarioCommand();
@@ -46,6 +62,12 @@ namespace REYMAN.Controllers
             return View(cmd);
         }
 
+        /// <summary>
+        /// POST (Async)method for Edit account page.
+        /// </summary>
+        /// <param name="cmd">cmd is an object containing the view model
+        /// with the data of the new edited account.</param>
+        /// <returns></returns>ee
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Edit(RegisterUsuarioCommand cmd)
@@ -83,6 +105,10 @@ namespace REYMAN.Controllers
             return View(cmd);
         }
 
+        /// <summary>
+        /// GET method for Register account page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register()
@@ -90,6 +116,14 @@ namespace REYMAN.Controllers
             return View(new RegisterUsuarioCommand());
         }
 
+        /// <summary>
+        /// POST (Async)method for Register account page. If the user can register succefully, then a claim
+        /// Pending: true is assigned to it, as this user needs to be aproved by an admin to complete his
+        /// registration to the system.
+        /// </summary>
+        /// <param name="cmd">cmd is a object containing the view model
+        /// with the data of the new account.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterUsuarioCommand cmd)
@@ -125,6 +159,10 @@ namespace REYMAN.Controllers
             return View(cmd);
         }
 
+        /// <summary>
+        /// GET method for Sign in account page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
@@ -132,6 +170,11 @@ namespace REYMAN.Controllers
             return View(new LoginViewModel());
         }
 
+        /// <summary>
+        /// POST (Async)method for Sign in account page.
+        /// </summary>
+        /// <param name="lvm">View Model with am username and password.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel lvm)
@@ -171,6 +214,10 @@ namespace REYMAN.Controllers
             return View(lvm);
         }
         
+        /// <summary>
+        /// GET (async)method in charge of sign out an user of the system.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
@@ -179,6 +226,11 @@ namespace REYMAN.Controllers
             return LocalRedirect("/");           
         }
 
+        /// <summary>
+        /// (Async)Method that creates a Bearer Token for security.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
@@ -225,6 +277,10 @@ namespace REYMAN.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Helper method to add errors to be displayed.
+        /// </summary>
+        /// <param name="result"></param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)

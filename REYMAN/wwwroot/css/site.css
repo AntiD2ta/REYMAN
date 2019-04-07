@@ -2,16 +2,17 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -20,52 +21,65 @@ html {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
 }
 /*//////////////////////////////////*/
 .vertical-menu {
-    width: 300px; /* Set a width if you like */
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: auto;
+    left: auto;
+    overflow-x: hidden;
+    padding: 8px 0;
+    border-radius: 0px 10px 10px 0px;
 }
-
+.main {
+    top: auto;
+    left: auto;
+    margin-left: 310px;
+}
     .vertical-menu a {
-        background-color: #eee; /* Grey background color */
-        color: black; /* Black text color */
-        display: block; /* Make the links appear below each other */
-        padding: 12px; /* Add some padding */
-        text-decoration: none; /* Remove underline from links */
+        background-color: #eee;
+        color: black;
+        display: block;
+        padding: 12px;
+        text-decoration: none;
     }
 
         .vertical-menu a:hover {
@@ -73,25 +87,17 @@ body {
         }
 
         .vertical-menu a.active {
-            background-color: #a90005; 
+            background-color: #a90005;
             color: white;
         }
-#mypic {
-    background-image: url('../xx.jpg');
-    background-repeat:no-repeat;
-    background-size:auto;
-    height:90px;
-}
-#mypic a:link {
-    color: green;
-    background-color: transparent;
-    text-decoration: none;
-} 
+
+
 /************************/
 #myTable tr.header, #myTable tr:hover {
     /* Add a grey background color to the table header and on hover */
     background-color: #f7cfcf;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -104,10 +110,11 @@ th, td {
     padding: 16px;
     font-family: 'Myriad Pro Bold'
 }
+
 th {
     color: white;
     background: #a90005;
-    font-family:'Myriad Pro Bold'
+    font-family: 'Myriad Pro Bold'
 }
 
     th:first-child, td:first-child {

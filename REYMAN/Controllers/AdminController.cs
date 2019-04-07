@@ -79,8 +79,14 @@ namespace REYMAN.Controllers
             if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Admin");
             else
-                pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
-            return RedirectToAction("EditPlan", "Admin", pc);
+                //pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
+            return RedirectToAction("PlanState", "Admin");
+        }
+
+        public IActionResult PlanState()
+        {
+            
+            return View();
         }
 
         /// <summary>

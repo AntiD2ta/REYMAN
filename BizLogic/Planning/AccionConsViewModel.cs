@@ -29,6 +29,18 @@ namespace BizLogic.Planning
 
         public IEnumerable<string> AccionConsts { get; set; }
 
+        public List<Item> ListItems { get; set; }
+
         public IEnumerable<string> UnidadesMedida { get; set; }
+    }
+    public class Item
+    {
+        public string nameMaterial { get; set; }
+
+        public string unidadMedida { get; set; }
+
+        public decimal? precioCUC { get; set; }
+
+        public decimal? precioCUP { get; set; }
     }
 }

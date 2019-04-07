@@ -5,6 +5,6 @@
 </div>
 <script>
     var nombres =  @Html.Raw(Json.Serialize(Model.UnidadesMedida));
-    console.log(nombres);
+    //console.log(nombres);
     autocomplete(document.getElementById("myInput1"), nombres);
 </script>

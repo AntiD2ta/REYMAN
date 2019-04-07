@@ -4,14 +4,12 @@
     table {
         width: 100%;
     }
-    
+
     * {
         box-sizing: border-box;
     }
 
-    body {
-        font: 16px Arial;
-    }
+    
 
     .autocomplete {
         /*the container must be positioned relative:*/
@@ -211,59 +209,144 @@
              document.addEventListener("click", function (e) {
                  closeAllLists(e.target);
              });
-         }
+        }
+
     </script>
 
     <form autocomplete="off" method="post">
         <p>
-        <table id="tabla1">
-            <tr>
-                <th>
-                    Nombre
-                </th>
-                <th>
-                    Unidad de Medida
-                </th>
-                <th>
-                    Precio en CUC
-                </th>
-                <th>
-                    Precio en CUP
-                </th>
-            </tr>
-            <tr>
-                <td>
-                    @*<span class="label mylabel">Nombre</span>*@
-                    @Html.Partial("PartialNombre", Model)
-                </td>
-                <td>
-                    @Html.Partial("PartialUM", Model)
-                </td>
-                <td>
-                    <input  asp-for="PrecioCUC" placeholder="CUC"/>
-                </td>
-                <td>
-                    <input asp-for="PrecioCUP" placeholder="CUP"/>
-                </td>
-            </tr>
-        </table>
+            <table>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Unidad de Medida
+                    </th>
+                    <th>
+                        Precio en CUC
+                    </th>
+                    <th>
+                        Precio en CUP
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Partial("PartialNombre", Model)
+                    </td>
+                    <td>
+                        @Html.Partial("PartialUM", Model)
+                    </td>
+                    <td>
+                        <input class="precio" asp-for="PrecioCUC" placeholder="CUC" />
+                    </td>
+                    <td>
+                        <input class="precio" asp-for="PrecioCUP" placeholder="CUP" />
+                    </td>
+                </tr>
+            </table>
         </p>
+        <div class="form-group" id="item-list">
+            <a id="add">Add</a>
+
+        </div>
         <table id="tabla2">
             <tr>
                 <th>
                     Nombre del material
                 </th>
                 <th>
-                   Precio CUP
+                   Unidad de Medida
+                </th>
+                <th>
+                    Precio CUP
                 </th>
                 <th>
                     Precio CUC
                 </th>
+                @Html.EditorFor(F => F.ListItems)
             </tr>
+           
 
         </table>
 
+        <input type="submit">
     </form>
+    <script>
+        function inputdouble()
+        {
+            var precio = document.getElementsByClassName("precio");
+
+            for (var i = 0; i < precio.length; i++) {
+                var inp = precio[i];
+                inp.addEventListener("input", function (e) {
+                    while (this.value[0]==" ") {
+
+
+                        this.value = this.value.substring(1, this.value.length);
+                    }
+
+                    while (isNaN(this.value) || this.value[this.value.length-1] == " ") {
+
+
+                        this.value = this.value.substring(0, this.value.length - 1);
+                    }
+
+
+                    var str = this.value.split(".");
+                    if (str.length == 2) {
+                        var comma = str[1].substring(0, 2);
+                        this.value = str[0] + "." + comma;
+                    }
+
+                });
+            }
+
+        }
+        inputdouble();
+    </script>
+
+    <script>
+
+        document.getElementById("add").addEventListener("click", function (e) {
+           
+            //e.preventDefault();
+            var i = document.getElementById("tabla2").getElementsByTagName("tr").length;
+            i = i - 1;
+            var tr = document.createElement("tr");
+            var td = document.createElement("td");
+            var inp = document.createElement("input");
+            inp.type = "text";
+            //inp.className = "precio";
+            inp.name = "ListItems[" + i + "].nameMaterial";
+            td.appendChild(inp);
+            tr.appendChild(td);
+            var td4 = document.createElement("td");
+            var inp4 = document.createElement("input");
+            inp4.type = "text";
+            //inp4.className = "precio";
+            inp4.name = "ListItems[" + i + "].unidadMedida";
+            td4.appendChild(inp4);
+            tr.appendChild(td4);
+            var td2 = document.createElement("td");
+            var inp2 = document.createElement("input");
+            inp2.type = "text";
+            inp2.className = "precio";
+            inp2.name = "ListItems[" + i + "].precioCUC";
+            td2.appendChild(inp2);
+            tr.appendChild(td2);
+            var td3 = document.createElement("td");
+            var inp3 = document.createElement("input");
+            inp3.type = "text";
+            inp3.className = "precio";
+            inp3.name = "ListItems[" + i + "].precioCUP";
+            td3.appendChild(inp3);
+            tr.appendChild(td3);
+            document.getElementById("tabla2").appendChild(tr);
+            inputdouble()
+        });
+    </script>
+
 </body>
 
 

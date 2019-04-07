@@ -76,7 +76,17 @@ body {
             background-color: #a90005; 
             color: white;
         }
-
+#mypic {
+    background-image: url('../xx.jpg');
+    background-repeat:no-repeat;
+    background-size:auto;
+    height:90px;
+}
+#mypic a:link {
+    color: green;
+    background-color: transparent;
+    text-decoration: none;
+} 
 /************************/
 #myTable tr.header, #myTable tr:hover {
     /* Add a grey background color to the table header and on hover */

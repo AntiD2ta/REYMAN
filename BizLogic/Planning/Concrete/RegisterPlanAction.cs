@@ -20,7 +20,7 @@ namespace BizLogic.Planning.Concrete
         public Plan Action(PlanCommand dto)
         {
             Plan plan = dto.ToPlan();
-
+            
             if (plan.TipoPlan != "Reparación" &&
                 plan.TipoPlan != "Mantenimiento")
             {

@@ -75,5 +75,12 @@ namespace BizDbAccess.Authentication
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Usuario> UpdateUOAsync(Usuario toUpd, UnidadOrganizativa UO)
+        {
+            toUpd.UnidadOrganizativa = UO;
+            await _userManager.UpdateAsync(toUpd);
+            return toUpd;
+        }
     }
 }

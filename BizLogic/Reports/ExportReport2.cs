@@ -73,7 +73,7 @@ namespace BizLogic.Reports
                     }
 
                     worksheet.Cells[fila, 3, fila, 4].Merge = true;
-                    worksheet.Cells[fila, 3, fila, 4].Value = "Total de la Unidad Organizativa"; 
+                    worksheet.Cells[fila, 3, fila, 4].Value = "Total de la Unidad Organizativa";
 
                     worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimiento.mantenimientoCUP;
                     worksheet.Cells[fila, 6].Value = unidad.reparacionesCUC + unidad.mantenimientoCUC;

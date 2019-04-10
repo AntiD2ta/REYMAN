@@ -148,7 +148,7 @@ namespace REYMAN.Controllers
         {
             AdminService adminService = new AdminService(_context);
             //display errors if errors is not null
-            adminService.RegisterUO(cmd);
+            adminService.RegisterUO(cmd, out var errors);
             return RedirectToAction("EditUOs", "Edition");
         }
     }

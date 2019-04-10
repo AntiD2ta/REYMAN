@@ -9,6 +9,8 @@ using BizLogic.Planning.Concrete;
 using ServiceLayer.BizRunners;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ServiceLayer.AdminServices
@@ -35,20 +37,28 @@ namespace ServiceLayer.AdminServices
             _context = context;
         }
 
-        //TODO: RegisterUO debe tener un out errors.
-        public long RegisterUO(UOCommand cmd)
+        public long RegisterUO(UOCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var provs = GetProvincias();
             cmd.Provincias = provs;
 
             var uo = _runnerUO.RunAction(cmd);
 
-            if (_runnerUO.HasErrors) return -1;
+            if (_runnerUO.HasErrors)
+            {
+                errors = _runnerUO.Errors;
+                return -1;
+            }
 
             _runnerPlanAct.RunAction(uo);
 
-            if (_runnerPlanAct.HasErrors) return -1;
+            if (_runnerPlanAct.HasErrors)
+            {
+                errors = _runnerPlanAct.Errors;
+                return -1;
+            }
 
+            errors = null;
             return uo.UnidadOrganizativaID;
         }
 

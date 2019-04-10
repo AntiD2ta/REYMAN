@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BizData\BizData.csproj" />
     <ProjectReference Include="..\BizLogic\BizLogic.csproj" />
   </ItemGroup>

@@ -16,6 +16,7 @@ namespace DataLayer.EfCode
         }
 
         public DbSet<Plan> Planes { get; set; }
+        public DbSet<PlanActual> PlanesActuales { get; set; }
         public DbSet<UnidadOrganizativa> UnidadesOrganizativas { get; set; }
         public DbSet<AccionConstructiva> AccionesCons { get; set; }
         public DbSet<Inmueble> Inmuebles { get; set; }
@@ -26,6 +27,23 @@ namespace DataLayer.EfCode
         public DbSet<Especialidad> Especialidades { get; set; }
         public DbSet<AccionC_Material> AccCons_Mat { get; set; }
         public DbSet<UnidadMedida> UnidadesMedida { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany<Inmueble>()
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany<Usuario>()
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+        }
 
         public int Commit()
         {

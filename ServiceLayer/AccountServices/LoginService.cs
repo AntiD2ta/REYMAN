@@ -33,5 +33,15 @@ namespace ServiceLayer.AccountServices
         {
             return await _dbAccess.UpdateAsync(entity, toUpd);
         }
+
+        public async Task<Usuario> UpdateUsuarioUOAsync(Usuario toUpd, UnidadOrganizativa UO)
+        {
+            if (UO == null)
+                throw new InvalidOperationException("La unidad organizativa no debe ser un objeto vacío.");
+
+            toUpd = await _dbAccess.UpdateUOAsync(toUpd, UO);
+            _context.Commit();
+            return toUpd;
+        }
     }
 }

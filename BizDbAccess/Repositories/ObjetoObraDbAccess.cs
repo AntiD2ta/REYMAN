@@ -30,7 +30,6 @@ namespace BizDbAccess.User
             if (_context.ObjetosObra.Find(entity.ObjetoObraID) != null)
             {
                 _context.ObjetosObra.Remove(entity);
-                _context.Commit();
             }
         }
 

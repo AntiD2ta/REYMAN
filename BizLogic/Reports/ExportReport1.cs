@@ -36,13 +36,13 @@ namespace BizLogic.Reports
 
                 worksheet.Cells[4, 7, 5, 11].Merge = true;
                 worksheet.Cells[4, 7].Value = "Especialidad/Actividad";
-                
+
                 worksheet.Cells[4, 12, 5, 12].Merge = true;
                 worksheet.Cells[4, 12].Value = "UM";
-                
+
                 worksheet.Cells[4, 13, 5, 13].Merge = true;
                 worksheet.Cells[4, 13].Value = "Cant.";
-                
+
                 worksheet.Cells[4, 14, 4, 16].Merge = true;
                 worksheet.Cells[4, 14].Value = "Importe Total";
                 worksheet.Cells[5, 14].Value = "MT";
@@ -123,7 +123,7 @@ namespace BizLogic.Reports
                             worksheet.Cells[fila, 7, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                             worksheet.Cells[fila, 5, fila, 22].Style.Font.Bold = true;
                             worksheet.Cells[fila, 5].Value = "Total del objeto de obra";
-                            
+
                             worksheet.Cells[fila, 14].Value = obj.manoObraTotalCUC + obj.manoObraTotalCUP + obj.materialesTotalCUC + obj.materialesTotalCUP;
                             worksheet.Cells[fila, 15].Value = obj.manoObraTotalCUC + obj.materialesTotalCUC;
                             worksheet.Cells[fila, 16].Value = obj.manoObraTotalCUP + obj.materialesTotalCUP;

@@ -30,7 +30,6 @@ namespace BizDbAccess.User
             if (_context.Inmuebles.Find(entity.InmuebleID) != null)
             {
                 _context.Inmuebles.Remove(entity);
-                _context.Commit();
             }
         }
 

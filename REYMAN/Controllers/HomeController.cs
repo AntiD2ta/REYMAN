@@ -12,9 +12,12 @@ using BizData.Entities;
 using ServiceLayer.AdminServices;
 using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Utils;
-
+//TODO: Documentation of HomeController.
 namespace REYMAN.Controllers
 {
+    /// <summary>
+    /// Manage all the views related to the main/home page.
+    /// </summary>
     [Authorize]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class HomeController : Controller
@@ -23,6 +26,13 @@ namespace REYMAN.Controllers
         private readonly IUnitOfWork _context;
         private readonly GetterUtils _getterUtils;
 
+        /// <summary>
+        /// Constructor for the controller.
+        /// </summary>
+        /// <param name="userManager">Object of ASP.NET CORE Identity. Is the repository for Usuario entity</param>
+        /// <param name="context">Unit of Work in charge of the access to the database. Configured
+        /// in Startup/ConfigureServices</param>
+        /// <param name="getterUtils">See description for this interface.</param>
         public HomeController(UserManager<Usuario> userManager,
             IUnitOfWork context,
             IGetterUtils getterUtils)
@@ -32,6 +42,10 @@ namespace REYMAN.Controllers
             _getterUtils = (GetterUtils)getterUtils;
         }
 
+        /// <summary>
+        /// GET method of Index view.
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             return View();
@@ -64,9 +78,9 @@ namespace REYMAN.Controllers
             return View(getter.GetAll("Provincia"));
         }
 
-        public IActionResult Edition()
+        public IActionResult Admin()
         {
-            return RedirectToAction("FirstPage", "Edition");
+            return RedirectToAction("FirstPage", "Admin");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

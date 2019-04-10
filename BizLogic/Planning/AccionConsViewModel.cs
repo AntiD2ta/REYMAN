@@ -13,10 +13,18 @@ namespace BizLogic.Planning
         [Required]
         public string TipoEspecialidad { get; set; }
 
+        public int CantidadMO { get; set; }
+
+        public Decimal? PrecioCUP { get; set; }
+
+        public Decimal? PrecioCUC { get; set; }
+
+        public string UM { get; set; }
+
+        public IEnumerable<(string nameMaterial, string unidadMedida, Decimal? precioCUP, Decimal? precioCUC)> Materiales { get; set; }        
+
         public long PlanID { get; set; }
 
         public long ObjetoObraID { get; set; }
-
-
     }
 }

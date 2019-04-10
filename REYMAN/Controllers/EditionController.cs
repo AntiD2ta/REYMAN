@@ -19,7 +19,7 @@ namespace REYMAN.Controllers
 {
     [Authorize]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-    public class EditionController:Controller
+    public class EditionController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly IUnitOfWork _context;
@@ -53,14 +53,34 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult EditPlanes(A a)
         {
-            if (a.button == "Add")
+            var action = a.button.Split("/");
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var pc = new PlanCommand();
+            if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Edition");
-            return RedirectToAction("EditPlanes", "Edition");
+            else
+                pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
+            return RedirectToAction("EditPlan", "Edition", pc);
         }
 
+
+        public IActionResult EditPlan(PlanCommand command)
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            InvestorServices investorServices = new InvestorServices(_context);
+            if (command.button == "Edit")
+            {
+                investorServices.UpdatePlan(command.ToPlan(), (((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID == command.PlanID).Single()));
+                return RedirectToAction("EditPlanes", "Edition");
+            }
+            else
+                return View(command);
+        }
         [HttpGet]
-        public IActionResult AddPlan()
-        {  
+        public  IActionResult AddPlan()
+        {
+        //    var user=await _userManager.GetUserAsync(User);
+        //    if (user.UnidadOrganizativa.Inmuebles)
             return View();
         }
         [HttpPost]
@@ -75,7 +95,7 @@ namespace REYMAN.Controllers
         public IActionResult EditProvincia()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
-            ProvinciaViewModel pvm = new ProvinciaViewModel { GetProvincia = getter.GetAll("Provincia")  };
+            ProvinciaViewModel pvm = new ProvinciaViewModel { GetProvincia = getter.GetAll("Provincia") };
             return View(pvm);
         }
 
@@ -99,6 +119,38 @@ namespace REYMAN.Controllers
             vm.GetProvincia = getter.GetAll("Provincia");
             return View(vm);
         }
+        [HttpGet]
+        public IActionResult EditUOs()   
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(getter.GetAll("UnidadOrganizativa"));
+        }
+        [HttpPost]
+        public IActionResult EditUOs(A a)
+        {
+            var action = a.button.Split("/");
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var pc = new PlanCommand();
+            if (action[0] == "Add")
+                return RedirectToAction("AddUO", "Edition");
+            else
+                pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
+            return RedirectToAction("EditPlan", "Edition", pc);
+        }
+        [HttpGet]
+        public IActionResult AddUO()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(new UOCommand { Provincias = getter.GetAll("Provincia") as IEnumerable<Provincia> });
+        }
+        [HttpPost]
+        public IActionResult AddUO(UOCommand cmd)
+        {
+            AdminService adminService = new AdminService(_context);
+            //display errors if errors is not null
+            adminService.RegisterUO(cmd);
+            return RedirectToAction("EditUOs", "Edition");
+        }
     }
-    
+
 }

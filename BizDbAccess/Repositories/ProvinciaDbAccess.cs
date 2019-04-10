@@ -23,13 +23,11 @@ namespace BizDbAccess.Authentication
         public void Add(Provincia entity)
         {
             _context.Provincias.Add(entity);
-            _context.Commit();
         }
 
         public void Delete(Provincia entity)
         {
             _context.Provincias.Remove(entity);
-            _context.Commit();
         }
 
         public IEnumerable<Provincia> GetAll()
@@ -39,11 +37,11 @@ namespace BizDbAccess.Authentication
 
         public Provincia Update(Provincia entity, Provincia toUpd)
         {
-            if (_context.Provincias.Find(entity.ProvinciaID) != null)
-            {
-                _context.Provincias.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new InvalidOperationException("No existe la provincia que se desea actualizar");
+
+            toUpd.Nombre = entity.Nombre;
+            _context.Provincias.Update(toUpd);
             return toUpd;
         }
     }

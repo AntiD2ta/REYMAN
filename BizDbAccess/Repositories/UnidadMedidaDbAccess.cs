@@ -34,7 +34,13 @@ namespace BizDbAccess.Repositories
 
         public UnidadMedida Update(UnidadMedida entity, UnidadMedida toUpd)
         {
-            throw new NotImplementedException();
+            if (toUpd == null)
+                throw new InvalidOperationException("No existe la unidad de medida que se quiere actualizar.");
+
+            toUpd.Nombre = entity.Nombre;
+
+            _context.UnidadesMedida.Update(toUpd);
+            return toUpd;
         }
 
         public UnidadMedida GetUM(string nombre)

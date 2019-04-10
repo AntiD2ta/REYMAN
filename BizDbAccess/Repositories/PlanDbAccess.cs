@@ -30,7 +30,6 @@ namespace BizDbAccess.User
             if (_context.Planes.Find(entity.PlanID) != null)
             {
                 _context.Planes.Remove(entity);
-                _context.Commit();
             }
         }
 
@@ -44,6 +43,9 @@ namespace BizDbAccess.User
             
             if (plan == null)
                 throw new Exception("No existe plan que se quiere actualizar");
+
+            if (entity.AccionesConstructivas == null)
+                entity.AccionesConstructivas = new List<AccionConstructiva>();
 
             plan.Año = entity.Año == 0 ? plan.Año : entity.Año;
             plan.Presupuesto = entity.Presupuesto == 0 ? plan.Presupuesto : entity.Presupuesto;

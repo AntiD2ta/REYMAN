@@ -30,7 +30,6 @@ namespace BizDbAccess.User
             if (_context.Materiales.Find(entity.MaterialID) != null)
             {
                 _context.Materiales.Remove(entity);
-                _context.Commit();
             }
         }
 
@@ -41,11 +40,19 @@ namespace BizDbAccess.User
 
         public Material Update(Material entity, Material toUpd)
         {
-            if (_context.Materiales.Find(entity.MaterialID) != null)
-            {
-                _context.Materiales.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new InvalidOperationException("El material que se desea modificar no existe");
+
+            if (entity.AccionesConstructivas == null)
+                entity.AccionesConstructivas = new List<AccionC_Material>();
+
+            toUpd.AccionesConstructivas = toUpd.AccionesConstructivas == null ?
+                                                entity.AccionesConstructivas :
+                                                (toUpd.AccionesConstructivas.Concat(entity.AccionesConstructivas)).ToList();
+            toUpd.Nombre = entity.Nombre ?? toUpd.Nombre;
+            toUpd.UnidadMedida = entity.UnidadMedida ?? toUpd.UnidadMedida;
+
+            _context.Materiales.Update(toUpd);
             return toUpd;
         }
 

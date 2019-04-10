@@ -21,8 +21,8 @@ namespace BizLogic.Reports
                 worksheet.Cells[2, 1, 2, 7].Merge = true;
                 worksheet.Cells[2, 1].Value = "Alcance de acciones de constructivas por Inmuebles/Objetos de Obra";
 
-                worksheet.Cells[2, 11].Value = "Año:";
-                worksheet.Cells[2, 12].Value = report.año;
+                worksheet.Cells[2, 11,2,12].Merge = true;
+                worksheet.Cells[2, 12].Value = $"Año: {report.año}";
 
                 worksheet.Cells[4, 1, 5, 2].Merge = true;
                 worksheet.Cells[4, 1].Style.WrapText = true;
@@ -81,6 +81,7 @@ namespace BizLogic.Reports
                             {
                                 worksheet.Cells[fila, 7, fila, 11].Merge = true;
                                 worksheet.Cells[fila, 7].Value = especialidad.nombre;
+                                worksheet.Cells[fila, 7, fila, 22].Style.Font.Bold = true;
 
                                 worksheet.Cells[fila, 12].Value = "";
                                 worksheet.Cells[fila, 13].Value = "";
@@ -118,6 +119,9 @@ namespace BizLogic.Reports
                             ++fila;
 
                             worksheet.Cells[fila, 5, fila, 13].Merge = true;
+                            worksheet.Cells[fila, 7, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                            worksheet.Cells[fila, 7, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            worksheet.Cells[fila, 5, fila, 22].Style.Font.Bold = true;
                             worksheet.Cells[fila, 5].Value = "Total del objeto de obra";
                             
                             worksheet.Cells[fila, 14].Value = obj.manoObraTotalCUC + obj.manoObraTotalCUP + obj.materialesTotalCUC + obj.materialesTotalCUP;
@@ -134,6 +138,9 @@ namespace BizLogic.Reports
                         }
 
                         worksheet.Cells[fila, 3, fila, 13].Merge = true;
+                        worksheet.Cells[fila, 5, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[fila, 5, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[fila, 3, fila, 22].Style.Font.Bold = true;
                         worksheet.Cells[fila, 3].Value = "Total del inmueble";
 
                         worksheet.Cells[fila, 14].Value = inmueble.manoObraTotalCUC + inmueble.manoObraTotalCUP + inmueble.materialesTotalCUC + inmueble.materialesTotalCUP;
@@ -150,6 +157,9 @@ namespace BizLogic.Reports
                     }
 
                     worksheet.Cells[fila, 1, fila, 13].Merge = true;
+                    worksheet.Cells[fila, 1, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[fila, 1, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[fila, 1, fila, 22].Style.Font.Bold = true;
                     worksheet.Cells[fila, 1].Value = "Total de la unidad organizativa";
 
                     worksheet.Cells[fila, 14].Value = unidad.manoObraTotalCUC + unidad.manoObraTotalCUP + unidad.materialesTotalCUC + unidad.materialesTotalCUP;
@@ -165,6 +175,10 @@ namespace BizLogic.Reports
                     ++fila;
                 }
 
+                worksheet.Cells[1, 1, 5, 22].Style.Font.Bold = true;
+                worksheet.Cells[5, 1, 5, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[1, 1, fila, 22].Style.Border.Right.Style = ExcelBorderStyle.None;
+                worksheet.Cells[1, 1, fila, 22].Style.Border.Left.Style = ExcelBorderStyle.None;
                 worksheet.Cells[1, 1, fila, 22].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[1, 1, fila, 22].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 fileContents = package.GetAsByteArray();

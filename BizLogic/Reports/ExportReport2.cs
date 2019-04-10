@@ -53,6 +53,7 @@ namespace BizLogic.Reports
                 {
                     worksheet.Cells[fila, 1, fila, 2].Merge = true;
                     worksheet.Cells[fila, 1, fila, 2].Value = unidad.nombre;
+                    worksheet.Cells[fila, 1].Style.Font.Bold = true;
 
                     foreach (var inmueble in unidad.inmuebles)
                     {
@@ -73,7 +74,10 @@ namespace BizLogic.Reports
                     }
 
                     worksheet.Cells[fila, 3, fila, 4].Merge = true;
-                    worksheet.Cells[fila, 3, fila, 4].Value = "Total de la Unidad Organizativa"; 
+                    worksheet.Cells[fila, 3, fila, 13].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[fila, 1, fila, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                    worksheet.Cells[fila, 3, fila, 13].Style.Font.Bold = true;
+                    worksheet.Cells[fila, 3, fila, 4].Value = "Total de la UO"; 
 
                     worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimientoCUP;
                     worksheet.Cells[fila, 6].Value = unidad.reparacionesCUC + unidad.mantenimientoCUC;
@@ -88,6 +92,8 @@ namespace BizLogic.Reports
                     ++fila;
                 }
 
+                worksheet.Cells[5, 1, 5, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[1, 1, 5, 13].Style.Font.Bold = true;
                 worksheet.Cells[1, 1, fila, 13].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[1, 1, fila, 13].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 fileContents = package.GetAsByteArray();

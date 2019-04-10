@@ -56,6 +56,7 @@ namespace BizLogic.Reports
 
                 foreach (var unidad in report.Result.unidades)
                 {
+                    worksheet.Cells[5, col, fila - 1, col].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                     fila = 10;
                     worksheet.Cells[5, col, 9, col].Merge = true;
                     worksheet.Cells[5, col].Value = unidad.nombre;
@@ -72,8 +73,13 @@ namespace BizLogic.Reports
                 worksheet.Cells[4, 8, 4, col - 1].Merge = true;
                 worksheet.Cells[4, 8].Value = "Cantidad";
 
-                worksheet.Cells[1, 1, fila, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[1, 1, fila, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells[1, 1, 9, col].Style.Font.Bold = true;
+                worksheet.Cells[4, 9, 9, col - 1].Style.TextRotation = 90;
+                worksheet.Cells[9, 1, 9, col - 1].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[4, 6, fila - 1, col - 1].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[5, 6, fila - 1, col - 1].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[1, 1, fila - 1, col - 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[1, 1, fila - 1, col - 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 fileContents = package.GetAsByteArray();
             }
 

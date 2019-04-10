@@ -62,6 +62,7 @@ namespace BizLogic.Reports
 
                         foreach (var obj in inmueble.objetos)
                         {
+                            worksheet.Cells[fila, 5, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                             worksheet.Cells[fila, 5, fila, 6].Merge = true;
                             worksheet.Cells[fila, 5].Value = obj.nombre;
 
@@ -80,9 +81,15 @@ namespace BizLogic.Reports
                             if (((IEnumerable<dynamic>)obj.materiales).Count() == 0)
                                 ++fila;
                         }
+
+                        worksheet.Cells[fila, 3, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                     }
+
+                    worksheet.Cells[fila, 1, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                 }
 
+                worksheet.Cells[1, 1, 5, 12].Style.Font.Bold = true;
+                worksheet.Cells[5, 1, 5, 12].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                 worksheet.Cells[1, 1, fila, 12].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 worksheet.Cells[1, 1, fila, 12].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 fileContents = package.GetAsByteArray();

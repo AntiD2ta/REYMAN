@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20190406154911_CorrectedSchema5")]
+    [Migration("20190407181151_CorrectedSchema5")]
     partial class CorrectedSchema5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

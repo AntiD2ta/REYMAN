@@ -16,6 +16,7 @@ namespace DataLayer.EfCode
         }
 
         public DbSet<Plan> Planes { get; set; }
+        public DbSet<PlanActual> PlanesActuales { get; set; }
         public DbSet<UnidadOrganizativa> UnidadesOrganizativas { get; set; }
         public DbSet<AccionConstructiva> AccionesCons { get; set; }
         public DbSet<Inmueble> Inmuebles { get; set; }

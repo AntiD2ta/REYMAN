@@ -60,12 +60,15 @@ namespace ServiceLayer.InvestorServices
         public long RegisterPlan(PlanCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var plan = _runnerPlan.RunAction(cmd);
+            
 
             if (_runnerPlan.HasErrors)
             {
                 errors = _runnerPlan.Errors;
                 return -1;
             }
+
+            //TODO:Necesito la UO para poder actualizar PlanesActuales
 
             errors = null;
             return plan.PlanID;
@@ -111,6 +114,12 @@ namespace ServiceLayer.InvestorServices
             var inmueble = _inmuebleDbAccess.Update(entity, toUpd);
             _context.Commit();
             return inmueble;
+        }
+
+        public void DeleteInmueble(Inmueble entity)
+        {
+            _inmuebleDbAccess.Delete(entity);
+            _context.Commit();
         }
 
         public bool CheckForInmuebles(string nombreUO)
@@ -160,6 +169,11 @@ namespace ServiceLayer.InvestorServices
             var objObra = _objetoObraDbAccess.Update(entity, toUpd);
             _context.Commit();
             return objObra;
+        }
+
+        public void DeleteObjetoObra(ObjetoObra entity)
+        {
+            _objetoObraDbAccess.Delete(entity);
         }
 
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -309,6 +323,20 @@ namespace ServiceLayer.InvestorServices
             var mat = _materialDbAccess.Update(entity, toUpd.Material);
             _context.Commit();
             return mat;
+        }
+
+        public void RemoveMaterialFromAC(Material mat, AccionConstructiva ac)
+        {
+            foreach (var item in ac.Materiales)
+            {
+                if (item.Material.Equals(mat))
+                {
+                    //TODO: This needs to be tested
+                    ac.Materiales.Remove(item);
+                    _context.Commit();
+                    break;
+                }
+            }
         }
     }
 }

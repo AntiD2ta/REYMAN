@@ -61,7 +61,6 @@ namespace ServiceLayer.InvestorServices
         {
             var plan = _runnerPlan.RunAction(cmd);
             
-
             if (_runnerPlan.HasErrors)
             {
                 errors = _runnerPlan.Errors;
@@ -174,6 +173,7 @@ namespace ServiceLayer.InvestorServices
         public void DeleteObjetoObra(ObjetoObra entity)
         {
             _objetoObraDbAccess.Delete(entity);
+            _context.Commit();
         }
 
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)

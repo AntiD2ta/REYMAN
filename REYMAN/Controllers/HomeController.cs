@@ -65,6 +65,13 @@ namespace REYMAN.Controllers
             a.LastName = principal.FirstLastName;
             return View(a);
         }
+
+        [HttpGet]
+        public IActionResult Pending()
+        {
+            return View();
+        }
+
         public IActionResult Provincia()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);

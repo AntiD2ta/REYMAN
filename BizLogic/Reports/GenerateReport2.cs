@@ -14,8 +14,13 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<UnidadOrganizativa> uos)
+        public object GenerateReport(int year, IEnumerable<string> UOs)
         {
+            var uos = from name in UOs
+                      from unidad in _context.UnidadesOrganizativas
+                      where name == unidad.Nombre
+                      select unidad;
+
             var report = new
             {
                 unidades = from unidad in uos

@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
+using ServiceLayer.Reports;
+using System.Collections.Generic;
+using ServiceLayer.SendMessage;
 
 namespace REYMAN.Controllers
 {
@@ -147,7 +150,8 @@ namespace REYMAN.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Welcome", "Home");
+                        new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
+                        return RedirectToAction("Pending", "Home");
                     }
                 }
                 AddErrors(result);
@@ -196,14 +200,12 @@ namespace REYMAN.Controllers
                         }
                         else
                         {
-                            //TODO: direccionar al home cuando se cree
                             return RedirectToAction("Welcome", "Home");
                         }
                     }
                     else
                     {
-                        //TODO: direccionar al pending view
-                        return RedirectToAction("Welcome", "Home");
+                        return RedirectToAction("Pending", "Home");
                     }
                 }
             }

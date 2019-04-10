@@ -456,13 +456,6 @@ namespace DataLayer.EfCode
                 };
                 _ctx.Add(esp);
                 _ctx.SaveChanges();
-
-                esp = new Especialidad()
-                {
-                    Tipo = "Otras"
-                };
-                _ctx.Add(esp);
-                _ctx.SaveChanges();
                 #endregion
 
                 #region UNIDADES DE MEDIDA

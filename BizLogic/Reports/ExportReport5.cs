@@ -26,7 +26,7 @@ namespace BizLogic.Reports
                 worksheet.Cells[2, 1].Value = "Listado de materiales por U.O.";
 
                 worksheet.Cells[2, 8, 2, 9].Merge = true;
-                worksheet.Cells[2, 8].Value = $"Año: {report.año}";
+                worksheet.Cells[2, 8].Value = $"Año: {report.Result.año}";
 
                 worksheet.Cells[4, 1, 9, 6].Merge = true;
                 worksheet.Cells[4, 1].Value = "Material";
@@ -38,7 +38,7 @@ namespace BizLogic.Reports
                 worksheet.Cells[5, 8].Value = "Total";
 
                 //lenando la tabla
-                foreach (var material in report.materiales)
+                foreach (var material in report.Result.materiales)
                 {
                     worksheet.Cells[fila, 1, fila, 6].Merge = true;
                     worksheet.Cells[fila, 1].Value = material.nombre;
@@ -48,14 +48,15 @@ namespace BizLogic.Reports
                 }
 
                 fila = 10;
-                foreach (var total in report.totales)
+                foreach (var total in report.Result.totales)
                 {
                     worksheet.Cells[fila, 8].Value = total;
                     ++fila;
                 }
 
-                foreach (var unidad in report.unidades)
+                foreach (var unidad in report.Result.unidades)
                 {
+                    worksheet.Cells[5, col, fila - 1, col].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                     fila = 10;
                     worksheet.Cells[5, col, 9, col].Merge = true;
                     worksheet.Cells[5, col].Value = unidad.nombre;
@@ -72,8 +73,13 @@ namespace BizLogic.Reports
                 worksheet.Cells[4, 8, 4, col - 1].Merge = true;
                 worksheet.Cells[4, 8].Value = "Cantidad";
 
-                worksheet.Cells[1, 1, fila, col].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[1, 1, fila, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                worksheet.Cells[1, 1, 9, col].Style.Font.Bold = true;
+                worksheet.Cells[4, 9, 9, col - 1].Style.TextRotation = 90;
+                worksheet.Cells[9, 1, 9, col - 1].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[4, 6, fila - 1, col - 1].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[5, 6, fila - 1, col - 1].Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                worksheet.Cells[1, 1, fila - 1, col - 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                worksheet.Cells[1, 1, fila - 1, col - 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 fileContents = package.GetAsByteArray();
             }
 

@@ -189,24 +189,10 @@ namespace REYMAN.Controllers
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
-                
+
                 if (result.Succeeded)
                 {
-                    if (User.HasClaim("Pending", "false"))
-                    {
-                        if (Request.Query.Keys.Contains("ReturnUrl"))
-                        {
-                            return Redirect(Request.Query["ReturnUrl"].First());
-                        }
-                        else
-                        {
-                            return RedirectToAction("Welcome", "Home");
-                        }
-                    }
-                    else
-                    {
-                        return RedirectToAction("Pending", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -290,5 +276,6 @@ namespace REYMAN.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
     }
 }

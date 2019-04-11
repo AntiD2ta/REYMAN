@@ -19,7 +19,6 @@ namespace ServiceLayer.AdminServices
     {
         private readonly RunnerWriteDb<UOCommand, UnidadOrganizativa> _runnerUO;
         private readonly RunnerWriteDb<ProvinciaViewModel, Provincia> _runnerProv;
-        private readonly RunnerWriteDb<UnidadOrganizativa, PlanActual> _runnerPlanAct;
         private readonly ProvinciaDbAccess _provDbAccess;
         private readonly UnidadOrganizativaDbAccess _unidadOrganizativaDbAccess;
         private readonly IUnitOfWork _context;
@@ -30,8 +29,6 @@ namespace ServiceLayer.AdminServices
                 new RegisterUOAction(new UnidadOrganizativaDbAccess(context)), context);
             _runnerProv = new RunnerWriteDb<ProvinciaViewModel, Provincia>(
                 new RegisterProvAction(new ProvinciaDbAccess(context)), context);
-            _runnerPlanAct = new RunnerWriteDb<UnidadOrganizativa, PlanActual>(
-                new RegisterPlanActualAction(new PlanActualDbAccess(context)), context);
             _provDbAccess = new ProvinciaDbAccess(context);
             _unidadOrganizativaDbAccess = new UnidadOrganizativaDbAccess(context);
             _context = context;
@@ -47,14 +44,6 @@ namespace ServiceLayer.AdminServices
             if (_runnerUO.HasErrors)
             {
                 errors = _runnerUO.Errors;
-                return -1;
-            }
-
-            _runnerPlanAct.RunAction(uo);
-
-            if (_runnerPlanAct.HasErrors)
-            {
-                errors = _runnerPlanAct.Errors;
                 return -1;
             }
 

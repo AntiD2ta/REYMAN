@@ -1,19 +1,61 @@
 ﻿@using BizLogic.Administration
 @using System.Security.Claims
-@*@model  UserViewModel;*@
+
+@{ 
+    Layout = "AdminLayout";
+}
 <head>
     <title>Signed up</title>
 </head>
 
-@*<h1>Congratulations @Model.Name  @Model.LastName!!! You are alredy signed up</h1>*@
+<div class="sidenav">
+    <div class="header-sidenav">
+        <p><i class="fa fa-user-o"></i> Gestionar :</p>    
+    </div>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Usuarios
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="#"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
+    </div>
+    <a href="#contact"><i class="fa fa-angle-double-right"></i> Edición</a>
+        <button class="dropdown-btn">
+            <i class="fa fa-angle-double-right"></i>
+            Dropdown
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="#"><i class="fa fa-angle-right"></i> Link 1</a>
+            <a href="#">Link 2</a>
+            <a href="#">Link 3</a>
+        </div>
+    <a href="#contact"><i class="fa fa-angle-double-right"></i> Search</a>
+</div> 
 
-<h2>Acciones de Edición</h2>
-
-<div class="vertical-menu">
-    <a href="#" class="active">Opciones</a>
-    <a href="EditProvincia">Provincia</a>
-    <a href="EditPlanes">Planes</a>
-    <a href="EditUOs">Unidades Organizativas</a>
-    <a href="#">Link 4</a>
+<div class="main">
+    <h2>Sidebar Dropdown</h2>
+    <p>Click on the dropdown button to open the dropdown menu inside the side navigation.</p>
+    <p>This sidebar is of full height (100%) and always shown.</p>
+    <p>Some random text..</p>
 </div>
 
+<script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+  this.classList.toggle("active");
+  var dropdownContent = this.nextElementSibling;
+  if (dropdownContent.style.display === "block") {
+  dropdownContent.style.display = "none";
+  } else {
+  dropdownContent.style.display = "block";
+  }
+  });
+}
+</script>

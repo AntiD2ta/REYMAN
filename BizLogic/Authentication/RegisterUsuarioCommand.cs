@@ -16,7 +16,8 @@ namespace BizLogic.Authentication
                 FirstLastName = FirstLastName,
                 SecondLastName = SecondLastName,
                 Email = Email,
-                UserName = Email
+                UserName = Email,
+                
             };
         }
 

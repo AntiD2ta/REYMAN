@@ -99,6 +99,7 @@ body {
 }
 
 table {
+    width:100%;
     border-collapse: collapse;
     border-spacing: 0;
     width: 75%;
@@ -106,6 +107,7 @@ table {
 }
 
 th, td {
+    width:auto;
     text-align: center;
     padding: 16px;
     font-family: 'Myriad Pro Bold'
@@ -171,3 +173,36 @@ tr:nth-child(even) {
             opacity: 1;
             right: 0;
         }
+.sidemenu ul {
+    list-style-type: none;
+    top: auto;
+    left: auto;
+    padding: 0;
+    width: 25%;
+    height: 75%;
+    background-color: #f1f1f1;
+    position: fixed;
+    overflow: auto;
+}
+
+
+.sidemenu li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+    .sidemenu li a.active {
+        background-color: darkred;
+        color: white;
+    }
+
+.sidemenu a:hover:not(.active) {
+    background-color: gray;
+    color: white;
+}
+
+.main {
+    margin-left: 32%;
+}

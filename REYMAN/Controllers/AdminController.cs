@@ -14,6 +14,8 @@ using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Utils;
 using ServiceLayer.InvestorServices;
 using BizLogic.Planning;
+using ServiceLayer.AccountServices;
+using BizLogic.Authentication;
 
 namespace REYMAN.Controllers
 {
@@ -25,6 +27,7 @@ namespace REYMAN.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario>_signInManager;
         private readonly IUnitOfWork _context;
         private readonly GetterUtils _getterUtils;
 
@@ -37,11 +40,13 @@ namespace REYMAN.Controllers
         /// <param name="getterUtils">See description for this interface.</param>
         public AdminController(UserManager<Usuario> userManager,
             IUnitOfWork context,
-            IGetterUtils getterUtils)
+            IGetterUtils getterUtils,
+            SignInManager<Usuario>signInManager)
         {
             _userManager = userManager;
             _context = context;
             _getterUtils = (GetterUtils)getterUtils;
+            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -71,22 +76,27 @@ namespace REYMAN.Controllers
         /// <param name="button">Type of the clicked button.</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult EditPlanes(string button)
+        public async Task<IActionResult> EditPlanes(string button)
         {
+
             var action = button.Split("/");
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var pc = new PlanCommand();
+            var user = await _userManager.GetUserAsync(User);
+            //pc.InmublesUO = user.UnidadOrganizativa.Inmuebles.Select(x=>x.Direccion);
+            pc.InmublesUO = new List<string> ();
             if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Admin");
             else
-                //pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
-            return RedirectToAction("PlanState", "Admin");
+                pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
+
+            return RedirectToAction("PlanState", "Admin",pc);
         }
 
-        public IActionResult PlanState()
+        public  IActionResult PlanState(PlanCommand cmd)
         {
-            
-            return View();
+          
+            return View(cmd);
         }
 
         /// <summary>
@@ -169,6 +179,11 @@ namespace REYMAN.Controllers
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(getter.GetAll("UnidadOrganizativa"));
         }
+        public IActionResult PartialSelUO()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            return View(getter.GetAll("UnidadOrganizativa"));
+        }
         [HttpPost]
         public IActionResult EditUOs(string button)
         {
@@ -207,6 +222,40 @@ namespace REYMAN.Controllers
             InvestorServices investorServices = new InvestorServices(_context);
             investorServices.RegisterAccionCons(cmd,out var errors);
             return RedirectToAction("FirstPage", "Admin");
+        }
+
+        [HttpGet]
+        public IActionResult AddInmueble()
+        {
+            return View(new InmuebleCommand() );
+        }
+        [HttpPost]
+        public IActionResult AddInmueble(InmuebleCommand cmd)
+        {
+            InvestorServices investorServices = new InvestorServices(_context);
+            //investorServices.RegisterInmueble(cmd,)
+            return View(cmd);
+        }
+        public IActionResult Usuarios()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager,_userManager);
+            return View(getter.GetAll("Usuario"));
+        }
+        
+        public async Task<IActionResult> EditUsuario(RegisterUsuarioCommand cmd)
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
+            GetterAll getter1 = new GetterAll(_getterUtils, _context);
+            if (ModelState.IsValid)
+            {
+                LoginService loginService = new LoginService(_context, _signInManager, _userManager);
+                var us = cmd.ToUsuario();
+                us.UnidadOrganizativa= (getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x=>x.UnidadOrganizativaID==cmd.UO).Single();
+                await loginService.EditUserAsync(us, (getter.GetAll("Usuario")as IEnumerable<Usuario>).Where(x=>x.Email==cmd.EditEmail).Single());
+                return RedirectToAction("Usuarios", "Admin");
+            }
+            cmd.UOs = getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>;
+            return View(cmd);
         }
     }
 

@@ -1,0 +1,129 @@
+﻿@using BizData.Entities;
+@model dynamic
+@{
+    ViewData["Title"] = "Reporte Uno";
+}
+
+<div class="wrapper col-md-3">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Reporte 1</h3>
+        </div>
+
+        <ul class="list-unstyled components active">
+            <li>
+                <span class="label">Año</span>
+                <input class="border-0 col-md-4" type="number" min="2019">
+            </li>
+           
+            <li>
+                <br>
+                <p>UO:</p>
+
+                <div class="accordion" id="accordion">
+                     @foreach (var item in (IEnumerable<Provincia>)ViewData.Eval("provincias"))
+                     {
+                            <div class="card">
+         
+                                @if (item == ((IEnumerable<Provincia>)ViewData.Eval("provincias")).First())
+                                {
+                                    <div class="card-header" id="heading_@item.Nombre">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_@item.Nombre" aria-expanded="true" aria-controls="collapse_@item.Nombre">
+                                                @item.Nombre
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            Hola!!!   
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="card-header" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                @item.Nombre
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div class="card-body">
+                                            Hola
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                     }
+                </div>
+            </li>
+        
+
+    @*@foreach (var item in (IEnumerable<Provincia>)ViewData.Eval("provincias"))
+    {
+    <li>
+        <a href="#homeSubmenu{@item.Nombre}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> @item.Nombre</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu{@item.Nombre}">
+            <li>
+                <a href="#"> hi!! </a>
+            </li>
+        </ul>
+        </li>
+        }*@
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a href="#">Page 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 2</a>
+                    </li>
+                    <li>
+                        <a href="#">Page 3</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Portfolio</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+
+    </div>
+</div>
+
+<style>
+    .wrapper {
+        display: flex;
+        width: 100%;
+    }
+
+    #sidebar {
+        width: 250px;
+        position: center;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 999;
+    }
+</style>
+
+@*<script>
+    $("[type='number']").keypress(function (evt) { evt.preventDefault(); });
+</script>*@

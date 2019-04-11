@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20190403204819_CorrectedSchema5.0")]
-    partial class CorrectedSchema50
+    [Migration("20190410171825_CorrectedSchema7.0")]
+    partial class CorrectedSchema70
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,8 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("AccionConstructivaID");
 
+                    b.Property<decimal?>("Cantidad");
+
                     b.Property<int?>("MaterialID");
 
                     b.Property<decimal?>("PrecioCUC");
@@ -41,7 +43,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("MaterialID");
 
-                    b.ToTable("AccionC_Material");
+                    b.ToTable("AccCons_Mat");
                 });
 
             modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
@@ -81,11 +83,7 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Tipo");
 
-                    b.Property<int?>("UnidadOrganizativaID");
-
                     b.HasKey("EspecialidadID");
-
-                    b.HasIndex("UnidadOrganizativaID");
 
                     b.ToTable("Especialidades");
                 });
@@ -100,9 +98,13 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("UOUnidadOrganizativaID");
 
+                    b.Property<int?>("UnidadOrganizativaID");
+
                     b.HasKey("InmuebleID");
 
                     b.HasIndex("UOUnidadOrganizativaID");
+
+                    b.HasIndex("UnidadOrganizativaID");
 
                     b.ToTable("Inmuebles");
                 });
@@ -170,6 +172,8 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Año");
 
+                    b.Property<int>("Estado");
+
                     b.Property<decimal>("Presupuesto");
 
                     b.Property<string>("TipoPlan");
@@ -177,6 +181,25 @@ namespace DataLayer.Migrations
                     b.HasKey("PlanID");
 
                     b.ToTable("Planes");
+                });
+
+            modelBuilder.Entity("BizData.Entities.PlanActual", b =>
+                {
+                    b.Property<int>("PlanActualID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PlanID");
+
+                    b.Property<int?>("UnidadOrganizativaID");
+
+                    b.HasKey("PlanActualID");
+
+                    b.HasIndex("PlanID");
+
+                    b.HasIndex("UnidadOrganizativaID");
+
+                    b.ToTable("PlanesActuales");
                 });
 
             modelBuilder.Entity("BizData.Entities.Provincia", b =>
@@ -267,6 +290,8 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("UnidadOrganizativaID");
 
+                    b.Property<int?>("UnidadOrganizativaID1");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -281,6 +306,8 @@ namespace DataLayer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("UnidadOrganizativaID");
+
+                    b.HasIndex("UnidadOrganizativaID1");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -425,18 +452,16 @@ namespace DataLayer.Migrations
                         .HasForeignKey("PlanID");
                 });
 
-            modelBuilder.Entity("BizData.Entities.Especialidad", b =>
-                {
-                    b.HasOne("BizData.Entities.UnidadOrganizativa")
-                        .WithMany("Especialidades")
-                        .HasForeignKey("UnidadOrganizativaID");
-                });
-
             modelBuilder.Entity("BizData.Entities.Inmueble", b =>
                 {
                     b.HasOne("BizData.Entities.UnidadOrganizativa", "UO")
                         .WithMany("Inmuebles")
                         .HasForeignKey("UOUnidadOrganizativaID");
+
+                    b.HasOne("BizData.Entities.UnidadOrganizativa")
+                        .WithMany()
+                        .HasForeignKey("UnidadOrganizativaID")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("BizData.Entities.ManoObra", b =>
@@ -460,6 +485,17 @@ namespace DataLayer.Migrations
                         .HasForeignKey("InmuebleID");
                 });
 
+            modelBuilder.Entity("BizData.Entities.PlanActual", b =>
+                {
+                    b.HasOne("BizData.Entities.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanID");
+
+                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
+                        .WithMany()
+                        .HasForeignKey("UnidadOrganizativaID");
+                });
+
             modelBuilder.Entity("BizData.Entities.UnidadOrganizativa", b =>
                 {
                     b.HasOne("BizData.Entities.Provincia", "Provincia")
@@ -472,6 +508,11 @@ namespace DataLayer.Migrations
                     b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
                         .WithMany("Inversionistas")
                         .HasForeignKey("UnidadOrganizativaID");
+
+                    b.HasOne("BizData.Entities.UnidadOrganizativa")
+                        .WithMany()
+                        .HasForeignKey("UnidadOrganizativaID1")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

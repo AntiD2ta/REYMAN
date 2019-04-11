@@ -48,7 +48,15 @@ namespace REYMAN.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            return View();
+            if (User.HasClaim("Pending", "false"))
+            {
+                if (Request.Query.Keys.Contains("ReturnUrl"))
+                    return Redirect(Request.Query["ReturnUrl"].First());
+                else
+                    return RedirectToAction("Welcome");
+            }
+            else
+                return RedirectToAction("Pending");
         }
 
         public IActionResult Privacy()

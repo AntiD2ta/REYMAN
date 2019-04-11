@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class CorrectedSchema5 : Migration
+    public partial class CorrectedSchema70 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,8 @@ namespace DataLayer.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Presupuesto = table.Column<decimal>(nullable: false),
                     Año = table.Column<int>(nullable: false),
-                    TipoPlan = table.Column<string>(nullable: true)
+                    TipoPlan = table.Column<string>(nullable: true),
+                    Estado = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,8 +125,8 @@ namespace DataLayer.Migrations
                     ManoObraID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Cantidad = table.Column<int>(nullable: false),
-                    PrecioCUP = table.Column<decimal>(nullable: false),
-                    PrecioCUC = table.Column<decimal>(nullable: false),
+                    PrecioCUP = table.Column<decimal>(nullable: true),
+                    PrecioCUC = table.Column<decimal>(nullable: true),
                     UnidadMedidaID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -182,7 +183,8 @@ namespace DataLayer.Migrations
                     SecondName = table.Column<string>(nullable: true),
                     FirstLastName = table.Column<string>(nullable: true),
                     SecondLastName = table.Column<string>(nullable: true),
-                    UnidadOrganizativaID = table.Column<int>(nullable: true)
+                    UnidadOrganizativaID = table.Column<int>(nullable: true),
+                    UnidadOrganizativaID1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,6 +195,12 @@ namespace DataLayer.Migrations
                         principalTable: "UnidadesOrganizativas",
                         principalColumn: "UnidadOrganizativaID",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_UnidadesOrganizativas_UnidadOrganizativaID1",
+                        column: x => x.UnidadOrganizativaID1,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,7 +210,8 @@ namespace DataLayer.Migrations
                     InmuebleID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Direccion = table.Column<string>(nullable: true),
-                    UOUnidadOrganizativaID = table.Column<int>(nullable: true)
+                    UOUnidadOrganizativaID = table.Column<int>(nullable: true),
+                    UnidadOrganizativaID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,6 +219,38 @@ namespace DataLayer.Migrations
                     table.ForeignKey(
                         name: "FK_Inmuebles_UnidadesOrganizativas_UOUnidadOrganizativaID",
                         column: x => x.UOUnidadOrganizativaID,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Inmuebles_UnidadesOrganizativas_UnidadOrganizativaID",
+                        column: x => x.UnidadOrganizativaID,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PlanesActuales",
+                columns: table => new
+                {
+                    PlanActualID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UnidadOrganizativaID = table.Column<int>(nullable: true),
+                    PlanID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanesActuales", x => x.PlanActualID);
+                    table.ForeignKey(
+                        name: "FK_PlanesActuales_Planes_PlanID",
+                        column: x => x.PlanID,
+                        principalTable: "Planes",
+                        principalColumn: "PlanID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PlanesActuales_UnidadesOrganizativas_UnidadOrganizativaID",
+                        column: x => x.UnidadOrganizativaID,
                         principalTable: "UnidadesOrganizativas",
                         principalColumn: "UnidadOrganizativaID",
                         onDelete: ReferentialAction.Restrict);
@@ -367,9 +408,9 @@ namespace DataLayer.Migrations
                 {
                     AccionC_MaterialID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    PrecioCUP = table.Column<decimal>(nullable: false),
-                    PrecioCUC = table.Column<decimal>(nullable: false),
-                    Cantidad = table.Column<decimal>(nullable: false),
+                    PrecioCUP = table.Column<decimal>(nullable: true),
+                    PrecioCUC = table.Column<decimal>(nullable: true),
+                    Cantidad = table.Column<decimal>(nullable: true),
                     AccionConstructivaID = table.Column<int>(nullable: true),
                     MaterialID = table.Column<int>(nullable: true)
                 },
@@ -465,9 +506,19 @@ namespace DataLayer.Migrations
                 column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UnidadOrganizativaID1",
+                table: "AspNetUsers",
+                column: "UnidadOrganizativaID1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Inmuebles_UOUnidadOrganizativaID",
                 table: "Inmuebles",
                 column: "UOUnidadOrganizativaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Inmuebles_UnidadOrganizativaID",
+                table: "Inmuebles",
+                column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ManosObra_UnidadMedidaID",
@@ -483,6 +534,16 @@ namespace DataLayer.Migrations
                 name: "IX_ObjetosObra_InmuebleID",
                 table: "ObjetosObra",
                 column: "InmuebleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlanesActuales_PlanID",
+                table: "PlanesActuales",
+                column: "PlanID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlanesActuales_UnidadOrganizativaID",
+                table: "PlanesActuales",
+                column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnidadesOrganizativas_ProvinciaID",
@@ -509,6 +570,9 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "PlanesActuales");
 
             migrationBuilder.DropTable(
                 name: "AccionesCons");

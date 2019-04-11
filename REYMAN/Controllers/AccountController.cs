@@ -16,6 +16,7 @@ using BizData.Entities;
 using ServiceLayer.Reports;
 using System.Collections.Generic;
 using ServiceLayer.SendMessage;
+using ServiceLayer.AdminServices;
 
 namespace REYMAN.Controllers
 {
@@ -118,7 +119,7 @@ namespace REYMAN.Controllers
         {
             return View(new RegisterUsuarioCommand());
         }
-
+        
         /// <summary>
         /// POST (Async)method for Register account page. If the user can register succefully, then a claim
         /// Pending: true is assigned to it, as this user needs to be aproved by an admin to complete his
@@ -189,25 +190,8 @@ namespace REYMAN.Controllers
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
-                
                 if (result.Succeeded)
-                {
-                    if (User.HasClaim("Pending", "false"))
-                    {
-                        if (Request.Query.Keys.Contains("ReturnUrl"))
-                        {
-                            return Redirect(Request.Query["ReturnUrl"].First());
-                        }
-                        else
-                        {
-                            return RedirectToAction("Welcome", "Home");
-                        }
-                    }
-                    else
-                    {
-                        return RedirectToAction("Pending", "Home");
-                    }
-                }
+                    return RedirectToAction("Index", "Home");
             }
 
             ModelState.AddModelError(string.Empty, "An error occured trying to login");
@@ -289,6 +273,14 @@ namespace REYMAN.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult ReportOne()
+        {
+            AdminService ser = new AdminService(_context);
+            return View(new { provincias =  ser.GetProvincias()});
         }
     }
 }

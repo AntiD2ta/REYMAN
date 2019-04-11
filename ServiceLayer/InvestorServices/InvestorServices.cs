@@ -67,8 +67,6 @@ namespace ServiceLayer.InvestorServices
                 return -1;
             }
 
-            //TODO:Necesito la UO para poder actualizar PlanesActuales
-
             errors = null;
             return plan.PlanID;
         }

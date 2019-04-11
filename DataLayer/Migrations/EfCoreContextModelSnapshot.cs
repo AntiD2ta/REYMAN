@@ -181,25 +181,6 @@ namespace DataLayer.Migrations
                     b.ToTable("Planes");
                 });
 
-            modelBuilder.Entity("BizData.Entities.PlanActual", b =>
-                {
-                    b.Property<int>("PlanActualID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("PlanID");
-
-                    b.Property<int?>("UnidadOrganizativaID");
-
-                    b.HasKey("PlanActualID");
-
-                    b.HasIndex("PlanID");
-
-                    b.HasIndex("UnidadOrganizativaID");
-
-                    b.ToTable("PlanesActuales");
-                });
-
             modelBuilder.Entity("BizData.Entities.Provincia", b =>
                 {
                     b.Property<int>("ProvinciaID")
@@ -481,17 +462,6 @@ namespace DataLayer.Migrations
                     b.HasOne("BizData.Entities.Inmueble", "Inmueble")
                         .WithMany("ObjetosDeObra")
                         .HasForeignKey("InmuebleID");
-                });
-
-            modelBuilder.Entity("BizData.Entities.PlanActual", b =>
-                {
-                    b.HasOne("BizData.Entities.Plan", "Plan")
-                        .WithMany()
-                        .HasForeignKey("PlanID");
-
-                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
-                        .WithMany()
-                        .HasForeignKey("UnidadOrganizativaID");
                 });
 
             modelBuilder.Entity("BizData.Entities.UnidadOrganizativa", b =>

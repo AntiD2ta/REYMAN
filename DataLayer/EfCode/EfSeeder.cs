@@ -45,6 +45,7 @@ namespace DataLayer.EfCode
                 await _userManager.CreateAsync(karl, "T3n!");
                 var claim = new Claim("Permission", "admin");
                 await _userManager.AddClaimAsync(karl, claim);
+                await _userManager.AddClaimAsync(karl, new Claim("Pending", "false"));
 
                 #region PROVINCIAS
                 var prov1 = new Provincia()

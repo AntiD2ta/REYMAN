@@ -300,6 +300,7 @@ namespace REYMAN.Controllers
             var user = await _userManager.FindByIdAsync(vm.userID);
             await _userManager.RemoveClaimAsync(user, new Claim("Pending", "true"));
             await _userManager.AddClaimAsync(user, new Claim("Pending", "false"));
+            await _userManager.AddClaimAsync(user, new Claim("Permission", "inversionista"));
             _context.Commit();
 
             GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);

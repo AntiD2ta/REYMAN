@@ -10,7 +10,7 @@
 
 <div class="sidenav">
     <div class="header-sidenav">
-        <p><i class="fa fa-user-o"></i> Gestionar :</p>    
+        <p><i class="fa fa-user-o"></i> Gestionar :</p>
     </div>
     <button class="dropdown-btn">
         <i class="fa fa-angle-double-right"></i>
@@ -18,7 +18,7 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="#"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+        <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
         <a href="#"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
     </div>
     <button class="dropdown-btn">
@@ -27,8 +27,8 @@
         <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
-        <a href="#"><i class="fa fa-angle-right"></i> Provincias</a>
-        <a href="#"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
+        <a href="EditProvincia"><i class="fa fa-angle-right"></i> Provincias</a>
+        <a href="EditUOs"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
         <a href="#"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
     </div>
     <button class="dropdown-btn">
@@ -42,7 +42,7 @@
         <a href="#"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
     </div>
     <a href="#contact"><i class="fa fa-angle-double-right"></i> Coming soon</a>
-</div> 
+</div>
 
 <div class="main">
     <h2>Página de inicio</h2>
@@ -79,19 +79,19 @@
 </div>
 
 <script>
-/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
 
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-  this.classList.toggle("active");
-  var dropdownContent = this.nextElementSibling;
-  if (dropdownContent.style.display === "block") {
-  dropdownContent.style.display = "none";
-  } else {
-  dropdownContent.style.display = "block";
-  }
-  });
-}
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
 </script>

@@ -1,0 +1,87 @@
+﻿@using BizLogic.Planning
+@using BizData.Entities
+@model PlanCommand;
+
+@{
+    Model.InmublesUO = Model.InmublesUO == null ? new List<string> { "hola" } : Model.InmublesUO;
+}
+@Html.Partial("PlanPartial")
+<div class="main">
+    <h1>Plan de @Model.TipoPlan del @Model.Año</h1>
+    <table id="hidden">
+        <tr>
+            <th>
+                Inmueble
+            </th>
+            <th>
+                Objetos de Obra
+            </th>
+            <th>
+                Editar
+            </th>
+            <th>
+                Eliminar
+            </th>
+        </tr>
+        @foreach (var item in Model.InmublesUO)
+        {
+        <tr>
+            <td>
+                @item
+            </td>
+            <td>
+                @Html.ActionLink("Ver",
+              "FirstPage",  // <-- ActionMethod
+              "Admin",   //<-- Controller Name.
+              null  // <-- htmlArguments .. which are none. You need this value
+                    //     otherwise you call the WRONG method ...
+                    //     (refer to comments, below).
+              )
+            </td>
+            <td>
+                @Html.ActionLink("Ver",
+             "Login",  // <-- Controller Name.
+             "Item",   // <-- ActionMethod
+             "", // <-- Route arguments.
+             item  // <-- htmlArguments .. which are none. You need this value
+                   //     otherwise you call the WRONG method ...
+                   //     (refer to comments, below).
+             )
+            </td>
+            <td>
+                @Html.ActionLink("Ver",
+             "Login",  // <-- Controller Name.
+             "Item",   // <-- ActionMethod
+             "", // <-- Route arguments.
+             item  // <-- htmlArguments .. which are none. You need this value
+                   //     otherwise you call the WRONG method ...
+                   //     (refer to comments, below).
+             )
+            </td>
+        </tr>
+        }
+    </table>
+</div>
+<script>
+
+    var nombres = @Html.Raw(Json.Serialize(Model.InmublesUO));
+    console.log(nombres);
+    if (nombres.length == 0)
+    {
+
+        var main = document.getElementsByClassName("main")[0];
+        var label = document.createElement("label");
+        label.innerHTML = "*No tienes Inmuebles";
+        label.style.borderRadius = "2px";
+        label.style.color = "lightblue";
+        main.appendChild(label);
+        var hidden = document.getElementById("hidden");
+        hidden.hidden = 1;
+    }
+    else
+    {
+        var main = document.getElementById("hidden");
+        main.hidden = 0;
+    }
+    //autocomplete(document.getElementById("myInput"), nombres);
+</script>

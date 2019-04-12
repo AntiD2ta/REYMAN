@@ -55,5 +55,6 @@ namespace BizLogic.Planning
                 yield return (material, t.precioCUP, t.precioCUC);
             }
         }
+
     }
 }

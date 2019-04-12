@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BizData.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -31,5 +32,11 @@ namespace BizLogic.Authentication
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string EditEmail { get; set; }
+
+        public int UO { get; set; }
+
+        public IEnumerable<UnidadOrganizativa> UOs { get; set; }
     }
 }

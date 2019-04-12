@@ -1,6 +1,6 @@
 ﻿@using BizLogic.Administration
 @using System.Security.Claims
-
+@model FirstPageViewModel;
 @{ 
     Layout = "AdminLayout";
 }
@@ -21,25 +21,61 @@
         <a href="#"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
         <a href="#"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
     </div>
-    <a href="#contact"><i class="fa fa-angle-double-right"></i> Edición</a>
-        <button class="dropdown-btn">
-            <i class="fa fa-angle-double-right"></i>
-            Dropdown
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
-            <a href="#"><i class="fa fa-angle-right"></i> Link 1</a>
-            <a href="#">Link 2</a>
-            <a href="#">Link 3</a>
-        </div>
-    <a href="#contact"><i class="fa fa-angle-double-right"></i> Search</a>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Datos Requeridos
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="#"><i class="fa fa-angle-right"></i> Provincias</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
+    </div>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Datos del Sistema
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="#"><i class="fa fa-angle-right"></i> Inmuebles</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Materiales</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
+    </div>
+    <a href="#contact"><i class="fa fa-angle-double-right"></i> Coming soon</a>
 </div> 
 
 <div class="main">
-    <h2>Sidebar Dropdown</h2>
-    <p>Click on the dropdown button to open the dropdown menu inside the side navigation.</p>
-    <p>This sidebar is of full height (100%) and always shown.</p>
-    <p>Some random text..</p>
+    <h2>Página de inicio</h2>
+    <p>Desde aquí podrá regular la aplicación. Por favor revise el alcance de sus acciones
+       y sus poderes en la documentación.</p>
+    <br />
+    <h2>Notificaciones:</h2>
+    <br />
+    <h4>Usuarios Pendientes de autorización:</h4>
+    @{ 
+        if (!Model.UserPendings.Any())
+        {
+            <p>No hay usuarios pendientes.</p>
+        }
+        foreach (var item in Model.UserPendings)
+        {
+            <p>@item</p>
+        }
+    }
+    <br />
+    @{ 
+        if (!Model.Provincias)
+        {
+            <h3>No hay provincias en la base de datos, por favor inserte las provicias actuales.</h3>
+        }
+    }
+    <br />
+    @{ 
+        if (!Model.UO)
+        {
+            <h3>No hay Unidades Organizativas en la base de datos, por favor inserte las Unidades Organizativas actuales</h3>
+        }
+    }
 </div>
 
 <script>

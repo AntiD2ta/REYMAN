@@ -49,9 +49,16 @@ namespace REYMAN.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult FirstPage()
+        public async Task<IActionResult> FirstPage()
         {
-            return View();
+            AdminService _adminService = new AdminService(_context, _userManager, _getterUtils);
+            FirstPageViewModel vm = new FirstPageViewModel();
+            var t = await _adminService.FillNotificationsAsync();
+            vm.UserPendings = t.UserPendings;
+            vm.Provincias = t.Provincias;
+            vm.UO = t.Provincias;
+
+            return View(vm);
         }
 
         /// <summary>
@@ -131,7 +138,7 @@ namespace REYMAN.Controllers
             GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
-                AdminService ad = new AdminService(_context);
+                AdminService ad = new AdminService(_context, _userManager, _getterUtils);
                 if (vm.button == "Add")
                     ad.RegisterProvincia(vm);
                 else

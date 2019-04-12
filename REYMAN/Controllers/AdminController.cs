@@ -16,6 +16,7 @@ using ServiceLayer.InvestorServices;
 using BizLogic.Planning;
 using ServiceLayer.AccountServices;
 using BizLogic.Authentication;
+using System.Security.Claims;
 
 namespace REYMAN.Controllers
 {
@@ -180,17 +181,20 @@ namespace REYMAN.Controllers
             vm.GetProvincia = getter.GetAll("Provincia");
             return View(vm);
         }
+
         [HttpGet]
         public IActionResult EditUOs()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(getter.GetAll("UnidadOrganizativa"));
         }
+
         public IActionResult PartialSelUO()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(getter.GetAll("UnidadOrganizativa"));
         }
+
         [HttpPost]
         public IActionResult EditUOs(string button)
         {
@@ -203,26 +207,30 @@ namespace REYMAN.Controllers
                 pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
             return RedirectToAction("EditUO", "Admin", pc);
         }
+
         [HttpGet]
         public IActionResult AddUO()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(new UOCommand { Provincias = getter.GetAll("Provincia") as IEnumerable<Provincia> });
         }
+
         [HttpPost]
         public IActionResult AddUO(UOCommand cmd)
         {
-            AdminService adminService = new AdminService(_context);
+            AdminService adminService = new AdminService(_context, _userManager, _getterUtils);
             //display errors if errors is not null
             adminService.RegisterUO(cmd,out var errors);
             return RedirectToAction("EditUOs", "Admin");
         }
+
         [HttpGet]
         public IActionResult AddAccionCons()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             return View(new AccionConsCommand { UnidadesMedida = new List<string> { "dollar","nacional" },  AccionConsts = new List<string> { "karl", "teno" } /*(getter.GetAll("AccionConstructiva") as IEnumerable<Provincia>).Select(x => x.Nombre) }*/});
         }
+
         [HttpPost]
         public IActionResult AddAccionCons(AccionConsCommand cmd)
         {
@@ -236,6 +244,7 @@ namespace REYMAN.Controllers
         {
             return View(new InmuebleCommand() );
         }
+
         [HttpPost]
         public IActionResult AddInmueble(InmuebleCommand cmd)
         {
@@ -243,6 +252,7 @@ namespace REYMAN.Controllers
             //investorServices.RegisterInmueble(cmd,)
             return View(cmd);
         }
+
         public IActionResult Usuarios()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager,_userManager);
@@ -263,6 +273,43 @@ namespace REYMAN.Controllers
             }
             cmd.UOs = getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>;
             return View(cmd);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PendingUsers()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
+            List<Usuario> pending = new List<Usuario>();
+            foreach (var item in getter.GetAll("Usuario"))
+            {
+                if ((await _userManager.GetClaimsAsync(item as Usuario)).Any(c => c.Type == "Pending" && c.Value == "true"))
+                    pending.Add(item as Usuario);
+            }
+
+            PendingUsersViewModel vm = new PendingUsersViewModel()
+            {
+                Usuarios = pending,
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PendingUsers(PendingUsersViewModel vm)
+        {
+            var user = await _userManager.FindByIdAsync(vm.userID);
+            await _userManager.RemoveClaimAsync(user, new Claim("Pending", "true"));
+            await _userManager.AddClaimAsync(user, new Claim("Pending", "false"));
+            _context.Commit();
+
+            GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
+            List<Usuario> pending = new List<Usuario>();
+            foreach (var item in getter.GetAll("Usuario"))
+            {
+                if ((await _userManager.GetClaimsAsync(item as Usuario)).Any(c => c.Type == "Pending" && c.Value == "true"))
+                    pending.Add(item as Usuario);
+            }
+            return View(pending);
         }
     }
 

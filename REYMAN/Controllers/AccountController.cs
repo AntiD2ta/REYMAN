@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using BizLogic.Authentication;
 using ServiceLayer.AccountServices;
 using BizData.Entities;
+using ServiceLayer.Reports;
+using System.Collections.Generic;
+//using ServiceLayer.SendMessage;
 
 namespace REYMAN.Controllers
 {
@@ -147,7 +150,8 @@ namespace REYMAN.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Welcome", "Home");
+                        //new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
+                        return RedirectToAction("Pending", "Home");
                     }
                 }
                 AddErrors(result);
@@ -185,26 +189,10 @@ namespace REYMAN.Controllers
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
-                
+
                 if (result.Succeeded)
                 {
-                    if (User.HasClaim("Pending", "false"))
-                    {
-                        if (Request.Query.Keys.Contains("ReturnUrl"))
-                        {
-                            return Redirect(Request.Query["ReturnUrl"].First());
-                        }
-                        else
-                        {
-                            //TODO: direccionar al home cuando se cree
-                            return RedirectToAction("Welcome", "Home");
-                        }
-                    }
-                    else
-                    {
-                        //TODO: direccionar al pending view
-                        return RedirectToAction("Welcome", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -288,5 +276,6 @@ namespace REYMAN.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
     }
 }

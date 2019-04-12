@@ -40,7 +40,13 @@ namespace REYMAN
             services.AddIdentity<Usuario, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
+
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequireUppercase = false;
                 cfg.Password.RequiredLength = 4;
+                cfg.Password.RequiredUniqueChars = 0;
             })
             .AddEntityFrameworkStores<EfCoreContext>();
 
@@ -132,9 +138,7 @@ namespace REYMAN
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
-
-            if (env.IsDevelopment())
+           if (env.IsDevelopment())
             {
                 //Seed the database
                 using (var scope = app.ApplicationServices.CreateScope())
@@ -143,6 +147,7 @@ namespace REYMAN
                     await seeder.Seed();
                 }
             }
+            app.UseAuthentication();
 
             app.UseMvc(ConfigureRoutes);
         }

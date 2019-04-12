@@ -7,6 +7,12 @@ a.navbar-brand {
     word-break: break-all;
 }
 
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -57,6 +63,7 @@ body {
     /* Set the fixed height of the footer here */
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
+    text-align: center;
 }
 /*//////////////////////////////////*/
 .vertical-menu {
@@ -185,24 +192,74 @@ tr:nth-child(even) {
     overflow: auto;
 }
 
-
-.sidemenu li a {
-    display: block;
-    color: #000;
-    padding: 8px 16px;
-    text-decoration: none;
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: inherit;
+    left: 0;
+    background-color: #a90005;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
-    .sidemenu li a.active {
-        background-color: darkred;
-        color: white;
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+/* On mouse-over */
+    .sidenav a:hover, .dropdown-btn:hover {
+        color: #636161;
     }
 
-.sidemenu a:hover:not(.active) {
-    background-color: gray;
-    color: white;
+/* Main content */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
 }
 
-.main {
-    margin-left: 32%;
+/* Add an active class to the active dropdown button */
+.active {
+    background-color: darkred;
+    color: #636161;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    background-color: #646363;
+    padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+
+.header-sidenav {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 30px;
+    color: white;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
 }

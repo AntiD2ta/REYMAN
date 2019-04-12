@@ -30,10 +30,7 @@ namespace BizDbAccess.Repositories
             _context.Especialidades.Remove(entity);
         }
 
-        public IEnumerable<Especialidad> GetAll()
-        {
-            return _context.Especialidades;
-        }
+        public IEnumerable<Especialidad> GetAll() => _context.Especialidades;
 
         public Especialidad Update(Especialidad entity, Especialidad toUpd)
         {

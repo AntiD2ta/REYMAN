@@ -23,6 +23,7 @@ namespace REYMAN.Controllers
     public class HomeController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
         private readonly IUnitOfWork _context;
         private readonly GetterUtils _getterUtils;
 
@@ -34,10 +35,12 @@ namespace REYMAN.Controllers
         /// in Startup/ConfigureServices</param>
         /// <param name="getterUtils">See description for this interface.</param>
         public HomeController(UserManager<Usuario> userManager,
+            SignInManager<Usuario> signInManager,
             IUnitOfWork context,
             IGetterUtils getterUtils)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _context = context;
             _getterUtils = (GetterUtils)getterUtils;
         }
@@ -48,7 +51,25 @@ namespace REYMAN.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            return View();
+            if (User.HasClaim("Pending", "false"))
+            {
+                if (Request.Query.Keys.Contains("ReturnUrl"))
+                {
+                    return Redirect(Request.Query["ReturnUrl"].First());
+                }
+                else if (User.HasClaim("Permission", "admin"))
+                {
+                    return Admin();
+                }
+                else
+                {
+                    return RedirectToAction("Welcome", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Pending", "Home");
+            }
         }
 
         public IActionResult Privacy()
@@ -63,8 +84,21 @@ namespace REYMAN.Controllers
             var principal = await _userManager.GetUserAsync(User);
             a.Name = principal.FirstName;
             a.LastName = principal.FirstLastName;
-            return View(a);
+
+            if (User.HasClaim("Permission", "admin"))
+                return View(a);
+            else
+                RedirectToAction("Index", a);
+
+            return View();
         }
+
+        [HttpGet]
+        public IActionResult Pending()
+        {
+            return View();
+        }
+
         public IActionResult Provincia()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);

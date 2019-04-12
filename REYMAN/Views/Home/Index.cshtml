@@ -1,8 +1,14 @@
-﻿@{
+﻿@using BizLogic.Administration
+@{
     ViewData["Title"] = "Home Page";
 }
+@model  UserViewModel;
+<head>
+    <title>Signed up</title>
+</head>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1> class="display-4"Felicidades @Model.Name  @Model.LastName! Se ha logueado con éxito.</h1>
+
+
 </div>

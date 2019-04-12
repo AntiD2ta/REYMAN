@@ -27,6 +27,23 @@ namespace DataLayer.EfCode
         public DbSet<AccionC_Material> AccCons_Mat { get; set; }
         public DbSet<UnidadMedida> UnidadesMedida { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany<Inmueble>()
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany<Usuario>()
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
+        }
+
         public int Commit()
         {
             return SaveChanges();

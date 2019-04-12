@@ -11,6 +11,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Font.Awesome" Version="5.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />
@@ -22,6 +23,11 @@
     <ProjectReference Include="..\BizData\BizData.csproj" />
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
 
 </Project>

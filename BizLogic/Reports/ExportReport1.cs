@@ -9,7 +9,7 @@
 //        {
 //            byte[] fileContents;
 //            int fila = 6;
-
+            
 //            using (var package = new ExcelPackage())
 //            {
 //                var worksheet = package.Workbook.Worksheets.Add("Reporte 1");
@@ -21,8 +21,8 @@
 //                worksheet.Cells[2, 1, 2, 7].Merge = true;
 //                worksheet.Cells[2, 1].Value = "Alcance de acciones de constructivas por Inmuebles/Objetos de Obra";
 
-//                worksheet.Cells[2, 11].Value = "Año:";
-//                worksheet.Cells[2, 12].Value = report.año;
+//                worksheet.Cells[2, 11,2,12].Merge = true;
+//                worksheet.Cells[2, 12].Value = $"Año: {report.año}";
 
 //                worksheet.Cells[4, 1, 5, 2].Merge = true;
 //                worksheet.Cells[4, 1].Style.WrapText = true;
@@ -36,13 +36,13 @@
 
 //                worksheet.Cells[4, 7, 5, 11].Merge = true;
 //                worksheet.Cells[4, 7].Value = "Especialidad/Actividad";
-                
+
 //                worksheet.Cells[4, 12, 5, 12].Merge = true;
 //                worksheet.Cells[4, 12].Value = "UM";
-                
+
 //                worksheet.Cells[4, 13, 5, 13].Merge = true;
 //                worksheet.Cells[4, 13].Value = "Cant.";
-                
+
 //                worksheet.Cells[4, 14, 4, 16].Merge = true;
 //                worksheet.Cells[4, 14].Value = "Importe Total";
 //                worksheet.Cells[5, 14].Value = "MT";
@@ -76,11 +76,12 @@
 //                        {
 //                            worksheet.Cells[fila, 5, fila, 6].Merge = true;
 //                            worksheet.Cells[fila, 5].Value = obj.nombre;
-
+                       
 //                            foreach (var especialidad in obj.especialidades)
 //                            {
 //                                worksheet.Cells[fila, 7, fila, 11].Merge = true;
 //                                worksheet.Cells[fila, 7].Value = especialidad.nombre;
+//                                worksheet.Cells[fila, 7, fila, 22].Style.Font.Bold = true;
 
 //                                worksheet.Cells[fila, 12].Value = "";
 //                                worksheet.Cells[fila, 13].Value = "";
@@ -93,11 +94,11 @@
 //                                worksheet.Cells[fila, 20].Value = especialidad.materialesTotalCUC + especialidad.materialesTotalCUP;
 //                                worksheet.Cells[fila, 21].Value = especialidad.materialesTotalCUC;
 //                                worksheet.Cells[fila, 22].Value = especialidad.materialesTotalCUP;
-
-//                                ++fila;
-
+                                
 //                                foreach (var accion in especialidad.acciones)
 //                                {
+//                                    ++fila;
+
 //                                    worksheet.Cells[fila, 7, fila, 11].Merge = true;
 //                                    worksheet.Cells[fila, 7].Value = accion.nombre;
 
@@ -112,14 +113,17 @@
 //                                    worksheet.Cells[fila, 20].Value = accion.materialesCUC + accion.materialesCUP;
 //                                    worksheet.Cells[fila, 21].Value = accion.materialesCUC;
 //                                    worksheet.Cells[fila, 22].Value = accion.materialesCUP;
-
-//                                    ++fila;
-//                                }
+//                                 }
 //                            }
 
+//                            ++fila;
+
 //                            worksheet.Cells[fila, 5, fila, 13].Merge = true;
+//                            worksheet.Cells[fila, 7, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+//                            worksheet.Cells[fila, 7, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+//                            worksheet.Cells[fila, 5, fila, 22].Style.Font.Bold = true;
 //                            worksheet.Cells[fila, 5].Value = "Total del objeto de obra";
-                            
+
 //                            worksheet.Cells[fila, 14].Value = obj.manoObraTotalCUC + obj.manoObraTotalCUP + obj.materialesTotalCUC + obj.materialesTotalCUP;
 //                            worksheet.Cells[fila, 15].Value = obj.manoObraTotalCUC + obj.materialesTotalCUC;
 //                            worksheet.Cells[fila, 16].Value = obj.manoObraTotalCUP + obj.materialesTotalCUP;
@@ -134,6 +138,9 @@
 //                        }
 
 //                        worksheet.Cells[fila, 3, fila, 13].Merge = true;
+//                        worksheet.Cells[fila, 5, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+//                        worksheet.Cells[fila, 5, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+//                        worksheet.Cells[fila, 3, fila, 22].Style.Font.Bold = true;
 //                        worksheet.Cells[fila, 3].Value = "Total del inmueble";
 
 //                        worksheet.Cells[fila, 14].Value = inmueble.manoObraTotalCUC + inmueble.manoObraTotalCUP + inmueble.materialesTotalCUC + inmueble.materialesTotalCUP;
@@ -150,6 +157,9 @@
 //                    }
 
 //                    worksheet.Cells[fila, 1, fila, 13].Merge = true;
+//                    worksheet.Cells[fila, 1, fila, 22].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+//                    worksheet.Cells[fila, 1, fila, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+//                    worksheet.Cells[fila, 1, fila, 22].Style.Font.Bold = true;
 //                    worksheet.Cells[fila, 1].Value = "Total de la unidad organizativa";
 
 //                    worksheet.Cells[fila, 14].Value = unidad.manoObraTotalCUC + unidad.manoObraTotalCUP + unidad.materialesTotalCUC + unidad.materialesTotalCUP;
@@ -165,6 +175,10 @@
 //                    ++fila;
 //                }
 
+//                worksheet.Cells[1, 1, 5, 22].Style.Font.Bold = true;
+//                worksheet.Cells[5, 1, 5, 22].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+//                worksheet.Cells[1, 1, fila, 22].Style.Border.Right.Style = ExcelBorderStyle.None;
+//                worksheet.Cells[1, 1, fila, 22].Style.Border.Left.Style = ExcelBorderStyle.None;
 //                worksheet.Cells[1, 1, fila, 22].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 //                worksheet.Cells[1, 1, fila, 22].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 //                fileContents = package.GetAsByteArray();

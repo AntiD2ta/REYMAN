@@ -14,8 +14,13 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<UnidadOrganizativa> uos)
+        public object GenerateReport(int year, IEnumerable<string> UOs)
         {
+            var uos = from name in UOs
+                      from unidad in _context.UnidadesOrganizativas
+                      where name == unidad.Nombre
+                      select unidad;
+
             var report = new
             {
                 unidades = from unidad in uos
@@ -27,13 +32,13 @@ namespace BizLogic.Reports
                                            {
                                                nombre = inm.Direccion,
                                                reparacionesCUC = (from obj in inm.ObjetosDeObra
-                                                                 from ac in obj.AccionesConstructivas
-                                                                 where ac.Plan.TipoPlan == "Reparación"
-                                                                 select ac.ManoObra.PrecioCUC).Sum() + (from obj in inm.ObjetosDeObra
-                                                                                                        from ac in obj.AccionesConstructivas
-                                                                                                        where ac.Plan.TipoPlan == "Reparación"
-                                                                                                        from acm in ac.Materiales
-                                                                                                        select acm.PrecioCUC).Sum(),
+                                                                  from ac in obj.AccionesConstructivas
+                                                                  where ac.Plan.TipoPlan == "Reparación"
+                                                                  select ac.ManoObra.PrecioCUC).Sum() + (from obj in inm.ObjetosDeObra
+                                                                                                         from ac in obj.AccionesConstructivas
+                                                                                                         where ac.Plan.TipoPlan == "Reparación"
+                                                                                                         from acm in ac.Materiales
+                                                                                                         select acm.PrecioCUC).Sum(),
                                                reparacionesCUP = (from obj in inm.ObjetosDeObra
                                                                   from ac in obj.AccionesConstructivas
                                                                   where ac.Plan.TipoPlan == "Reparación"
@@ -43,13 +48,13 @@ namespace BizLogic.Reports
                                                                                                          from acm in ac.Materiales
                                                                                                          select acm.PrecioCUP).Sum(),
                                                mantenimientoCUC = (from obj in inm.ObjetosDeObra
-                                                                  from ac in obj.AccionesConstructivas
-                                                                  where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                   from ac in obj.AccionesConstructivas
+                                                                   where ac.Plan.TipoPlan == "Mantenimiento"
                                                                    select ac.ManoObra.PrecioCUC).Sum() + (from obj in inm.ObjetosDeObra
-                                                                                                         from ac in obj.AccionesConstructivas
-                                                                                                         where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                                          from ac in obj.AccionesConstructivas
+                                                                                                          where ac.Plan.TipoPlan == "Mantenimiento"
                                                                                                           from acm in ac.Materiales
-                                                                                                         select acm.PrecioCUC).Sum(),
+                                                                                                          select acm.PrecioCUC).Sum(),
                                                mantenimientoCUP = (from obj in inm.ObjetosDeObra
                                                                    from ac in obj.AccionesConstructivas
                                                                    where ac.Plan.TipoPlan == "Mantenimiento"

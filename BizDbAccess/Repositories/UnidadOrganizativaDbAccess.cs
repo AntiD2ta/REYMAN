@@ -30,7 +30,6 @@ namespace BizDbAccess.Authentication
             if (_context.UnidadesOrganizativas.Find(entity.UnidadOrganizativaID) != null)
             {
                 _context.UnidadesOrganizativas.Remove(entity);
-                _context.Commit();
             }
         }
 
@@ -41,11 +40,20 @@ namespace BizDbAccess.Authentication
 
         public UnidadOrganizativa Update(UnidadOrganizativa entity, UnidadOrganizativa toUpd)
         {
-            if (_context.UnidadesOrganizativas.Find(entity.UnidadOrganizativaID) != null)
-            {
-                _context.UnidadesOrganizativas.Update(entity);
-                _context.Commit();
-            }
+            if (toUpd == null)
+                throw new InvalidOperationException("No existe la unidad organizativa que se desea eliminar.");
+
+            if (entity.Inmuebles == null)
+                entity.Inmuebles = new List<Inmueble>();
+            if (entity.Inversionistas == null)
+                entity.Inversionistas = new List<Usuario>();
+
+            toUpd.Inmuebles = toUpd.Inmuebles == null ? entity.Inmuebles : (toUpd.Inmuebles.Concat(entity.Inmuebles)).ToList();
+            toUpd.Inversionistas = toUpd.Inversionistas == null ? entity.Inversionistas : (toUpd.Inversionistas.Concat(entity.Inversionistas)).ToList();
+            toUpd.Nombre = entity.Nombre ?? toUpd.Nombre;
+            toUpd.Provincia = entity.Provincia ?? toUpd.Provincia;
+
+            _context.UnidadesOrganizativas.Update(toUpd);
             return toUpd;
         }
 

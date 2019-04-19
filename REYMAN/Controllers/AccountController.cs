@@ -17,6 +17,8 @@ using ServiceLayer.Reports;
 using System.Collections.Generic;
 using ServiceLayer.SendMessage;
 using ServiceLayer.AdminServices;
+using BizLogic.Reports;
+using DataLayer.EfCode;
 
 namespace REYMAN.Controllers
 {
@@ -280,7 +282,11 @@ namespace REYMAN.Controllers
         public IActionResult ReportOne()
         {
             AdminService ser = new AdminService(_context);
-            return View(new { provincias =  ser.GetProvincias()});
+            var uo = ser.GetUOs().ToArray();
+            return View(new { uos = uo,
+                uos_view = new bool[uo.Length],
+                report = new GenerateReport1((EfCoreContext)_context).GenerateReport(2019, "Mantenimiento", new List<string>() { "Plaza", "Playa" }, new List<string>() { "dirrecion1", "dirrecion2", "dirrecion3", "dirrecion4" })
+            });
         }
     }
 }

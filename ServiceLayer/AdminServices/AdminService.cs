@@ -113,5 +113,10 @@ namespace ServiceLayer.AdminServices
             return _provDbAccess.GetAll();
         }
 
+        public IEnumerable<UnidadOrganizativa> GetUOs()
+        {
+            return _unidadOrganizativaDbAccess.GetAll();
+        }
+
     }
 }

@@ -1,129 +1,364 @@
 ﻿@using BizData.Entities;
-@model dynamic
 @{
     ViewData["Title"] = "Reporte Uno";
+    var uos = (UnidadOrganizativa[])(ViewData.Eval("uos"));
+    var uos_view = (bool[])(ViewData.Eval("uos_view"));
+    var unidades = (dynamic)(ViewData.Eval("report.unidades"));
+
+    var printProvincia = true;
+    var printInmueble = true;
+    var printObra = true;
 }
 
-<div class="wrapper col-md-3">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>Reporte 1</h3>
-        </div>
-
-        <ul class="list-unstyled components active">
-            <li>
-                <span class="label">Año</span>
-                <input class="border-0 col-md-4" type="number" min="2019">
-            </li>
-           
-            <li>
-                <br>
-                <p>UO:</p>
-
-                <div class="accordion" id="accordion">
-                     @foreach (var item in (IEnumerable<Provincia>)ViewData.Eval("provincias"))
-                     {
-                            <div class="card">
-         
-                                @if (item == ((IEnumerable<Provincia>)ViewData.Eval("provincias")).First())
-                                {
-                                    <div class="card-header" id="heading_@item.Nombre">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_@item.Nombre" aria-expanded="true" aria-controls="collapse_@item.Nombre">
-                                                @item.Nombre
-                                            </button>
-                                        </h5>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                            Hola!!!   
-                                        </div>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="card-header" id="headingTwo">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                @item.Nombre
-                                            </button>
-                                        </h5>
-                                    </div>
-
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div class="card-body">
-                                            Hola
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                     }
-                </div>
-            </li>
-        
-
-    @*@foreach (var item in (IEnumerable<Provincia>)ViewData.Eval("provincias"))
-    {
-    <li>
-        <a href="#homeSubmenu{@item.Nombre}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> @item.Nombre</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu{@item.Nombre}">
-            <li>
-                <a href="#"> hi!! </a>
-            </li>
-        </ul>
-        </li>
-        }*@
-            <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>
-        </ul>
-
-    </nav>
-
-    <!-- Page Content -->
-    <div id="content">
-
+<div class="sidenav col-md-3" id="sidebarReport">
+    <div>
+        <span class="label">Año</span>
+        <input type="number" class="border-0 col-md-1" min="2019" />
     </div>
+    
+    <div>
+
+        @for (int i = 0; i < uos.Length; i++)
+        {
+            <div>
+                @if (uos_view[i])
+                {
+                    <button class="dropdown-btn border-0" style="color:red">@uos[i].Nombre</button>
+                }
+                else
+                {
+                    <button class="dropdown-btn border-0">@uos[i].Nombre</button>
+                }
+
+                <div class="dropdown-container">
+                    @foreach (var inm in uos[i].Inmuebles)
+                    {
+                        <button>@inm.Direccion</button>
+                    }
+                </div>
+            </div>
+        } 
+     </div>
 </div>
 
+<div class="main">
+    <table id="myTable">
+        <tr>
+            <th>
+                Unidad Organizativa
+            </th>
+            <th>
+                Inmueble
+            </th>
+            <th>
+                Objeto de obra
+            </th>
+            <th>
+                Especialidad/Actividad
+            </th>
+            <th>
+                u/m
+            </th>
+            <th>
+                mat
+            </th>
+            <th> </th>
+            <th>
+                Importe Total
+            </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                Importe Mano de Obra
+            </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                Importe Materiales
+            </th>
+            <th> </th>
+        </tr>
+        <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+        </tr>
+ 
+        @foreach (var unidad in unidades)
+        {
+            foreach (var inmueble in unidad.inmuebles)
+            {
+                foreach (var obj in inmueble.objetos)
+                {
+                    foreach (var especialidad in obj.especialidades)
+                    {
+                        if (printProvincia)
+                        {
+                            <tr>
+                                <td> @unidad.Nombre </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> @especialidad.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.materialesTotalCUP </td>
+                            </tr>
+
+                            printProvincia= false;
+                        }
+                        else if (printInmueble)
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> @especialidad.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.materialesTotalCUP </td>
+                            </tr>
+
+                            printInmueble= false;
+                        }
+                        else if (printObra)
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> @obj.Nombre </td>
+                                <td> @especialidad.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.materialesTotalCUP </td>
+                            </tr>
+
+                            printObra= false;
+                        }
+                        else
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @especialidad.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.manoObraTotalCUC + @especialidad.manoObraTotalCUP</td>
+                                <td> @especialidad.manoObraTotalCUC </td>
+                                <td> @especialidad.manoObraTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC + @especialidad.materialesTotalCUP </td>
+                                <td> @especialidad.materialesTotalCUC </td>
+                                <td> @especialidad.materialesTotalCUP</td>
+                            </tr>
+                        }
+
+                        @foreach (var accion in especialidad.acciones)
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @accion.Nombre; </td>
+                                <td> @accion.unidadMedida</td>
+                                <td> @accion.cantidad </td>
+                                <td> @accion.manoObraCUC + @accion.manoObraCUP + @accion.materialesCUC + @accion.materialesCUP </td>
+                                <td> @accion.manoObraCUC + @accion.materialesCUC </td>
+                                <td> @accion.manoObraCUP + @accion.materialesCUP </td>
+                                <td> @accion.manoObraCUC + @accion.manoObraCUP</td>
+                                <td> @accion.manoObraCUC </td>
+                                <td> @accion.manoObraCUP </td>
+                                <td> @accion.materialesCUC + @accion.materialesCUP </td>
+                                <td> @accion.materialesCUC </td>
+                                <td> @accion.materialesCUP</td>
+                            </tr>
+                        }
+                    }
+
+                     <tr>
+                         <td> </td>
+                         <td> </td>
+                         <td> </td>
+                         <td> "TOTAL del objeto de obra" </td>
+                         <td> </td>
+                         <td> </td>
+                         <td> @obj.manoObraCUC + @obj.manoObraCUP + @obj.materialesCUC + @obj.materialesCUP </td>
+                         <td> @obj.manoObraCUC + @obj.materialesCUC </td>
+                         <td> @obj.manoObraCUP + @obj.materialesCUP </td>
+                         <td> @obj.manoObraCUC + @obj.manoObraCUP</td>
+                         <td> @obj.manoObraCUC </td>
+                         <td> @obj.manoObraCUP </td>
+                         <td> @obj.materialesCUC + @obj.materialesCUP </td>
+                         <td> @obj.materialesCUC </td>
+                         <td> @obj.materialesCUP</td>
+                    </tr>
+
+                    printObra= true;
+                }
+
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> "TOTAL del inmueble" </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> @inmueble.manoObraCUC + @inmueble.manoObraCUP + @inmueble.materialesCUC + @inmueble.materialesCUP </td>
+                    <td> @inmueble.manoObraCUC + @inmueble.materialesCUC </td>
+                    <td> @inmueble.manoObraCUP + @inmueble.materialesCUP </td>
+                    <td> @inmueble.manoObraCUC + @inmueble.manoObraCUP</td>
+                    <td> @inmueble.manoObraCUC </td>
+                    <td> @inmueble.manoObraCUP </td>
+                    <td> @inmueble.materialesCUC + @inmueble.materialesCUP </td>
+                    <td> @inmueble.materialesCUC </td>
+                    <td> @inmueble.materialesCUP</td>
+                </tr>
+
+                printInmueble= true;
+            }
+
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> "TOTAL Unidad Organizativa" </td>
+                <td> </td>
+                <td> </td>
+                <td> @unidad.manoObraCUC + @unidad.manoObraCUP + @unidad.materialesCUC + @unidad.materialesCUP </td>
+                <td> @unidad.manoObraCUC + @unidad.materialesCUC </td>
+                <td> @unidad.manoObraCUP + @unidad.materialesCUP </td>
+                <td> @unidad.manoObraCUC + @unidad.manoObraCUP</td>
+                <td> @unidad.manoObraCUC </td>
+                <td> @unidad.manoObraCUP </td>
+                <td> @unidad.materialesCUC + @unidad.materialesCUP </td>
+                <td> @unidad.materialesCUC </td>
+                <td> @unidad.materialesCUP </td>
+           </tr>
+
+            printProvincia = true; 
+        }
+
+    </table>        
+</div>
+
+
 <style>
-    .wrapper {
-        display: flex;
-        width: 100%;
+    sidenav {
+        height: 100%; /* Full-height: remove this if you want "auto" height */
+        width: 160px; /* Set the width of the sidebar */
+        position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0;
+        overflow-x: hidden; /* Disable horizontal scroll */
+        padding-top: 20px;
     }
 
-    #sidebar {
-        width: 250px;
-        position: center;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        z-index: 999;
+/* The navigation menu links */
+    .sidenav a, .dropdown-btn {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        background-color: rgb(209,36,33);
+        display: block;
     }
+
+/* When you mouse over the navigation links, change their color */
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: lightslategray;
+        }
+
+
+/* Add an active class to the active dropdown button */
+    .active {
+        background-color: red;
+        color: white;
+    }
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+    .dropdown-container {
+        display: none;
+        background-color: #ffffff;
+        padding-left: 8px;
+    }
+
+/* Style page content */
+.main {
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+}
 </style>
 
-@*<script>
-    $("[type='number']").keypress(function (evt) { evt.preventDefault(); });
-</script>*@
+<script>
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    } 
+</script >

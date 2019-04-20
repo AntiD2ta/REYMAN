@@ -43,6 +43,41 @@
             </div>
         </nav>
     </header>
+    <div class="sidenav">
+        <div class="header-sidenav">
+            <p><i class="fa fa-user-o"></i> Gestionar :</p>
+        </div>
+        <button class="dropdown-btn">
+            <i class="fa fa-angle-double-right"></i>
+            Usuarios
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+            <a href="#"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
+        </div>
+        <button class="dropdown-btn">
+            <i class="fa fa-angle-double-right"></i>
+            Datos Requeridos
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="EditProvincia"><i class="fa fa-angle-right"></i> Provincias</a>
+            <a href="EditUOs"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
+            <a href="#"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
+        </div>
+        <button class="dropdown-btn">
+            <i class="fa fa-angle-double-right"></i>
+            Datos del Sistema
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            <a href="#"><i class="fa fa-angle-right"></i> Inmuebles</a>
+            <a href="#"><i class="fa fa-angle-right"></i> Materiales</a>
+            <a href="EditObjObras"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
+        </div>
+        <a href="#contact"><i class="fa fa-angle-double-right"></i> Coming soon</a>
+    </div>
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
@@ -78,4 +113,5 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>

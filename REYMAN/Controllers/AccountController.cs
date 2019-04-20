@@ -15,7 +15,7 @@ using ServiceLayer.AccountServices;
 using BizData.Entities;
 using ServiceLayer.Reports;
 using System.Collections.Generic;
-//using ServiceLayer.SendMessage;
+using ServiceLayer.SendMessage;
 
 namespace REYMAN.Controllers
 {
@@ -150,7 +150,7 @@ namespace REYMAN.Controllers
                     }
                     else
                     {
-                        //new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
+                        new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
                         return RedirectToAction("Pending", "Home");
                     }
                 }

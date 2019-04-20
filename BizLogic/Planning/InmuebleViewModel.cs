@@ -9,5 +9,7 @@ namespace BizLogic.Planning
     {
         [Required, StringLength(100)]
         public string Direccion { get; set; }
+
+        public int PlanID { get; set; }
     }
 }

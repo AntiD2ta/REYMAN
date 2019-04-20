@@ -5,7 +5,7 @@
 @{
     Model.InmublesUO = Model.InmublesUO == null ? new List<string> { "hola" } : Model.InmublesUO;
 }
-@Html.Partial("PlanPartial")
+@Html.Partial("PlanPartial",Model.PlanID)
 <div class="main">
     <h1>Plan de @Model.TipoPlan del @Model.Año</h1>
     <table id="hidden">

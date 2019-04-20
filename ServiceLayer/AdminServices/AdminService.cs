@@ -2,16 +2,20 @@
 using BizDbAccess.Authentication;
 using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Repositories;
+using BizDbAccess.Utils;
 using BizLogic.Administration;
 using BizLogic.Administration.Concrete;
 using BizLogic.Authentication.Concrete;
 using BizLogic.Planning.Concrete;
+using Microsoft.AspNetCore.Identity;
 using ServiceLayer.BizRunners;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ServiceLayer.AdminServices
 {
@@ -22,8 +26,11 @@ namespace ServiceLayer.AdminServices
         private readonly ProvinciaDbAccess _provDbAccess;
         private readonly UnidadOrganizativaDbAccess _unidadOrganizativaDbAccess;
         private readonly IUnitOfWork _context;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly GetterUtils _getterUtils;
 
-        public AdminService(IUnitOfWork context)
+
+        public AdminService(IUnitOfWork context, UserManager<Usuario> userManager, IGetterUtils getterUtils)
         {
             _runnerUO = new RunnerWriteDb<UOCommand, UnidadOrganizativa>(
                 new RegisterUOAction(new UnidadOrganizativaDbAccess(context)), context);
@@ -32,6 +39,8 @@ namespace ServiceLayer.AdminServices
             _provDbAccess = new ProvinciaDbAccess(context);
             _unidadOrganizativaDbAccess = new UnidadOrganizativaDbAccess(context);
             _context = context;
+            _userManager = userManager;
+            _getterUtils = (GetterUtils)getterUtils;
         }
 
         public long RegisterUO(UOCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -100,6 +109,27 @@ namespace ServiceLayer.AdminServices
         public IEnumerable<Provincia> GetProvincias()
         {  
             return _provDbAccess.GetAll();
+        }
+
+        public async Task<(List<string> UserPendings, bool Provincias, bool UO)> FillNotificationsAsync()
+        {   
+            //check for pending users
+            List<string> UserPendings = new List<string>();
+            foreach (var user in _userManager.Users)
+            {
+                if ((await _userManager.GetClaimsAsync(user)).Any(c => c.Type == "Pending" && c.Value == "true"))
+                    UserPendings.Add(user.Email);
+            }
+
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+
+            //check for empty provincias
+            bool Provincias = getter.GetAll("Provincia").Any();
+
+            //check for empty UOs
+            bool UO  = getter.GetAll("UnidadOrganizativa").Any();
+
+            return (UserPendings, Provincias, UO);
         }
 
     }

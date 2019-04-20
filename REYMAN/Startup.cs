@@ -65,8 +65,8 @@ namespace REYMAN
 
             Dictionary<string, int> levels = new Dictionary<string, int>
                 {
-                   { "common", 1 },
-                   { "edit",  2  },
+                   { "inversionista", 1 },
+                   { "gerentes",  2  },
                    { "admin", 3  }
                 };
 

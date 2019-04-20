@@ -1,23 +1,82 @@
 ﻿@using BizLogic.Administration
 @using System.Security.Claims
-
-@{
+@model FirstPageViewModel;
+@{ 
     Layout = "AdminLayout";
 }
 <head>
     <title>Signed up</title>
 </head>
 
+<div class="sidenav">
+    <div class="header-sidenav">
+        <p><i class="fa fa-user-o"></i> Gestionar :</p>
+    </div>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Usuarios
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+        <a href="PendingUsers"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
+    </div>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Datos Requeridos
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="EditProvincia"><i class="fa fa-angle-right"></i> Provincias</a>
+        <a href="EditUOs"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
+    </div>
+    <button class="dropdown-btn">
+        <i class="fa fa-angle-double-right"></i>
+        Datos del Sistema
+        <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+        <a href="#"><i class="fa fa-angle-right"></i> Inmuebles</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Materiales</a>
+        <a href="#"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
+    </div>
+    <a href="#contact"><i class="fa fa-angle-double-right"></i> Coming soon</a>
+</div>
 
 
 <div class="main">
     <h2>Página de inicio</h2>
-    <p>
-        Desde aquí podrá regular la aplicación. Por favor revise el alcance de sus acciones
-        y sus poderes en la documentación.
-    </p>
+    <p>Desde aquí podrá regular la aplicación. Por favor revise el alcance de sus acciones
+       y sus poderes en la documentación.</p>
     <br />
     <h2>Notificaciones:</h2>
+    <br />
+    <h4>Usuarios Pendientes de autorización:</h4>
+    @{ 
+        if (!Model.UserPendings.Any())
+        {
+            <p>No hay usuarios pendientes.</p>
+        }
+        foreach (var item in Model.UserPendings)
+        {
+            <p>@item</p>
+        }
+    }
+    <br />
+    @{ 
+        if (!Model.Provincias)
+        {
+            <h3>No hay provincias en la base de datos, por favor inserte las provicias actuales.</h3>
+        }
+    }
+    <br />
+    @{ 
+        if (!Model.UO)
+        {
+            <h3>No hay Unidades Organizativas en la base de datos, por favor inserte las Unidades Organizativas actuales</h3>
+        }
+    }
 </div>
 
 

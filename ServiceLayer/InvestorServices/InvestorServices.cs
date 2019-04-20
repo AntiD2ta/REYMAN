@@ -67,8 +67,6 @@ namespace ServiceLayer.InvestorServices
                 return -1;
             }
 
-            //TODO:Necesito la UO para poder actualizar PlanesActuales
-
             errors = null;
             return plan.PlanID;
         }
@@ -178,6 +176,8 @@ namespace ServiceLayer.InvestorServices
 
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
         {
+            cmd.Materiales = cmd.ListItems.Select(i => (i.nameMaterial, i.unidadMedida, i.precioCUP, i.precioCUC));
+
             cmd.Plan = _planDbAccess.GetPlan(cmd.PlanID);
             cmd.Especialidad = _especialidadDbAccess.GetEspecialidad(cmd.TipoEspecialidad);
             cmd.ObjetoObra = _objetoObraDbAccess.GetObjObra(cmd.ObjetoObraID);

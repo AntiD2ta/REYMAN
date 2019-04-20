@@ -5,8 +5,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\Tensei shitara Slime Datta Ken 22.mp4_snapshot_22.09.jpg" />
+  </ItemGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="Font.Awesome" Version="5.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />

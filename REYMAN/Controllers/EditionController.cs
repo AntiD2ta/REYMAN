@@ -105,7 +105,7 @@ namespace REYMAN.Controllers
             GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
-                AdminService ad = new AdminService(_context);
+                AdminService ad = new AdminService(_context, _userManager, _getterUtils);
                 if (vm.button == "Add")
                     ad.RegisterProvincia(vm);
                 else
@@ -146,7 +146,7 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult AddUO(UOCommand cmd)
         {
-            AdminService adminService = new AdminService(_context);
+            AdminService adminService = new AdminService(_context, _userManager, _getterUtils);
             //display errors if errors is not null
             adminService.RegisterUO(cmd, out var errors);
             return RedirectToAction("EditUOs", "Edition");

@@ -1,0 +1,45 @@
+﻿@using BizLogic.Authentication
+@model RegisterUsuarioCommand
+
+<form method="post">
+    <CENTER>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+                <label>Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Segundo Nombre(Opcional)</label>
+                <input asp-for="SecondName" class="form-control" />
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Primer Apellido</label>
+                <input asp-for="FirstLastName" class="form-control" />
+                <span asp-validation-for="FirstLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Segundo Apellido</label>
+                <input asp-for="SecondLastName" class="form-control" />
+                <span asp-validation-for="SecondLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <select class="form-group" asp-for="UO">
+                    @foreach (var item in Model.UOs)
+                    {
+                        <option value=@item.UnidadOrganizativaID>@item.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <input asp-for="ConfirmPassword" value="P9n$" hidden="hidden" />
+            <input type="submit" />
+        </div>
+    </CENTER>
+</form>

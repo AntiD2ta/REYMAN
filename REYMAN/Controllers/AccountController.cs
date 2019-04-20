@@ -153,7 +153,7 @@ namespace REYMAN.Controllers
                     }
                     else
                     {
-                        new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
+                        //new SendMessage().Send(cmd.FirstName, cmd.SecondName, cmd.FirstLastName, cmd.SecondLastName, cmd.Email);
                         return RedirectToAction("Pending", "Home");
                     }
                 }
@@ -276,5 +276,6 @@ namespace REYMAN.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
     }
 }

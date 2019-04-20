@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BizData.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -15,5 +16,6 @@ namespace BizLogic.Planning
         [Required] 
         public string TipoPlan { get; set; }
 
+        public IEnumerable<string> InmublesUO { get; set; }
     }
 }

@@ -1,0 +1,44 @@
+﻿
+<style>
+    .sidemenu ul {
+                list-style-type: none;
+                top: auto;
+                left: auto;
+                padding: 0;
+                width: 25%;
+                height: 75%;
+                background-color: #f1f1f1;
+        position: fixed;
+            overflow: auto;
+    }
+
+
+    .sidemenu li a {
+        display: block;
+        color: #000;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+
+        .sidemenu li a.active {
+            background-color: darkred;
+            color: white;
+        }
+
+    .sidemenu a:hover:not(.active) {
+        background-color: gray;
+        color: white;
+    }
+
+    .main {
+        margin-left: 32%;
+    }
+</style>
+<div class="sidemenu">
+    <ul>
+        <li><a class="active" href="#home">Estado de Plan</a></li>
+        <li><a href="#news">Insertar Inmueble</a></li>
+        <li><a href="#contact">Añadir Objeto de Obra</a></li>
+        <li><a href="#about">Añandir Acción Constructiva</a></li>
+    </ul>
+</div>

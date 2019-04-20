@@ -2,9 +2,9 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 img {
@@ -16,8 +16,9 @@ img {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
     html {
         font-size: 16px;
@@ -26,52 +27,66 @@ html {
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    text-align: center;
 }
 /*//////////////////////////////////*/
 .vertical-menu {
-    width: 300px; /* Set a width if you like */
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: auto;
+    left: auto;
+    overflow-x: hidden;
+    padding: 8px 0;
+    border-radius: 0px 10px 10px 0px;
 }
-
+.main {
+    top: auto;
+    left: auto;
+    margin-left: 310px;
+}
     .vertical-menu a {
-        background-color: #eee; /* Grey background color */
-        color: black; /* Black text color */
-        display: block; /* Make the links appear below each other */
-        padding: 12px; /* Add some padding */
-        text-decoration: none; /* Remove underline from links */
+        background-color: #eee;
+        color: black;
+        display: block;
+        padding: 12px;
+        text-decoration: none;
     }
 
         .vertical-menu a:hover {
@@ -79,16 +94,19 @@ body {
         }
 
         .vertical-menu a.active {
-            background-color: #a90005; 
+            background-color: #a90005;
             color: white;
         }
+
 
 /************************/
 #myTable tr.header, #myTable tr:hover {
     /* Add a grey background color to the table header and on hover */
     background-color: #f7cfcf;
 }
+
 table {
+    width:100%;
     border-collapse: collapse;
     border-spacing: 0;
     width: 75%;
@@ -96,14 +114,16 @@ table {
 }
 
 th, td {
+    width:auto;
     text-align: center;
     padding: 16px;
     font-family: 'Myriad Pro Bold'
 }
+
 th {
     color: white;
     background: #a90005;
-    font-family:'Myriad Pro Bold'
+    font-family: 'Myriad Pro Bold'
 }
 
     th:first-child, td:first-child {
@@ -160,3 +180,86 @@ tr:nth-child(even) {
             opacity: 1;
             right: 0;
         }
+.sidemenu ul {
+    list-style-type: none;
+    top: auto;
+    left: auto;
+    padding: 0;
+    width: 25%;
+    height: 75%;
+    background-color: #f1f1f1;
+    position: fixed;
+    overflow: auto;
+}
+
+.sidenav {
+    height: 100%;
+    width: 230px;
+    position: fixed;
+    z-index: 1;
+    top: inherit;
+    left: 0;
+    background-color: #a90005;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+/* On mouse-over */
+    .sidenav a:hover, .dropdown-btn:hover {
+        color: #909090;
+    }
+
+/* Main content */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+    background-color: darkred;
+    color: #636161;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    background-color: #646363;
+    padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+
+.header-sidenav {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 30px;
+    color: white;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}

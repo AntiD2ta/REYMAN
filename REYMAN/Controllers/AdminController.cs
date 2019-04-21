@@ -198,7 +198,7 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult EditUOs(string button)
         {
-            AdminService adminService = new AdminService(_context);
+            AdminService adminService = new AdminService(_context, _userManager, _getterUtils);
             var action = button.Split("/");
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var pc = new PlanCommand();
@@ -286,7 +286,7 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult EditObjObras(string button)
         {
-            AdminService adminService = new AdminService(_context);
+            AdminService adminService = new AdminService(_context, _userManager, _getterUtils);
             var action = button.Split("/");
             InvestorServices investorServices = new InvestorServices(_context);
             GetterAll getter = new GetterAll(_getterUtils, _context);
@@ -355,7 +355,7 @@ namespace REYMAN.Controllers
                 if ((await _userManager.GetClaimsAsync(item as Usuario)).Any(c => c.Type == "Pending" && c.Value == "true"))
                     pending.Add(item as Usuario);
             }
-            return View(pending);
+            return RedirectToAction("PendingUsers", "Admin");
         }
     }
 

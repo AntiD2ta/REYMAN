@@ -116,14 +116,13 @@ table {
 th, td {
     width:auto;
     text-align: center;
-    padding: 16px;
-    font-family: 'Myriad Pro Bold'
+    padding: 10px;
+    font-size:16px;
 }
 
 th {
     color: white;
     background: #a90005;
-    font-family: 'Myriad Pro Bold'
 }
 
     th:first-child, td:first-child {
@@ -149,7 +148,6 @@ tr:nth-child(even) {
     color: #ffffff;
     text-align: center;
     font-size: 15px;
-    font-family: Myriad Pro Bold Condensed Italic;
     width: 110px;
     transition: all 0.5s;
     cursor: pointer;

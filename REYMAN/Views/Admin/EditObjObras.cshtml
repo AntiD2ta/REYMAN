@@ -1,0 +1,51 @@
+﻿@using BizData.Entities
+@model IEnumerable<ObjetoObra>
+@{
+    Layout = "AdminLayout";
+}
+<div class="main">
+    <p>
+        <h1>Objeto de Obra</h1>
+    </p>
+    <p>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+    </p>
+
+    <section>
+        <form method="post">
+            <table id="myTable">
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Inmueble
+                    </th>
+                    <th>
+                        Acciones Constructivas
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    <td>
+                        <a>Ver</a>
+                    </td>
+                    <td>
+                        <a>Ver</a>
+                    </td>
+                    <td>
+                        <button class="button" type="submit" value="Edit/@item.ObjetoObraID" name="button">   <span>Editar</span> </button>
+                    </td>
+                </tr>
+                }
+            </table>
+            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+        </form>
+    </section>
+</div>

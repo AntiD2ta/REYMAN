@@ -1,0 +1,24 @@
+﻿@using BizLogic.Planning
+@model ObjObraCommand
+@Html.Partial("PlanPartial",1)
+<div class="main">
+    <form method="post">
+        <h1>Agregar Objeto de Obra</h1>
+        <div class="form-group">
+            <label>Nombre</label>
+            <input class="form-control" asp-for="Nombre" placeholder="Nombre" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Dirección de Inmueble</label>
+            <select class="form-control" asp-for="Direccion"  >
+                @foreach (var item in Model.Inmuebles)
+                {
+                    <option value=@item> @item</option>
+                }
+              
+            </select>
+       </div>
+        <button class="button">Insertar</button>
+    </form>
+</div>

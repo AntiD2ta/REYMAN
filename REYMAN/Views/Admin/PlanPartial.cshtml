@@ -1,4 +1,6 @@
-﻿
+﻿@using BizLogic.Planning
+@using BizData.Entities
+@model int;
 <style>
     .sidemenu ul {
                 list-style-type: none;
@@ -37,8 +39,15 @@
 <div class="sidemenu">
     <ul>
         <li><a class="active" href="#home">Estado de Plan</a></li>
-        <li><a href="#news">Insertar Inmueble</a></li>
-        <li><a href="#contact">Añadir Objeto de Obra</a></li>
-        <li><a href="#about">Añandir Acción Constructiva</a></li>
+        <li><a href="AddInmueble">Insertar Inmueble</a></li>
+        <li><a href="AddObjObra">Añadir Objeto de Obra</a></li>
+        <li>
+            @Html.ActionLink("Añandir Acción Constructiva",
+       "AddAccionCons",  // <-- ActionMethod
+       "Admin",   //<-- Controller Name.
+       new AccionConsCommand { PlanID = Model }  // <-- htmlArguments .. 
+              )
+        </li>
+      
     </ul>
 </div>

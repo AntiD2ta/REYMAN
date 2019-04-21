@@ -1,6 +1,5 @@
 ﻿@using BizLogic.Authentication
 @model RegisterUsuarioCommand
-
 <form method="post">
     <CENTER>
         <div class="col-md-6 col-md-offset-3">
@@ -30,16 +29,20 @@
                 <span asp-validation-for="SecondLastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <select class="form-group" asp-for="UO">
+                <select class="form-control" asp-for="UO">
                     @foreach (var item in Model.UOs)
                     {
                         <option value=@item.UnidadOrganizativaID>@item.Nombre</option>
                     }
                 </select>
             </div>
-
             <input asp-for="ConfirmPassword" value="P9n$" hidden="hidden" />
             <input type="submit" />
         </div>
+        @Html.ActionLink("Cambiar Tipo de Usuario",
+       "ChangeUsuarioClaim",  // <-- ActionMethod
+       "Admin",   //<-- Controller Name.
+       Model.Email// <-- htmlArguments ..
+              )
     </CENTER>
 </form>

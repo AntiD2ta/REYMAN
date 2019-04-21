@@ -1,7 +1,16 @@
 ﻿@using BizLogic.Planning
 @model InmuebleCommand
-@Html.Partial("PlanPartial")
+@Html.Partial("PlanPartial", Model.PlanID)
 <div class="main">
-    <h1>Agregar Inmueble</h1>
-    <input asp-for="Direccion" placeholder="Dirección"/>
+    <form method="post">
+        <h1>Agregar Inmueble</h1>
+        <div class="form-group">
+            <label>Direccion</label>
+            <br />
+            <input asp-for="Direccion" placeholder="Dirección" />
+            <span asp-validation-for="Direccion" class="text-danger"></span>
+        </div>
+
+        <button class="button">Insertar</button>
+    </form>
 </div>

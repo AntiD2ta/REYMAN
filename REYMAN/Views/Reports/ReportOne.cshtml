@@ -1,9 +1,10 @@
 ﻿@using BizData.Entities;
+@using BizLogic.Reports;
 @{
     ViewData["Title"] = "Reporte Uno";
     var uos = (UnidadOrganizativa[])(ViewData.Eval("uos"));
     var uos_view = (bool[])(ViewData.Eval("uos_view"));
-    var unidades = (dynamic)(ViewData.Eval("report.unidades"));
+    var report = (ReportOne)ViewData.Eval("report");
 
     var printProvincia = true;
     var printInmueble = true;
@@ -114,7 +115,7 @@
             </th>
         </tr>
  
-        @foreach (var unidad in unidades)
+        @foreach (var unidad in report.unidades)
         {
             foreach (var inmueble in unidad.inmuebles)
             {
@@ -143,6 +144,8 @@
                             </tr>
 
                             printProvincia= false;
+                            printInmueble = false;
+                            printObra = false;
                         }
                         else if (printInmueble)
                         {
@@ -165,6 +168,7 @@
                             </tr>
 
                             printInmueble= false;
+                            printObra = false;
                         }
                         else if (printObra)
                         {
@@ -215,7 +219,7 @@
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
-                                <td> @accion.Nombre; </td>
+                                <td> @accion.Nombre </td>
                                 <td> @accion.unidadMedida</td>
                                 <td> @accion.cantidad </td>
                                 <td> @accion.manoObraCUC + @accion.manoObraCUP + @accion.materialesCUC + @accion.materialesCUP </td>
@@ -231,6 +235,79 @@
                         }
                     }
 
+                    if (obj.especialidades.Count() == 0)
+                    { 
+                            if (printProvincia)
+                        {
+                            <tr>
+                                <td> @unidad.Nombre </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+
+                            printProvincia= false;
+                            printInmueble = false;
+                            printObra = false;
+                        }
+                        else if (printInmueble)
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+
+                            printInmueble= false;
+                            printObra = false;
+                        }
+                        else if (printObra)
+                        {
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+
+                            printObra= false;
+                        }
+                    }
+
                      <tr>
                          <td> </td>
                          <td> </td>
@@ -238,15 +315,15 @@
                          <td> "TOTAL del objeto de obra" </td>
                          <td> </td>
                          <td> </td>
-                         <td> @obj.manoObraCUC + @obj.manoObraCUP + @obj.materialesCUC + @obj.materialesCUP </td>
-                         <td> @obj.manoObraCUC + @obj.materialesCUC </td>
-                         <td> @obj.manoObraCUP + @obj.materialesCUP </td>
-                         <td> @obj.manoObraCUC + @obj.manoObraCUP</td>
-                         <td> @obj.manoObraCUC </td>
-                         <td> @obj.manoObraCUP </td>
-                         <td> @obj.materialesCUC + @obj.materialesCUP </td>
-                         <td> @obj.materialesCUC </td>
-                         <td> @obj.materialesCUP</td>
+                         <td> @obj.manoObraTotalCUC + @obj.manoObraTotalCUP + @obj.materialesTotalCUC + @obj.materialesTotalCUP </td>
+                         <td> @obj.manoObraTotalCUC + @obj.materialesTotalCUC </td>
+                         <td> @obj.manoObraTotalCUP + @obj.materialesTotalCUP </td>
+                         <td> @obj.manoObraTotalCUC + @obj.manoObraTotalCUP</td>
+                         <td> @obj.manoObraTotalCUC </td>
+                         <td> @obj.manoObraTotalCUP </td>
+                         <td> @obj.materialesTotalCUC + @obj.materialesTotalCUP </td>
+                         <td> @obj.materialesTotalCUC </td>
+                         <td> @obj.materialesTotalCUP</td>
                     </tr>
 
                     printObra= true;
@@ -259,15 +336,15 @@
                     <td> "TOTAL del inmueble" </td>
                     <td> </td>
                     <td> </td>
-                    <td> @inmueble.manoObraCUC + @inmueble.manoObraCUP + @inmueble.materialesCUC + @inmueble.materialesCUP </td>
-                    <td> @inmueble.manoObraCUC + @inmueble.materialesCUC </td>
-                    <td> @inmueble.manoObraCUP + @inmueble.materialesCUP </td>
-                    <td> @inmueble.manoObraCUC + @inmueble.manoObraCUP</td>
-                    <td> @inmueble.manoObraCUC </td>
-                    <td> @inmueble.manoObraCUP </td>
-                    <td> @inmueble.materialesCUC + @inmueble.materialesCUP </td>
-                    <td> @inmueble.materialesCUC </td>
-                    <td> @inmueble.materialesCUP</td>
+                    <td> @inmueble.manoObraTotalCUC + @inmueble.manoObraTotalCUP + @inmueble.materialesTotalCUC + @inmueble.materialesTotalCUP </td>
+                    <td> @inmueble.manoObraTotalCUC + @inmueble.materialesTotalCUC </td>
+                    <td> @inmueble.manoObraTotalCUP + @inmueble.materialesTotalCUP </td>
+                    <td> @inmueble.manoObraTotalCUC + @inmueble.manoObraTotalCUP</td>
+                    <td> @inmueble.manoObraTotalCUC </td>
+                    <td> @inmueble.manoObraTotalCUP </td>
+                    <td> @inmueble.materialesTotalCUC + @inmueble.materialesTotalCUP </td>
+                    <td> @inmueble.materialesTotalCUC </td>
+                    <td> @inmueble.materialesTotalCUP</td>
                 </tr>
 
                 printInmueble= true;
@@ -280,15 +357,15 @@
                 <td> "TOTAL Unidad Organizativa" </td>
                 <td> </td>
                 <td> </td>
-                <td> @unidad.manoObraCUC + @unidad.manoObraCUP + @unidad.materialesCUC + @unidad.materialesCUP </td>
-                <td> @unidad.manoObraCUC + @unidad.materialesCUC </td>
-                <td> @unidad.manoObraCUP + @unidad.materialesCUP </td>
-                <td> @unidad.manoObraCUC + @unidad.manoObraCUP</td>
-                <td> @unidad.manoObraCUC </td>
-                <td> @unidad.manoObraCUP </td>
-                <td> @unidad.materialesCUC + @unidad.materialesCUP </td>
-                <td> @unidad.materialesCUC </td>
-                <td> @unidad.materialesCUP </td>
+                <td> @unidad.manoObraTotalCUC + @unidad.manoObraTotalCUP + @unidad.materialesTotalCUC + @unidad.materialesTotalCUP </td>
+                <td> @unidad.manoObraTotalCUC + @unidad.materialesTotalCUC </td>
+                <td> @unidad.manoObraTotalCUP + @unidad.materialesTotalCUP </td>
+                <td> @unidad.manoObraTotalCUC + @unidad.manoObraTotalCUP</td>
+                <td> @unidad.manoObraTotalCUC </td>
+                <td> @unidad.manoObraTotalCUP </td>
+                <td> @unidad.materialesTotalCUC + @unidad.materialesTotalCUP </td>
+                <td> @unidad.materialesTotalCUC </td>
+                <td> @unidad.materialesTotalCUP </td>
            </tr>
 
             printProvincia = true; 

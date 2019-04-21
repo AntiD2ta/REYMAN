@@ -14,7 +14,7 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, string tipoPlan, IEnumerable<string> UOs, IEnumerable<string> Inmuebles)
+        public ReportOne GenerateReport(int year, string tipoPlan, IEnumerable<string> UOs, IEnumerable<string> Inmuebles)
         {
             var uos = from name in UOs
                       from unidad in _context.UnidadesOrganizativas
@@ -27,30 +27,30 @@ namespace BizLogic.Reports
                             where inm == inmb.Direccion
                             select inmb;
 
-            var report = new
+            var report = new ReportOne()
             {
                 unidades = from unidad in uos
-                           select new
+                           select new ReportOneUnidad()
                            {
-                               nombre = unidad.Nombre,
+                               Nombre = unidad.Nombre,
                                inmuebles = from inm in inmuebles
                                            where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
-                                           select new
+                                           select new ReportOneInmueble()
                                            {
-                                               nombre = inm.Direccion,
+                                               Nombre = inm.Direccion,
                                                objetos = from obj in inm.ObjetosDeObra
-                                                         select new
+                                                         select new ReportOneObject()
                                                          {
-                                                             nombre = obj.Nombre,
+                                                             Nombre = obj.Nombre,
                                                              especialidades = from espld in (from esp in _context.Especialidades
-                                                                                              select new
+                                                                                              select new ReportOneEspecialidad()
                                                                                               {
-                                                                                                  nombre = esp.Tipo,
+                                                                                                  Nombre = esp.Tipo,
                                                                                                   acciones = from ac in obj.AccionesConstructivas
                                                                                                              where ac.Especialidad.EspecialidadID == esp.EspecialidadID && ac.Plan.TipoPlan == tipoPlan
-                                                                                                             select new
+                                                                                                             select new ReportOneAccion()
                                                                                                              {
-                                                                                                                 nombre = ac.Nombre,
+                                                                                                                 Nombre = ac.Nombre,
                                                                                                                  manoObraCUC = ac.ManoObra.PrecioCUC,
                                                                                                                  manoObraCUP = ac.ManoObra.PrecioCUP,
                                                                                                                  materialesCUC = (from acm in ac.Materiales
@@ -144,5 +144,87 @@ namespace BizLogic.Reports
             };
             return report;
         }
+    }
+
+    public class ReportOneAccion
+    {
+        public ReportOneAccion()
+        {
+        }
+
+        public string Nombre { get; set; }
+        public decimal? manoObraCUC { get; set; }
+        public decimal? manoObraCUP { get; set; }
+        public decimal? materialesCUC { get; set; }
+        public decimal? materialesCUP { get; set; }
+        public string unidadMedida { get; set; }
+        public int cantidad { get; set; }
+    }
+
+    public class ReportOneEspecialidad
+    {
+        public ReportOneEspecialidad()
+        {
+        }
+
+        public string Nombre { get; set; }
+        public IEnumerable<ReportOneAccion> acciones { get; set; }
+        public decimal? manoObraTotalCUC { get; set; }
+        public decimal? manoObraTotalCUP { get; set; }
+        public decimal? materialesTotalCUC { get; set; }
+        public decimal? materialesTotalCUP { get; set; }
+    }
+
+    public class ReportOneObject
+    {
+        public ReportOneObject()
+        {
+        }
+
+        public string Nombre { get; set; }
+        public IQueryable<ReportOneEspecialidad> especialidades { get; set; }
+        public decimal? manoObraTotalCUC { get; set; }
+        public decimal? materialesTotalCUC { get; set; }
+        public decimal? manoObraTotalCUP { get; set; }
+        public decimal? materialesTotalCUP { get; set; }
+    }
+
+    public class ReportOneInmueble
+    {
+        public ReportOneInmueble()
+        {
+        }
+
+        public string Nombre { get; set; }
+        public IEnumerable<ReportOneObject> objetos { get; set; }
+        public decimal? manoObraTotalCUC { get; set; }
+        public decimal? materialesTotalCUC { get; set; }
+        public decimal? manoObraTotalCUP { get; set; }
+        public decimal? materialesTotalCUP { get; set; }
+    }
+
+    public class ReportOneUnidad
+    {
+        public ReportOneUnidad()
+        {
+        }
+
+        public string Nombre { get; set; }
+        public IEnumerable<ReportOneInmueble> inmuebles { get; set; }
+        public decimal? manoObraTotalCUC { get; set; }
+        public decimal? materialesTotalCUC { get; set; }
+        public decimal? manoObraTotalCUP { get; set; }
+        public decimal? materialesTotalCUP { get; set; }
+    }
+
+    public class ReportOne 
+    {
+        public ReportOne()
+        {
+        }
+
+        public IEnumerable<ReportOneUnidad> unidades { get; set; }
+        public string tipo { get; set; }
+        public int año { get; set; }
     }
 }

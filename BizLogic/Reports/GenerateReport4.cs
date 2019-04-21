@@ -16,32 +16,32 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<string> UOs)
+        public ReportFour GenerateReport(int year, IEnumerable<string> UOs)
         {
             var uos = from name in UOs
                       from unidad in _context.UnidadesOrganizativas
                       where name == unidad.Nombre
                       select unidad;
 
-            var report = new
+            var report = new ReportFour
             {
                 unidades = from unidad in uos
-                           select new
+                           select new ReportFourUnidad
                            {
-                               nombre = unidad.Nombre,
+                               Nombre = unidad.Nombre,
                                inmuebles = from inm in unidad.Inmuebles
-                                           select new
+                                           select new ReportFourInmueble
                                            {
-                                               nombre = inm.Direccion,
+                                               Nombre = inm.Direccion,
                                                objetos = from obj in inm.ObjetosDeObra
-                                                         select new
+                                                         select new ReportFourObra
                                                          {
-                                                             nombre = obj.Nombre,
+                                                             Nombre = obj.Nombre,
                                                              materiales = from ac in obj.AccionesConstructivas
                                                                           from acm in ac.Materiales
-                                                                          select new
+                                                                          select new ReportFourMaterial
                                                                           {
-                                                                              nombre = acm.Material.Nombre,
+                                                                              Nombre = acm.Material.Nombre,
                                                                               unidadMedida = acm.Material.UnidadMedida.Nombre,
                                                                               reparaciones = (from mat in ac.Materiales
                                                                                               where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Reparación"
@@ -58,5 +58,37 @@ namespace BizLogic.Reports
 
             return report;
         }
+    }
+
+    public class ReportFourMaterial
+    {
+        public string Nombre { get; set; }
+        public string unidadMedida { get; set; }
+        public decimal? reparaciones { get; set; }
+        public decimal? mantenimiento { get; set; }
+    }
+
+    public class ReportFourObra
+    {
+        public string Nombre { get; set; }
+        public IEnumerable<ReportFourMaterial> materiales { get; set; }
+    }
+
+    public class ReportFourInmueble
+    {
+        public string Nombre { get; set; }
+        public IEnumerable<ReportFourObra> objetos { get; set; }
+    }
+    
+    public class ReportFourUnidad
+    {
+        public string Nombre { get; set; }
+        public IEnumerable<ReportFourInmueble> inmuebles { get; set; }
+    }
+
+    public class ReportFour
+    {
+        public IEnumerable<ReportFourUnidad> unidades { get; set; }
+        public int año { get; set; }
     }
 }

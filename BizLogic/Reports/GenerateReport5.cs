@@ -18,26 +18,26 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public async Task<object> GenerateReport(int year, IEnumerable<string> UOs)
+        public async Task<ReportFive> GenerateReport(int year, IEnumerable<string> UOs)
         {
             var uos = from name in UOs
                       from unidad in _context.UnidadesOrganizativas
                       where name == unidad.Nombre
                       select unidad;
             
-            var report = new
+            var report = new ReportFive
             {
                 materiales = from mat in _context.Materiales
-                             select new
+                             select new ReportFiveMaterial
                              {
-                                 nombre = mat.Nombre,
+                                 Nombre = mat.Nombre,
                                  unidadMedida = mat.UnidadMedida.Nombre
                              },
 
                 unidades = from unidad in uos
-                           select new
+                           select new ReportFiveUnidad
                            {
-                               nombre = unidad.Nombre,
+                               Nombre = unidad.Nombre,
                                materiales = from mat in _context.Materiales
                                             select (from inm in unidad.Inmuebles
                                                     from obj in inm.ObjetosDeObra
@@ -60,10 +60,25 @@ namespace BizLogic.Reports
 
             return report;
         }
+    }
 
-        //private async Task<object> Test(EfCoreContext context, IEnumerable<UnidadOrganizativa> uos)
-        //{
-        //    return  
-        //}
+    public class ReportFiveUnidad
+    {
+        public string Nombre { get; set; }
+        public IQueryable<decimal?> materiales { get; set; }
+    }
+
+    public class ReportFiveMaterial
+    {
+        public string Nombre { get; set; }
+        public string unidadMedida { get; set; }
+    }
+
+    public class ReportFive
+    {
+        public IQueryable<ReportFiveMaterial> materiales { get; set; }
+        public IEnumerable<ReportFiveUnidad> unidades { get; set; }
+        public IEnumerable<decimal?> totales { get; set; }
+        public int año { get; set; }
     }
 }

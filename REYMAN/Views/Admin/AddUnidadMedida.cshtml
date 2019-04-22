@@ -1,0 +1,20 @@
+﻿@using BizLogic.Planning
+@model UnidadMedidaViewModel
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "Añadir Unidad de Medida";
+}
+
+<form method="post">
+    <CENTER>
+        <h3>Añadir Unidad de Medida </h3>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group">
+                <label>Nombre</label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <input type="submit" />
+        </div>
+    </CENTER>
+</form>

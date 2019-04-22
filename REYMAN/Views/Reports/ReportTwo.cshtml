@@ -1,0 +1,138 @@
+﻿@using BizData.Entities;
+@using BizLogic.Reports;
+@model ReportTwo
+@{
+    ViewData["Title"] = "Reporte Uno";
+   
+    var printUO = true;
+}
+
+<div>
+    <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
+    <h5> Presupuesto de resumen por inmuebles de la Unidad Organizativa </h5>
+    <h5 id="test"> Año: @Model.año </h5>
+</div>
+
+<div class="main">
+    <table id="myTable">
+        <tr>
+            <th>
+                Unidad Organizativa
+            </th>
+            <th>
+                Inmueble
+            </th>
+            <th> </th>
+            <th>
+                Total
+            </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                Reparaciones
+            </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                Mantenimiento
+            </th>
+            <th> </th>
+        </tr>
+        <tr>
+            <th> </th>
+            <th> </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+            <th>
+                MT
+            </th>
+            <th>
+                CUC
+            </th>
+            <th>
+                CUP
+            </th>
+        </tr>
+
+        @foreach (var unidad in Model.unidades)
+        {
+            foreach (var inmueble in unidad.inmuebles)
+            {
+                if (printUO)
+                {
+                    <tr>
+                        <td> @unidad.Nombre </td>
+                         <td> @inmueble.Nombre</td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
+                        <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
+                        <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                        <td> @inmueble.reparacionesCUC </td>
+                        <td> @inmueble.reparacionesCUP </td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
+                        <td> @inmueble.mantenimientoCUC </td>
+                        <td> @inmueble.mantenimientoCUP </td>
+                    </tr>
+
+                   printUO = false;
+                }
+                else
+                { 
+                    <tr>
+                        <td> </td>
+                        <td> @inmueble.Nombre</td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
+                        <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
+                        <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                        <td> @inmueble.reparacionesCUC </td>
+                        <td> @inmueble.reparacionesCUP </td>
+                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
+                        <td> @inmueble.mantenimientoCUC </td>
+                        <td> @inmueble.mantenimientoCUP </td>
+                    </tr>     
+                }
+            }
+
+             <tr>
+                 <td> </td>
+                 <td> Total de la UO</td>
+                 <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP + unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
+                 <td> @(unidad.mantenimientoCUC + unidad.reparacionesCUC) </td>
+                 <td> @(unidad.mantenimientoCUP + unidad.reparacionesCUP) </td>
+                 <td> @(unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
+                 <td> @unidad.reparacionesCUC </td>
+                 <td> @unidad.reparacionesCUP </td>
+                 <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP) </td>
+                 <td> @unidad.mantenimientoCUC </td>
+                 <td> @unidad.mantenimientoCUP </td>
+            </tr>
+
+             printUO = true;
+         }
+
+    </table>
+</div>
+
+
+<style>
+    #test {
+        text-align: right;
+    }
+</style>

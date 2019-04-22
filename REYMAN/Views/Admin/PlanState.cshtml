@@ -3,7 +3,7 @@
 @model PlanCommand;
 
 @{
-    Model.InmublesUO = Model.InmublesUO == null ? new List<string> { "hola" } : Model.InmublesUO;
+    Model.InmublesUO = Model.InmublesUO == null ? new List<string>() : Model.InmublesUO;
 }
 @Html.Partial("PlanPartial",Model.PlanID)
 <div class="main">

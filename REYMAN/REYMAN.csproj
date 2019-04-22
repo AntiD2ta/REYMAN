@@ -25,9 +25,4 @@
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="Views\Reports\" />
-  </ItemGroup>
-
 </Project>

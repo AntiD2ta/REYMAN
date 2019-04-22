@@ -72,10 +72,24 @@ namespace REYMAN.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult EditPlanes()
+        public async Task<IActionResult> EditPlanes()
         {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(getter.GetAll("Plan"));
+            IEnumerable<Plan> planes= new List<Plan>();
+
+            foreach (var inm in user.UnidadOrganizativa.Inmuebles)
+            {
+                foreach (var obj in inm.ObjetosDeObra)
+                {
+
+                    foreach (var acc in obj.AccionesConstructivas)
+                    {
+                        planes = planes.Concat(new List<Plan>() { acc.Plan });
+                    }
+                }
+            }
+            return View(planes);
         }
 
         /// <summary>
@@ -101,9 +115,10 @@ namespace REYMAN.Controllers
             return RedirectToAction("PlanState", "Admin", pc);
         }
 
-        public IActionResult PlanState(PlanCommand cmd)
+        public async Task<IActionResult> PlanState(PlanCommand cmd)
         {
-
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            cmd.InmublesUO = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
             return View(cmd);
         }
 
@@ -196,16 +211,32 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditUOs()
+        public async Task<IActionResult> EditUOs()
         {
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(getter.GetAll("UnidadOrganizativa"));
+            if (User.HasClaim("Permission", "admin"))
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                return View(getter.GetAll("UnidadOrganizativa"));
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                return View(new List<UnidadOrganizativa>() { user.UnidadOrganizativa });
+            }
         }
 
-        public IActionResult PartialSelUO()
+        public async Task<IActionResult> PartialSelUO()
         {
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(getter.GetAll("UnidadOrganizativa"));
+            if (User.HasClaim("Permission", "admin"))
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                return View(getter.GetAll("UnidadOrganizativa"));
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                return View(new List<UnidadOrganizativa>() { user.UnidadOrganizativa });
+            }
         }
 
         [HttpPost]
@@ -247,14 +278,13 @@ namespace REYMAN.Controllers
 
                 var prov = (getter.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.UnidadOrganizativaID == uovm.Id).Single();
                 ad.UpdateUO(uovm.ToUO(), prov);
-                return RedirectToAction("EditProvincias", "Admin");
+                return RedirectToAction("EditUOs", "Admin");
             }
             return View(uovm);
         }
 
 
-
-
+        
         public async Task<IActionResult> AddAccionCons(AccionConsCommand cmd)
         {
             if (ModelState.IsValid)
@@ -266,18 +296,36 @@ namespace REYMAN.Controllers
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
             cmd.Inmuebles = inmueble;
-            cmd.UnidadesMedida = new List<string> { "dollar", "nacional" };
-            cmd.AccionConsts = new List<string> { "karl", "teno" };
+            cmd.UnidadesMedida = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Select(um => um.Nombre);
+            cmd.Especialidades= (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            IEnumerable<AccionConstructiva> ac = new List<AccionConstructiva>();
+
+            foreach (var inm in user.UnidadOrganizativa.Inmuebles)
+            {
+                foreach (var obj in inm.ObjetosDeObra)
+                {
+                    ac = ac.Concat(obj.AccionesConstructivas);
+                }
+            }
+            cmd.AccionConsts = ac.Select(act => act.Nombre);
             return View(cmd);
-            //return View(new AccionConsCommand { Inmuebles = inmueble, UnidadesMedida = new List<string> { "dollar", "nacional" }, AccionConsts = new List<string> { "karl", "teno" } /*(getter.GetAll("AccionConstructiva") as IEnumerable<Provincia>).Select(x => x.Nombre) }*/});
         }
 
         [HttpGet]
-        public IActionResult EditInmuebles()
+        public async Task<IActionResult> EditInmuebles()
         {
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmuebles = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>);
-            return View(inmuebles);
+            if (User.HasClaim("Permission", "admin"))
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                var inmuebles = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>);
+                return View(inmuebles);
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                return View(user.UnidadOrganizativa.Inmuebles);
+            }
         }
         [HttpPost]
         public IActionResult EditInmuebles(string button)
@@ -314,40 +362,56 @@ namespace REYMAN.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddInmueble(InmuebleCommand cmd)
+        public async Task<IActionResult> AddInmueble(InmuebleCommand cmd)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
-                investorServices.RegisterInmueble(cmd, "Plaza", out var errors);
+                investorServices.RegisterInmueble(cmd, user.UnidadOrganizativa.Nombre, out var errors);
                 return RedirectToAction("EditPlanes", "Admin");
             }
             return View(cmd);
         }
+
         [HttpGet]
-        public IActionResult AddObjObra()
+        public async Task<IActionResult> AddObjObra()
         {
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmuebles = (getter.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.Nombre == "Plaza").Single().Inmuebles.Select(x => x.Direccion);
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var inmuebles = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
             return View(new ObjObraCommand { Inmuebles = inmuebles });
         }
         [HttpPost]
-        public IActionResult AddObjObra(ObjObraCommand cmd)
+        public async Task<IActionResult> AddObjObra(ObjObraCommand cmd)
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
-                cmd.nombreUO = "Plaza";
+                cmd.nombreUO = user.UnidadOrganizativa.Nombre;
                 investorServices.RegisterObjObra(cmd, cmd.Direccion, out var errors);
                 return RedirectToAction("EditPlanes", "Admin");
             }
             return View(cmd);
         }
         [HttpGet]
-        public IActionResult EditObjObras()
+        public async Task<IActionResult> EditObjObras()
         {
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(getter.GetAll("ObjetoObra"));
+            if (User.HasClaim("Permission", "admin"))
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                return View(getter.GetAll("ObjetoObra"));
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                IEnumerable<ObjetoObra> obs = new List<ObjetoObra>();
+
+                foreach (var inm in user.UnidadOrganizativa.Inmuebles)
+                    obs = obs.Concat(inm.ObjetosDeObra);
+
+                return View(obs);
+            }
         }
         [HttpPost]
         public IActionResult EditObjObras(string button)
@@ -447,7 +511,150 @@ namespace REYMAN.Controllers
             }
             return RedirectToAction("PendingUsers", "Admin");
         }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddMaterial()
+        {
+            var lvm = new MaterialViewModel();
+            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            return View(lvm);
+        }
+
+        [HttpPost]
+        public IActionResult AddMaterial(MaterialViewModel lvm)
+        {
+            var unidadMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.Nombre == lvm.UnidadMedida).Single();
+            var service = new InvestorServices(_context);
+            service.RegisterMaterial(new MaterialCommand(null, new Material() { Nombre = lvm.Nombre, UnidadMedida = unidadMedida }), out var errors);
+            return RedirectToAction("EditMateriales");
+        }
+
+
+        public IActionResult EditMaterial(MaterialViewModel lvm)
+        {
+            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            if (ModelState.IsValid && lvm.Button == "post")
+            {
+                new InvestorServices(_context).UpdateMaterial(new Material() { Nombre = lvm.Nombre, UnidadMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.Nombre == lvm.UnidadMedida).Single() },
+                                                              new AccionC_Material() { Material = (new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == lvm.MaterialId).Single() },
+                                                              out var errors);
+
+                return RedirectToAction("EditMateriales");
+            }
+            return View(lvm);
+        }
+
+        [HttpGet]
+        public IActionResult EditMateriales()
+        {
+            var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
+            return View(materiales);
+        }
+
+        [HttpPost]
+        public IActionResult EditMateriales(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddMaterial");
+            else if (action[0] == "Delete")
+            {
+                new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditMateriales");
+            }
+            else
+            {
+                var material = (new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single();
+                return RedirectToAction("EditMaterial", new MaterialViewModel()
+                {
+                    Nombre = material.Nombre,
+                    MaterialId = material.MaterialID,
+                    UnidadMedida = material.UnidadMedida.Nombre
+                });
+            }
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddUnidadMedida()
+        {
+            return View(new UnidadMedidaCommand());
+        }
+
+        [HttpPost]
+        public IActionResult AddUnidadMedida(UnidadMedidaCommand cmd)
+        {
+            if (ModelState.IsValid)
+                new InvestorServices(_context).RegisterUnidadMedida(cmd, out var errors);
+            return RedirectToAction("EditUnidadesMedida");
+        }
+
+        [HttpGet]
+        public IActionResult EditUnidadesMedida()
+        {
+            var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            return View(ums);
+        }
+
+        [HttpPost]
+        public IActionResult EditUnidadesMedida(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddUnidadMedida");
+            else
+            {
+                new InvestorServices(_context).DeleteUnidadMedida((new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditUnidadesMedida");
+            }
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddEspecialidad()
+        {
+            return View(new EspecialidadCommand());
+        }
+
+        [HttpPost]
+        public IActionResult AddEspecialidad(EspecialidadCommand cmd)
+        {
+            if (ModelState.IsValid)
+                new InvestorServices(_context).RegisterEspecialidad(cmd, out var errors);
+            return RedirectToAction("EditEspecialidades");
+        }
+
+        [HttpGet]
+        public IActionResult EditEspecialidades()
+        {
+            var ums = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
+            return View(ums);
+        }
+
+        [HttpPost]
+        public IActionResult EditEspecialidades(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddEspecialidad");
+            else
+            {
+                new InvestorServices(_context).DeleteEspecialidad((new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>).Where(esp => esp.EspecialidadID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditEspecialidades");
+            }
+        }
     }
-
-
 }

@@ -14,23 +14,23 @@ namespace BizLogic.Reports
             _context = context;
         }
 
-        public object GenerateReport(int year, IEnumerable<string> UOs)
+        public ReportTwo GenerateReport(int year, IEnumerable<string> UOs)
         {
             var uos = from name in UOs
                       from unidad in _context.UnidadesOrganizativas
                       where name == unidad.Nombre
                       select unidad;
 
-            var report = new
+            var report = new ReportTwo
             {
                 unidades = from unidad in uos
-                           select new
+                           select new ReportTwoUnidad
                            {
-                               nombre = unidad.Nombre,
+                               Nombre = unidad.Nombre,
                                inmuebles = from inm in unidad.Inmuebles
-                                           select new
+                                           select new ReportTwoInmueble
                                            {
-                                               nombre = inm.Direccion,
+                                               Nombre = inm.Direccion,
                                                reparacionesCUC = (from obj in inm.ObjetosDeObra
                                                                   from ac in obj.AccionesConstructivas
                                                                   where ac.Plan.TipoPlan == "Reparación"
@@ -110,5 +110,30 @@ namespace BizLogic.Reports
 
             return report;
         }
+    }
+
+    public class ReportTwoInmueble
+    {
+        public string Nombre { get; set; }
+        public decimal? reparacionesCUC { get; set; }
+        public decimal? reparacionesCUP { get; set; }
+        public decimal? mantenimientoCUC { get; set; }
+        public decimal? mantenimientoCUP { get; set; }
+    }
+
+    public class ReportTwoUnidad
+    {
+        public string Nombre { get; set; }
+        public IEnumerable<ReportTwoInmueble> inmuebles { get; set; }
+        public decimal? reparacionesCUC { get; set; }
+        public decimal? reparacionesCUP { get; set; }
+        public decimal? mantenimientoCUC { get; set; }
+        public decimal? mantenimientoCUP { get; set; }
+    }
+
+    public class ReportTwo
+    {
+        public IEnumerable<ReportTwoUnidad> unidades { get; set; }
+        public int año { get; set; }
     }
 }

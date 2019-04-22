@@ -41,22 +41,16 @@
                 <td>
                     @item.UserName
                 </td>
-               
-                    @if (item.UnidadOrganizativa != null)
-                    {
-                        <td>
-                            @item.UnidadOrganizativa.Nombre
-                        </td>
+                
+               @if (item.UnidadOrganizativa != null)
+               {
+                <td> @item.UnidadOrganizativa.Nombre </td>
+               }
+               else
+               { 
+                   <td> </td>
+               }
 
-
-                    }
-                    else
-                    {
-                        <td>
-
-                        </td>
-
-                    }
                 <td>
                     @Html.ActionLink("editar", "EditUsuario", "Admin", new RegisterUsuarioCommand
                {

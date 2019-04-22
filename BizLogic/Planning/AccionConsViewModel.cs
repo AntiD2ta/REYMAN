@@ -11,7 +11,6 @@ namespace BizLogic.Planning
         [Required]
         public string Nombre { get; set; }
 
-        [Required]
         public string TipoEspecialidad { get; set; }
 
         public int CantidadMO { get; set; }
@@ -28,11 +27,15 @@ namespace BizLogic.Planning
 
         public int ObjetoObraID { get; set; }
 
+        public int EspecialidadID { get; set; }
+
         public IEnumerable<string> AccionConsts { get; set; }
 
         public List<Item> ListItems { get; set; }
 
         public IEnumerable<string> UnidadesMedida { get; set; }
+
+        public IEnumerable<Especialidad> Especialidades { get; set; }
 
         public IEnumerable<Inmueble> Inmuebles { get; set; }
     }

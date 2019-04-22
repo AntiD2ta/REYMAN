@@ -16,6 +16,9 @@ using BizData.Entities;
 using ServiceLayer.Reports;
 using System.Collections.Generic;
 using ServiceLayer.SendMessage;
+using ServiceLayer.AdminServices;
+using BizLogic.Reports;
+using DataLayer.EfCode;
 
 namespace REYMAN.Controllers
 {
@@ -118,7 +121,7 @@ namespace REYMAN.Controllers
         {
             return View(new RegisterUsuarioCommand());
         }
-
+        
         /// <summary>
         /// POST (Async)method for Register account page. If the user can register succefully, then a claim
         /// Pending: true is assigned to it, as this user needs to be aproved by an admin to complete his
@@ -189,11 +192,8 @@ namespace REYMAN.Controllers
                                                                 lvm.Password,
                                                                 lvm.RememberMe,
                                                                 false);
-
                 if (result.Succeeded)
-                {
                     return RedirectToAction("Index", "Home");
-                }
             }
 
             ModelState.AddModelError(string.Empty, "An error occured trying to login");

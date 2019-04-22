@@ -132,5 +132,10 @@ namespace ServiceLayer.AdminServices
             return (UserPendings, Provincias, UO);
         }
 
+        public IEnumerable<UnidadOrganizativa> GetUOs()
+        {
+            return _unidadOrganizativaDbAccess.GetAll();
+        }
+
     }
 }

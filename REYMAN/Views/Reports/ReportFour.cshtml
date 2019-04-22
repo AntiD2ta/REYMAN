@@ -1,0 +1,192 @@
+﻿@using BizData.Entities;
+@using BizLogic.Reports;
+@model ReportFour
+@{
+    ViewData["Title"] = "Reporte Uno";
+    
+    var printUO = true;
+    var printInmueble = true;
+    var printObra = true;
+}
+
+<div>
+    <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
+    <h5> Listado de materiales por Inmueble</h5>
+    <h5 id="test"> Año: @Model.año </h5>
+</div>
+
+<div class="main">
+    <table id="myTable">
+        <tr>
+            <th>
+                Unidad Organizativa
+            </th>
+            <th>
+                Inmueble
+            </th>
+            <th> Objeto de Obra </th>
+            <th> Material</th>
+            <th> u/m </th>
+            <th> </th>
+            <th>
+                Cantidades
+            </th>
+            <th> </th>
+        </tr>
+        <tr>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th>
+                Rep.
+            </th>
+            <th>
+                Mtto.
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+
+        @foreach (var unidad in Model.unidades)
+        {
+            foreach (var inmueble in unidad.inmuebles)
+            {
+                foreach (var obj in inmueble.objetos)
+                {
+                    foreach (var material in obj.materiales)
+                    {
+                        if (printUO)
+                        { 
+                            <tr>
+                                <td> @unidad.Nombre </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> @material.Nombre </td>
+                                <td> @material.unidadMedida </td>
+                                <td> @material.reparaciones </td>
+                                <td> @material.mantenimiento </td>
+                                <td> @(material.mantenimiento + material.reparaciones) </td>
+                            </tr>
+
+                            printUO = false;
+                            printInmueble = false;
+                            printObra = false;
+                        }
+                        else if (printInmueble)
+                        { 
+                            <tr>
+                                <td> </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> @material.Nombre </td>
+                                <td> @material.unidadMedida </td>
+                                <td> @material.reparaciones </td>
+                                <td> @material.mantenimiento </td>
+                                <td> @(material.mantenimiento + material.reparaciones) </td>
+                            </tr>
+                            
+                            printInmueble = false;
+                            printObra = false;
+                        }
+                        else if (printObra)
+                        { 
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> @obj.Nombre </td>
+                                <td> @material.Nombre </td>
+                                <td> @material.unidadMedida </td>
+                                <td> @material.reparaciones </td>
+                                <td> @material.mantenimiento </td>
+                                <td> @(material.mantenimiento + material.reparaciones) </td>
+                            </tr>
+                            
+                            printObra = false;
+                        }
+                        else 
+                        { 
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> @material.Nombre </td>
+                                <td> @material.unidadMedida </td>
+                                <td> @material.reparaciones </td>
+                                <td> @material.mantenimiento </td>
+                                <td> @(material.mantenimiento + material.reparaciones) </td>
+                            </tr>
+                        }
+                    }
+
+                    if (obj.materiales.Count() == 0)
+                    { 
+                        if (printUO)
+                        { 
+                            <tr>
+                                <td> @unidad.Nombre </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+
+                            printUO = false;
+                            printInmueble = false;
+                            printObra = false;
+                        }
+                        else if (printInmueble)
+                        { 
+                            <tr>
+                                <td> </td>
+                                <td> @inmueble.Nombre </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            
+                            printInmueble = false;
+                            printObra = false;
+                        }
+                        else if (printObra)
+                        { 
+                            <tr>
+                                <td> </td>
+                                <td> </td>
+                                <td> @obj.Nombre </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            
+                            printObra = false;
+                        }
+                    }
+
+                    printObra = true;
+                }
+
+                printInmueble = true;
+            }
+
+            printUO = true;
+        }
+
+    </table>
+</div>
+
+<style>
+    #test {
+        text-align: right;
+    }
+</style>

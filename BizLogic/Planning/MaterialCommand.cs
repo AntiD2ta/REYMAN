@@ -15,5 +15,14 @@ namespace BizLogic.Planning
             AC_M = aC_M;
             Material = material;
         }
+
+        //public Material ToMaterial(string nombre, int unidadMedida)
+        //{
+        //    return new Material()
+        //    {
+        //        Nombre = nombre,
+        //        UnidadMedida = unidadMedida
+        //    };
+        //}
     }
 }

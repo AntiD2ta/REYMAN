@@ -231,32 +231,6 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PlanesActuales",
-                columns: table => new
-                {
-                    PlanActualID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UnidadOrganizativaID = table.Column<int>(nullable: true),
-                    PlanID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlanesActuales", x => x.PlanActualID);
-                    table.ForeignKey(
-                        name: "FK_PlanesActuales_Planes_PlanID",
-                        column: x => x.PlanID,
-                        principalTable: "Planes",
-                        principalColumn: "PlanID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PlanesActuales_UnidadesOrganizativas_UnidadOrganizativaID",
-                        column: x => x.UnidadOrganizativaID,
-                        principalTable: "UnidadesOrganizativas",
-                        principalColumn: "UnidadOrganizativaID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -536,16 +510,6 @@ namespace DataLayer.Migrations
                 column: "InmuebleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlanesActuales_PlanID",
-                table: "PlanesActuales",
-                column: "PlanID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlanesActuales_UnidadOrganizativaID",
-                table: "PlanesActuales",
-                column: "UnidadOrganizativaID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UnidadesOrganizativas_ProvinciaID",
                 table: "UnidadesOrganizativas",
                 column: "ProvinciaID");
@@ -570,9 +534,6 @@ namespace DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "PlanesActuales");
 
             migrationBuilder.DropTable(
                 name: "AccionesCons");

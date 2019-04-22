@@ -68,7 +68,7 @@ namespace BizDbAccess.User
             return _context.Materiales.Where(m => m.Nombre == nombre).First();
         }
 
-        public Material GetMaterial(long MaterialID)
+        public Material GetMaterial(int MaterialID)
         {
             return _context.Materiales.Find(MaterialID);
         }

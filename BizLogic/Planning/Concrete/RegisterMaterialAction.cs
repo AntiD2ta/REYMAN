@@ -21,26 +21,17 @@ namespace BizLogic.Planning.Concrete
         {
             var mat = dto.Material;
 
-            try
-            {
-                var m = _dbAccess.GetMaterial(mat.Nombre, mat.UnidadMedida.Nombre);
-                
-                if (m != null)
-                    AddError($"Ya existe ese material en {dto.AC_M.AccionConstructiva.Nombre}");
-            }
-            catch
-            {
-                AddError($"Ya existe ese material en {dto.AC_M.AccionConstructiva.Nombre}");
-            }
+           if(_dbAccess.GetMaterial(mat.Nombre, mat.UnidadMedida.Nombre) != null)
+               AddError("Ya existe ese material");
 
-            if (dto.AC_M.AccionConstructiva.Materiales.Where(x => x.Material.Nombre == mat.Nombre &&
-                x.Material.UnidadMedida.Nombre.ToLower() == mat.UnidadMedida.Nombre.ToLower()).Any())
-            {
-                AddError($"Ya existe ese material en {dto.AC_M.AccionConstructiva.Nombre}");
-            }
+            //if (dto.AC_M.AccionConstructiva.Materiales.Where(x => x.Material.Nombre == mat.Nombre &&
+            //    x.Material.UnidadMedida.Nombre.ToLower() == mat.UnidadMedida.Nombre.ToLower()).Any())
+            //{
+            //    AddError($"Ya existe ese material en {dto.AC_M.AccionConstructiva.Nombre}");
+            //}
 
-            dto.AC_M.Material = mat;
-            mat.AccionesConstructivas = new List<AccionC_Material>() { dto.AC_M };
+            //dto.AC_M.Material = mat;
+            //mat.AccionesConstructivas = new List<AccionC_Material>() { dto.AC_M };
 
             if (!HasErrors)
                 _dbAccess.Add(mat);

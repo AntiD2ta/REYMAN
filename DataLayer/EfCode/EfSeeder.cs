@@ -41,7 +41,7 @@ namespace DataLayer.EfCode
                     Email = "klsj@gmail.com",
                     UserName = "klsj@gmail.com"
                 };
-                
+
                 await _userManager.CreateAsync(karl, "T3n!");
                 var claim = new Claim("Permission", "admin");
                 await _userManager.AddClaimAsync(karl, claim);

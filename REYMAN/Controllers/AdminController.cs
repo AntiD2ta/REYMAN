@@ -258,6 +258,7 @@ namespace REYMAN.Controllers
             }
             return View(cmd);
         }
+
         [HttpGet]
         public IActionResult AddObjObra()
         {
@@ -357,7 +358,150 @@ namespace REYMAN.Controllers
             }
             return RedirectToAction("PendingUsers", "Admin");
         }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddMaterial()
+        {
+            var lvm = new MaterialViewModel();
+            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            return View(lvm);
+        }
+
+        [HttpPost]
+        public IActionResult AddMaterial(MaterialViewModel lvm)
+        {
+            var unidadMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.Nombre == lvm.UnidadMedida).Single();
+            var service = new InvestorServices(_context);
+            service.RegisterMaterial(new MaterialCommand(null, new Material() { Nombre = lvm.Nombre, UnidadMedida = unidadMedida }), out var errors);
+            return RedirectToAction("EditMateriales");
+        }
+
+
+        public IActionResult EditMaterial(MaterialViewModel lvm)
+        {
+            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            if (ModelState.IsValid && lvm.Button == "post")
+            {
+                new InvestorServices(_context).UpdateMaterial(new Material() { Nombre = lvm.Nombre, UnidadMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.Nombre == lvm.UnidadMedida).Single() },
+                                                              new AccionC_Material() { Material = (new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == lvm.MaterialId).Single() },
+                                                              out var errors);
+
+                return RedirectToAction("EditMateriales");
+            }
+            return View(lvm);
+        }
+
+        [HttpGet]
+        public IActionResult EditMateriales()
+        {
+            var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
+            return View(materiales);
+        }
+
+        [HttpPost]
+        public IActionResult EditMateriales(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddMaterial");
+            else if (action[0] == "Delete")
+            {
+                new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditMateriales");
+            }
+            else
+            {
+                var material = (new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single();
+                return RedirectToAction("EditMaterial", new MaterialViewModel()
+                                                        {
+                                                            Nombre = material.Nombre,
+                                                            MaterialId = material.MaterialID,
+                                                            UnidadMedida = material.UnidadMedida.Nombre
+                                                        });
+            }
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddUnidadMedida()
+        {
+            return View(new UnidadMedidaCommand());
+        }
+
+        [HttpPost]
+        public IActionResult AddUnidadMedida(UnidadMedidaCommand cmd)
+        {
+            if (ModelState.IsValid)
+                new InvestorServices(_context).RegisterUnidadMedida(cmd, out var errors);
+            return RedirectToAction("EditUnidadesMedida");
+        }
+
+        [HttpGet]
+        public IActionResult EditUnidadesMedida()
+        {
+            var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            return View(ums);
+        }
+
+        [HttpPost]
+        public IActionResult EditUnidadesMedida(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddUnidadMedida");
+            else
+            {
+                new InvestorServices(_context).DeleteUnidadMedida((new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditUnidadesMedida");
+            }
+        }
+
+
+
+
+
+
+        [HttpGet]
+        public IActionResult AddEspecialidad()
+        {
+            return View(new EspecialidadCommand());
+        }
+
+        [HttpPost]
+        public IActionResult AddEspecialidad(EspecialidadCommand cmd)
+        {
+            if (ModelState.IsValid)
+                new InvestorServices(_context).RegisterEspecialidad(cmd, out var errors);
+            return RedirectToAction("EditEspecialidades");
+        }
+
+        [HttpGet]
+        public IActionResult EditEspecialidades()
+        {
+            var ums = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
+            return View(ums);
+        }
+
+        [HttpPost]
+        public IActionResult EditEspecialidades(string button)
+        {
+            var action = button.Split('/');
+            if (action[0] == "Add")
+                return RedirectToAction("AddEspecialidad");
+            else
+            {
+                new InvestorServices(_context).DeleteEspecialidad((new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>).Where(esp => esp.EspecialidadID == int.Parse(action[1])).Single());
+                return RedirectToAction("EditEspecialidades");
+            }
+        }
     }
-
-
 }

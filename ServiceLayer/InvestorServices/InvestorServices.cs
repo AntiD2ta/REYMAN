@@ -22,6 +22,8 @@ namespace ServiceLayer.InvestorServices
         private readonly RunnerWriteDb<ObjObraCommand, ObjetoObra> _runnerObjObra;
         private readonly RunnerWriteDb<AccionConsCommand, AccionConstructiva> _runnerAccionCons;
         private readonly RunnerWriteDb<MaterialCommand, Material> _runnerMaterial;
+        private readonly RunnerWriteDb<UnidadMedidaCommand, UnidadMedida> _runnerUnidadMedida;
+        private readonly RunnerWriteDb<EspecialidadCommand, Especialidad> _runnerEspecialidad;
 
         private readonly AccionConstructivaDbAccess _accionConstructivaDbAccess;
         private readonly EspecialidadDbAccess _especialidadDbAccess;
@@ -46,6 +48,10 @@ namespace ServiceLayer.InvestorServices
                 new RegisterObjObraAction(new ObjetoObraDbAccess(_context)), _context);
             _runnerMaterial = new RunnerWriteDb<MaterialCommand, Material>(
                 new RegisterMaterialAction(new MaterialDbAccess(_context)), _context);
+            _runnerUnidadMedida = new RunnerWriteDb<UnidadMedidaCommand, UnidadMedida>(
+                new RegisterUnidadMedidaAction(new UnidadMedidaDbAccess(_context)), _context);
+            _runnerEspecialidad = new RunnerWriteDb<EspecialidadCommand, Especialidad>(
+                new RegisterEspecialidadAction(new EspecialidadDbAccess(_context)), _context);
 
             _planDbAccess = new PlanDbAccess(_context);
             _inmuebleDbAccess = new InmuebleDbAccess(_context);
@@ -286,7 +292,7 @@ namespace ServiceLayer.InvestorServices
             return true;
         }
 
-        public long RegisterMaterial(MaterialCommand cmd, out IImmutableList<ValidationResult> errors)
+        public int RegisterMaterial(MaterialCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var material = _runnerMaterial.RunAction(cmd);
 
@@ -303,26 +309,30 @@ namespace ServiceLayer.InvestorServices
         public Material UpdateMaterial(Material entity, AccionC_Material toUpd, out IImmutableList<ValidationResult> errors)
         {
             errors = null;
-            if (entity.Nombre != null && entity.Nombre != toUpd.Material.Nombre &&
-                _materialDbAccess.GetMaterial(entity.Nombre) != null)
+            if (entity.Nombre != null && _materialDbAccess.GetMaterial(entity.Nombre, entity.UnidadMedida.Nombre) == null)
             {
-                throw new Exception($"Ya existe un Material con nombre {entity.Nombre}.");
+                var mat = _materialDbAccess.Update(entity, toUpd.Material);
+                _context.Commit();
             }
 
-            if (entity.UnidadMedida != null)
-            {
-                MaterialCommand cmd = new MaterialCommand(toUpd, entity);
-                var id = RegisterMaterial(cmd, out errors);
-                if (id != -1)
-                {
-                    return _materialDbAccess.GetMaterial(id);
-                }
-                return null;
-            }
+            //if (entity.UnidadMedida != null)
+            //{
+            //    MaterialCommand cmd = new MaterialCommand(toUpd, entity);
+            //    var id = RegisterMaterial(cmd, out errors);
+            //    if (id != -1)
+            //    {
+            //        return _materialDbAccess.GetMaterial(id);
+            //    }
+            //    return null;
+            //}
 
-            var mat = _materialDbAccess.Update(entity, toUpd.Material);
+            return toUpd.Material;
+        }
+
+        public void DeleteMaterial(Material entity)
+        {
+            _materialDbAccess.Delete(entity);
             _context.Commit();
-            return mat;
         }
 
         public void RemoveMaterialFromAC(Material mat, AccionConstructiva ac)
@@ -337,6 +347,54 @@ namespace ServiceLayer.InvestorServices
                     break;
                 }
             }
+        }
+
+
+
+
+
+        public int RegisterUnidadMedida(UnidadMedidaCommand cmd, out IImmutableList<ValidationResult> errors)
+        {
+            var unidadMedida = _runnerUnidadMedida.RunAction(cmd);
+
+            if (_runnerUnidadMedida.HasErrors)
+            {
+                errors = _runnerUnidadMedida.Errors;
+                return -1;
+            }
+
+            errors = null;
+            return unidadMedida.UnidadMedidaID;
+        }
+
+        public void DeleteUnidadMedida(UnidadMedida entity)
+        {
+            _unidadMedidaDbAccess.Delete(entity);
+            _context.Commit();
+        }
+
+
+
+
+
+        public int RegisterEspecialidad(EspecialidadCommand cmd, out IImmutableList<ValidationResult> errors)
+        {
+            var especialidad = _runnerEspecialidad.RunAction(cmd);
+
+            if (_runnerEspecialidad.HasErrors)
+            {
+                errors = _runnerEspecialidad.Errors;
+                return -1;
+            }
+
+            errors = null;
+            return especialidad.EspecialidadID;
+        }
+
+        public void DeleteEspecialidad(Especialidad entity)
+        {
+            _especialidadDbAccess.Delete(entity);
+            _context.Commit();
         }
     }
 }

@@ -67,7 +67,9 @@ namespace BizDbAccess.Authentication
             user.FirstLastName = entity.FirstLastName ?? user.FirstLastName;
             user.SecondLastName = entity.SecondLastName ?? user.SecondLastName;
             user.UnidadOrganizativa = entity.UnidadOrganizativa ?? user.UnidadOrganizativa;
-            await _userManager.UpdateAsync(user);
+            _context.Update(user);
+            _context.SaveChanges();
+            //await _userManager.UpdateAsync(user);
             return user;
         }
 

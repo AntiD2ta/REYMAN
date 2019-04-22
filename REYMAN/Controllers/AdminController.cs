@@ -149,7 +149,7 @@ namespace REYMAN.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult EditProvincia()
+        public IActionResult EditProvincias()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             ProvinciaViewModel pvm = new ProvinciaViewModel { GetProvincia = getter.GetAll("Provincia") };
@@ -162,7 +162,7 @@ namespace REYMAN.Controllers
         /// <param name="vm">Data of the new edited Provincia</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult EditProvincia(ProvinciaViewModel vm)
+        public IActionResult EditProvincias(ProvinciaViewModel vm)
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
@@ -180,6 +180,19 @@ namespace REYMAN.Controllers
             //If we got to here, something went wrong
             vm.GetProvincia = getter.GetAll("Provincia");
             return View(vm);
+        }
+
+        public IActionResult EditProvincia(ProvinciaViewModel pvm)
+        {
+            if (ModelState.IsValid && pvm.button == "sub")
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                AdminService ad = new AdminService(_context, _userManager, _getterUtils);
+                var prov = (getter.GetAll("Provincia") as IEnumerable<Provincia>).Where(x => x.ProvinciaID == pvm.Id).Single();
+                ad.UpdateProvincia(pvm.ToProvincia(), prov);
+                return RedirectToAction("EditProvincias", "Admin");
+            }
+            return View(pvm);
         }
 
         [HttpGet]
@@ -225,22 +238,75 @@ namespace REYMAN.Controllers
             adminService.RegisterUO(cmd, out var errors);
             return RedirectToAction("EditUOs", "Admin");
         }
+        public IActionResult EditUO(UOViewModel uovm)
+        {
+            if (ModelState.IsValid && uovm.button == "sub")
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                AdminService ad = new AdminService(_context, _userManager, _getterUtils);
+
+                var prov = (getter.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.UnidadOrganizativaID == uovm.Id).Single();
+                ad.UpdateUO(uovm.ToUO(), prov);
+                return RedirectToAction("EditProvincias", "Admin");
+            }
+            return View(uovm);
+        }
+
+
+
+
+        public async Task<IActionResult> AddAccionCons(AccionConsCommand cmd)
+        {
+            if (ModelState.IsValid)
+            {
+                InvestorServices investorServices = new InvestorServices(_context);
+                investorServices.RegisterAccionCons(cmd, out var errors);
+            }
+
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            cmd.Inmuebles = inmueble;
+            cmd.UnidadesMedida = new List<string> { "dollar", "nacional" };
+            cmd.AccionConsts = new List<string> { "karl", "teno" };
+            return View(cmd);
+            //return View(new AccionConsCommand { Inmuebles = inmueble, UnidadesMedida = new List<string> { "dollar", "nacional" }, AccionConsts = new List<string> { "karl", "teno" } /*(getter.GetAll("AccionConstructiva") as IEnumerable<Provincia>).Select(x => x.Nombre) }*/});
+        }
 
         [HttpGet]
-        public IActionResult AddAccionCons()
+        public IActionResult EditInmuebles()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
-            return View(new AccionConsCommand { UnidadesMedida = new List<string> { "dollar", "nacional" }, AccionConsts = new List<string> { "karl", "teno" } /*(getter.GetAll("AccionConstructiva") as IEnumerable<Provincia>).Select(x => x.Nombre) }*/});
+            var inmuebles = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>);
+            return View(inmuebles);
         }
-
         [HttpPost]
-        public IActionResult AddAccionCons(AccionConsCommand cmd)
+        public IActionResult EditInmuebles(string button)
         {
-            InvestorServices investorServices = new InvestorServices(_context);
-            investorServices.RegisterAccionCons(cmd, out var errors);
-            return RedirectToAction("FirstPage", "Admin");
+            InvestorServices adminService = new InvestorServices(_context);
+            var action = button.Split("/");
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            if (action[0] == "Add")
+                return RedirectToAction("AddInmueble", "Admin");
+            else if (action[0] == "Delete")
+                adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
+                    .Where(x => x.InmuebleID.ToString() == action[1]).Single());
+            return RedirectToAction("EditInmuebles", "Admin");
         }
 
+        public IActionResult EditInmueble(InmuebleCommand cmd)
+        {
+            if (ModelState.IsValid && cmd.button == "sub")
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                InvestorServices ins = new InvestorServices(_context);
+
+                var inm = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>).Where(x => x.InmuebleID == cmd.Id).Single();
+                cmd.UO = inm.UO;
+                ins.UpdateInmueble(cmd.ToInmueble(), inm);
+                return RedirectToAction("EditInmuebles", "Admin");
+            }
+            return View(cmd);
+        }
         [HttpGet]
         public IActionResult AddInmueble()
         {
@@ -262,8 +328,8 @@ namespace REYMAN.Controllers
         public IActionResult AddObjObra()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmuebles= (getter.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x=>x.Nombre=="Plaza").Single().Inmuebles.Select(x=>x.Direccion);
-            return View(new ObjObraCommand {Inmuebles=inmuebles });
+            var inmuebles = (getter.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.Nombre == "Plaza").Single().Inmuebles.Select(x => x.Direccion);
+            return View(new ObjObraCommand { Inmuebles = inmuebles });
         }
         [HttpPost]
         public IActionResult AddObjObra(ObjObraCommand cmd)
@@ -292,11 +358,25 @@ namespace REYMAN.Controllers
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var pc = new PlanCommand();
             if (action[0] == "Add")
-                return RedirectToAction("AddObjObras", "Admin");
+                return RedirectToAction("AddObjObra", "Admin");
             else if (action[0] == "Delete")
-               investorServices.DeleteObjetoObra((getter.GetAll("ObjetoObra") as IEnumerable<ObjetoObra>)
-                    .Where(x => x.ObjetoObraID.ToString() == action[1]).Single());
-            return RedirectToAction("EditUOs", "Admin", pc);
+                investorServices.DeleteObjetoObra((getter.GetAll("ObjetoObra") as IEnumerable<ObjetoObra>)
+                     .Where(x => x.ObjetoObraID.ToString() == action[1]).Single());
+            return RedirectToAction("AddObjObra", "Admin");
+        }
+        public IActionResult EditObjObra(ObjObraCommand uocmd)
+        {
+            if (ModelState.IsValid && uocmd.button == "sub")
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                InvestorServices ins = new InvestorServices(_context);
+
+                var prov = (getter.GetAll("ObjetoObra") as IEnumerable<ObjetoObra>).Where(x => x.ObjetoObraID == uocmd.Id).Single();
+                uocmd.Inmueble = prov.Inmueble;
+                ins.UpdateObjetoObra(uocmd.ToObjObra(), prov);
+                return RedirectToAction("EditObjObras", "Admin");
+            }
+            return View(uocmd);
         }
         public IActionResult Usuarios()
         {
@@ -306,10 +386,20 @@ namespace REYMAN.Controllers
 
         public async Task<IActionResult> EditUsuario(RegisterUsuarioCommand cmd)
         {
+
             GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
             GetterAll getter1 = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
+
+                var user = await _userManager.FindByEmailAsync(cmd.Email);
+                var claims = (await _userManager.GetClaimsAsync(user)).ToList();
+                var permission = claims.Where(x => x.Type == "Permission").Single();
+                if (permission.Value != cmd.Claim)
+                {
+                    await _userManager.RemoveClaimAsync(user, permission);
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
+                }
                 LoginService loginService = new LoginService(_context, _signInManager, _userManager);
                 var us = cmd.ToUsuario();
                 us.UnidadOrganizativa = (getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.UnidadOrganizativaID == cmd.UO).Single();

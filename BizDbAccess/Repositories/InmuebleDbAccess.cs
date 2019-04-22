@@ -51,7 +51,7 @@ namespace BizDbAccess.User
             toUpd.Direccion = entity.Direccion ?? toUpd.Direccion;
             toUpd.ObjetosDeObra = entity.ObjetosDeObra ?? toUpd.ObjetosDeObra;
  
-            _context.Inmuebles.Update(entity);
+            _context.Inmuebles.Update(toUpd);
 
             return toUpd;
         }

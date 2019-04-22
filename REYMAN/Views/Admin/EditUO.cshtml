@@ -1,0 +1,13 @@
+﻿@using BizLogic.Administration
+@model UOViewModel
+
+<form method="post">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <input asp-for="Id" hidden="hidden" />
+    <input asp-for="Provincia" hidden="hidden" />
+    <button class="button"  name="button" value="sub">Enviar</button>
+</form>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using System.Text;
 
 namespace BizLogic.Authentication
@@ -38,5 +39,7 @@ namespace BizLogic.Authentication
         public int UO { get; set; }
 
         public IEnumerable<UnidadOrganizativa> UOs { get; set; }
+
+        public string Claim { get; set; }
     }
 }

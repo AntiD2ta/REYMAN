@@ -1,15 +1,15 @@
 ﻿@using BizData.Entities
 @using BizLogic.Planning
-@model IEnumerable<ObjetoObra>
+@model IEnumerable<Inmueble>
 @{
     Layout = "AdminLayout";
 }
 <div class="main">
     <p>
-        <h1>Objeto de Obra</h1>
+        <h1>Inmueble</h1>
     </p>
     <p>
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por Direcciones..">
     </p>
 
     <section>
@@ -17,31 +17,40 @@
             <table id="myTable">
                 <tr>
                     <th>
-                        Nombre
+                        Direccion
                     </th>
                     <th>
-                        Inmueble
+                        UnidadOrganizativa
                     </th>
                     <th>
-                        Acciones Constructivas
+                      
                     </th>
                     <th>
                     </th>
                 </tr>
-                @foreach (var item in Model.Where(x => x.Inmueble != null))
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            @item.Nombre
+                            @item.Direccion
+                        </td>
+                        @if (item.UO != null)
+                        {
+                        <td>
+                            @item.UO.Nombre
+                        </td>
+                        }else
+                        {
+                            <td>
+
+                            </td>
+
+                        }
+                        <td>
+                            @Html.ActionLink("Editar", "EditInmueble", "Admin", new InmuebleCommand { Id = item.InmuebleID, Direccion=item.Direccion})
                         </td>
                         <td>
-                            @item.Inmueble.Direccion
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "EditObjObra", "Admin", new ObjObraCommand { Id = item.ObjetoObraID, Nombre = item.Nombre,Direccion=item.Inmueble.Direccion })
-                        </td>
-                        <td>
-                            <button class="button" type="submit" value="Delete/@item.ObjetoObraID" name="button">   <span>Eliminar</span> </button>
+                            <button class="button" type="submit" value="Delete/@item.InmuebleID" name="button">   <span>Eliminar</span> </button>
                         </td>
                     </tr>
                 }

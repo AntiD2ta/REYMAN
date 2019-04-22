@@ -47,7 +47,12 @@
                     </tr>
                 }
             </table>
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+
+            @if(User.HasClaim("Permission", "admin"))
+            { 
+                <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            }
+            
         </form>
     </section>
 </div>

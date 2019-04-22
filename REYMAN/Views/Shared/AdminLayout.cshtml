@@ -27,7 +27,7 @@
                     <form>
                         <ul class="navbar-nav ">
                             <li>
-                                <a class="nav-link text-dark" title="Manage">Administrador @User.Identity.Name</a>
+                                <a class="nav-link text-dark" title="Manage">@User.Claims.Where(clm => clm.Type == "Permission").Single().Value @User.Identity.Name</a>
                             </li>
                             <li>
                                 <button type="submit" class="btn btn-link navbar-btn navbar-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout" formmethod="post">Log out</button>
@@ -47,22 +47,37 @@
         <div class="header-sidenav">
             <p><i class="fa fa-user-o"></i> Gestionar :</p>
         </div>
-        <button class="dropdown-btn">
-            <i class="fa fa-angle-double-right"></i>
-            Usuarios
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
-            <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
-            <a href="#"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
-        </div>
+
+        @if (User.HasClaim("Permission", "admin"))
+        {
+            <button class="dropdown-btn">
+                <i class="fa fa-angle-double-right"></i>
+                Usuarios
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+                <a href="PendingUsers"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
+            </div>
+        }
+
         <button class="dropdown-btn">
             <i class="fa fa-angle-double-right"></i>
             Datos Requeridos
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="EditProvincias"><i class="fa fa-angle-right"></i> Provincias</a>
+
+            @if (User.HasClaim("Permission", "inversionista"))
+            {
+                <a href="EditPlanes"><i class="fa fa-angle-right"></i> Planes</a>
+            }
+
+            @if (User.HasClaim("Permission", "admin"))
+            {
+                <a href="EditProvincias"><i class="fa fa-angle-right"></i> Provincias</a>
+            }
+
             <a href="EditUOs"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
             <a href="EditUnidadesMedida"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
             <a href="EditEspecialidades"><i class="fa fa-angle-right"></i> Especialidades</a>
@@ -73,7 +88,7 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="#"><i class="fa fa-angle-right"></i> Inmuebles</a>
+            <a href="EditInmuebles"><i class="fa fa-angle-right"></i> Inmuebles</a>
             <a href="EditMateriales"><i class="fa fa-angle-right"></i> Materiales</a>
             <a href="EditObjObras"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
         </div>

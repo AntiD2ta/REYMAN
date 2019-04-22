@@ -48,5 +48,10 @@ namespace BizDbAccess.Repositories
         {
             return _context.Especialidades.Where(e => e.Tipo == tipo).SingleOrDefault();
         }
+
+        public Especialidad GetEspecialidad(int id)
+        {
+            return _context.Especialidades.Where(e => e.EspecialidadID == id).SingleOrDefault();
+        }
     }
 }

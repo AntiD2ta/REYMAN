@@ -63,7 +63,7 @@ namespace REYMAN.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Welcome", "Home");
+                    return Admin();
                 }
             }
             else

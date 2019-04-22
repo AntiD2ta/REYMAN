@@ -185,7 +185,7 @@ namespace ServiceLayer.InvestorServices
             cmd.Materiales = cmd.ListItems.Select(i => (i.nameMaterial, i.unidadMedida, i.precioCUP, i.precioCUC));
 
             cmd.Plan = _planDbAccess.GetPlan(cmd.PlanID);
-            cmd.Especialidad = _especialidadDbAccess.GetEspecialidad(cmd.TipoEspecialidad);
+            cmd.Especialidad = _especialidadDbAccess.GetEspecialidad(cmd.EspecialidadID);
             cmd.ObjetoObra = _objetoObraDbAccess.GetObjObra(cmd.ObjetoObraID);
 
             var data = cmd.ToAC_M();

@@ -1,7 +1,19 @@
 ﻿@using BizLogic.Planning
 
 <form method="post">
-    <input type="number" placeholder="Año" name="Año" />
-    <input type="text" placeholder="Tipo" name="TipoPlan" />
+    <div class="form-group">
+        <label>Año</label>
+        <input type="number" placeholder="Año" name="Año" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Tipo de Plan</label>
+        <select class="form-control" name="TipoPlan">
+
+            <option value="Mantenimiento">Mantenimiento</option>
+            <option value="Reparación">Reparación</option>
+        </select>
+    </div>
+
+    @*<input type="text" placeholder="Tipo" name="TipoPlan" />*@
     <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
 </form>

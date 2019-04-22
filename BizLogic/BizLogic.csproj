@@ -14,4 +14,10 @@
     <ProjectReference Include="..\BizDbAccess\BizDbAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

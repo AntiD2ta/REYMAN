@@ -28,6 +28,8 @@ namespace BizLogic.Authentication
             FirstLastName = u.FirstLastName;
             SecondLastName = u.SecondLastName;
             Email = u.Email;
+            EditEmail = u.Email;
+            Password = "P9n$";
         }
     }
 }

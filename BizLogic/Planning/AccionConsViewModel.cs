@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BizData.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -23,15 +24,17 @@ namespace BizLogic.Planning
 
         public IEnumerable<(string nameMaterial, string unidadMedida, Decimal? precioCUP, Decimal? precioCUC)> Materiales { get; set; }        
 
-        public long PlanID { get; set; }
+        public int PlanID { get; set; }
 
-        public long ObjetoObraID { get; set; }
+        public int ObjetoObraID { get; set; }
 
         public IEnumerable<string> AccionConsts { get; set; }
 
         public List<Item> ListItems { get; set; }
 
         public IEnumerable<string> UnidadesMedida { get; set; }
+
+        public IEnumerable<Inmueble> Inmuebles { get; set; }
     }
     public class Item
     {

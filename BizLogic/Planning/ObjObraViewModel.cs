@@ -12,6 +12,11 @@ namespace BizLogic.Planning
         public string Nombre { get; set; }
         
         public string Direccion { get; set; }
+
         public IEnumerable<string> Inmuebles { get; set; }
+
+        public int Id { get; set; }
+
+        public string button { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using BizData.Entities
+@using BizLogic.Administration
 @model IEnumerable<UnidadOrganizativa>
 
 @{
@@ -27,7 +28,7 @@
                     </th>
                 </tr>
                 @foreach (var item in Model)
-            {
+                {
                     <tr>
                         <td>
                             @item.Nombre
@@ -36,7 +37,9 @@
                             @item.Provincia.Nombre
                         </td>
                         <td>
-                            <button class="button" type="submit" value="Edit/@item.UnidadOrganizativaID" name="button">   <span>Editar</span> </button>
+                        
+                            @Html.ActionLink("editar", "EditUO", "Admin", new UOViewModel { Nombre = item.Nombre, Id = item.UnidadOrganizativaID, Provincia = item.Provincia.Nombre })
+                        
                         </td>
                         <td>
                             <button class="button" type="submit" value="Delete/@item.UnidadOrganizativaID" name="button">   <span>Eliminar</span> </button>

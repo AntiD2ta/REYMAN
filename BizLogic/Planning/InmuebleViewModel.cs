@@ -11,5 +11,10 @@ namespace BizLogic.Planning
         public string Direccion { get; set; }
 
         public int PlanID { get; set; }
+
+        public int Id { get; set; }
+
+        public string button { get; set; }
+
     }
 }

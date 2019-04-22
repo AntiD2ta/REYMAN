@@ -1,0 +1,12 @@
+﻿@using BizLogic.Planning
+@model InmuebleCommand
+
+<form method="post">
+    <div class="form-group">
+        <label>Nombre</label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+    <input asp-for="Id" hidden="hidden" />
+    <button class="button" name="button" value="sub">Enviar</button>
+</form>

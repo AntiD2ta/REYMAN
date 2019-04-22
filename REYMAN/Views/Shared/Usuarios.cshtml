@@ -52,7 +52,16 @@
                }
 
                 <td>
-                    @Html.ActionLink("editar", "EditUsuario", "Admin", new RegisterUsuarioCommand { EditEmail = item.Email, Email = item.Email, FirstLastName = item.FirstLastName, FirstName = item.FirstName, SecondLastName = item.SecondLastName, SecondName = item.SecondName, Password = "P9n$" })
+                    @Html.ActionLink("editar", "EditUsuario", "Admin", new RegisterUsuarioCommand
+               {
+                   EditEmail = item.UserName,
+                   Email = item.UserName,
+                   FirstName = item.FirstName,
+                   FirstLastName = item.FirstLastName,
+                   SecondLastName = item.SecondLastName,
+                   SecondName = item.SecondName,
+                   Password = "P9n$"
+               })
                 </td>
             </tr>
         }

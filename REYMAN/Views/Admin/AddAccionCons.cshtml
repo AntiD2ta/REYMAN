@@ -1,13 +1,25 @@
 ﻿@using BizLogic.Planning
+@using BizData.Entities
 @model AccionConsCommand
+@{
+    List<ObjetoObra> obj = new List<ObjetoObra>();
+    foreach (var item in Model.Inmuebles)
+    {
+        foreach (var item1 in item.ObjetosDeObra)
+        {
+            obj.Add(item1);
+        }
+    }
+    int a = Model.PlanID;
+}
 <style>
-  
+
 
     /** {
         box-sizing: border-box;
     }*/
 
-    
+
 
     .autocomplete {
         /*the container must be positioned relative:*/
@@ -74,6 +86,7 @@
     }
 </style>
 <body>
+
     <script>
          function autocomplete(inp, arr) {
              /*the autocomplete function takes two arguments,
@@ -211,8 +224,20 @@
         }
 
     </script>
-
     <form autocomplete="off" method="post">
+        <div class="form-group">
+            <label>Inmueble</label>
+            <select class="form-control" id="selInm">
+                @foreach (var item in Model.Inmuebles)
+            {
+                    <option value="@item.InmuebleID">@item.Direccion</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Objeto de Obra</label>
+            <select asp-for="ObjetoObraID" class="form-control" id="selobj"></select>
+        </div>
         <p>
             <table>
                 <tr>
@@ -247,7 +272,6 @@
         </p>
         <div class="form-group" id="item-list">
             <a id="add">Add</a>
-
         </div>
         <table id="tabla2">
             <tr>
@@ -255,7 +279,7 @@
                     Nombre del material
                 </th>
                 <th>
-                   Unidad de Medida
+                    Unidad de Medida
                 </th>
                 <th>
                     Precio CUC
@@ -265,9 +289,9 @@
                 </th>
                 @Html.EditorFor(F => F.ListItems)
             </tr>
-           
 
         </table>
+        <input asp-for="PlanID" hidden="hidden" />
 
         <input type="submit">
     </form>
@@ -304,11 +328,10 @@
         }
         inputdouble();
     </script>
-
     <script>
 
         document.getElementById("add").addEventListener("click", function (e) {
-           
+
             //e.preventDefault();
             var i = document.getElementById("tabla2").getElementsByTagName("tr").length;
             i = i - 1;
@@ -345,7 +368,66 @@
             inputdouble()
         });
     </script>
+    <script>
+        function show() {
+            var selimp = document.getElementById("selInm");
+            selimp.addEventListener("change", function (e) {
+                var s = this.value;
 
+                var sel = document.getElementById("selobj");
+                var opt = sel.getElementsByTagName("option");
+                var k = opt.length;
+                for (var i = 0; i <k; i++) {
+                    sel.removeChild(opt[0]);
+                }
+
+                var nombres =  @Html.Raw(Json.Serialize(obj.Select(x=>x.Nombre)));
+                var inmuebles =  @Html.Raw(Json.Serialize(obj.Select(x=>x.Inmueble.InmuebleID)));
+                var ids =  @Html.Raw(Json.Serialize(obj.Select(x=>x.ObjetoObraID)));
+                console.log(nombres);
+                console.log(inmuebles);
+                console.log(ids);
+                for (var i = 0; i < nombres.length; i++) {
+                    var a = document.createElement("option");
+                    a.innerHTML = nombres[i];
+                    a.setAttribute("value", ids[i]);
+                    a.name ="ObjetoObraID"
+                    if (inmuebles[i]==s)
+                        sel.appendChild(a);
+                }
+
+
+            });
+            selimp.addEventListener("click", function (e) {
+                var s = this.value;
+
+                var sel = document.getElementById("selobj");
+                var opt = sel.getElementsByTagName("option");
+                var k = opt.length;
+                for (var i = 0; i <k; i++) {
+                    sel.removeChild(opt[0]);
+                }
+
+                var nombres =  @Html.Raw(Json.Serialize(obj.Select(x=>x.Nombre)));
+                var inmuebles =  @Html.Raw(Json.Serialize(obj.Select(x=>x.Inmueble.InmuebleID)));
+                var ids =  @Html.Raw(Json.Serialize(obj.Select(x=>x.ObjetoObraID)));
+                console.log(nombres);
+                console.log(inmuebles);
+                console.log(ids);
+                for (var i = 0; i < nombres.length; i++) {
+                    var a = document.createElement("option");
+                    a.innerHTML = nombres[i];
+                    a.setAttribute("value", ids[i]);
+                    a.name ="ObjetoObraID"
+                    if (inmuebles[i]==s)
+                        sel.appendChild(a);
+                }
+
+
+        });
+
+        }
+        show();
+    </script>
 </body>
-
 

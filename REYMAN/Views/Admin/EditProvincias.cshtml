@@ -1,0 +1,62 @@
+﻿@using BizLogic.Administration
+@using  BizData.Entities
+@model ProvinciaViewModel;
+@{
+    var provincias = Model.GetProvincia as IEnumerable<Provincia>;
+}
+
+@{
+    Layout = "AdminLayout";
+}
+<div class="main">
+     <p>
+    <h1>Provincias</h1>
+    </p>
+    <p>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombres...">
+    </p>
+    <section>
+        <form method="post">
+            <table id="myTable">
+                <tr>
+                    <th>
+                        Provincia
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in provincias)
+                {
+                    <tr>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        <td>
+                            <button class="button" type="submit" value="@item.Nombre" name="Nombre">   <span>Eliminar</span> </button>
+                        </td>
+                        <td>
+                          @Html.ActionLink("editar", "EditProvincia", "Admin", new ProvinciaViewModel { Nombre = item.Nombre, Id = item.ProvinciaID })
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        <input type="text" placeholder="Nueva Provincia" name="Nombre" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </td>
+
+                    <td>
+                        <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </section>
+</div>
+<script>
+
+</script>

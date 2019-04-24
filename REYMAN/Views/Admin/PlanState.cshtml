@@ -23,6 +23,7 @@
                 <th> Mano de Obra </th>
                 <th> </th>
                 <th> </th>
+                <th> </th>
             </tr>
             <tr>
                 <th> Accion Constructiva </th>
@@ -33,6 +34,7 @@
                 <th> u/m</th>
                 <th> CUC</th>
                 <th> CUP </th>
+                <th> </th>
                 <th> </th>
             </tr>
             @if (Model.AccionesConstructivas != null)
@@ -48,6 +50,7 @@
                         <td> @item.ManoObra.UnidadMedida.Nombre </td>
                         <td> @item.ManoObra.PrecioCUC </td>
                         <td> @item.ManoObra.PrecioCUP</td>
+                        @*<td> @Html.ActionLink("Editar", "EditInmueble", "Admin", new InmuebleCommand { Id = item.InmuebleID, Direccion = item.Direccion })</td>*@
                         <td> <button class="button" type="submit" value="@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
                     </tr>
                 }

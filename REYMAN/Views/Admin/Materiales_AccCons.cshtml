@@ -1,0 +1,35 @@
+﻿@using BizLogic.Planning
+@using BizData.Entities
+@model AccionConstructiva
+
+@{
+    Layout = "AdminLayout";
+    ViewData["TiTle"] = "Materiales de la Accion Constructiva";
+}
+
+
+<div class="main">
+    <h1>Materiales de la Accion Constructiva: @Model.Nombre</h1>
+        <table id="hidden">
+            <tr>
+                <th> Material </th>
+                <th> u/m</th>
+                <th> Cantidad </th>
+                <th> PrecioCUC </th>
+                <th> PrecioCUP</th>
+            </tr>
+            @if (Model.Materiales != null)
+            {
+                @foreach (var item in Model.Materiales)
+                {
+                    <tr>
+                        <td> @item.Material.Nombre</td>
+                        <td> @item.Material.UnidadMedida.Nombre </td>
+                        <td> @item.Cantidad</td>
+                        <td> @item.PrecioCUC </td>
+                        <td> @item.PrecioCUP </td>
+                    </tr>
+                }
+            }
+        </table>
+</div>

@@ -36,7 +36,7 @@
                             }
                             else if (User.HasClaim("Permission", "gerentes"))
                             {
-                                <li> <a class="nav-link text-dark" title="Manage">Inversionista @User.Identity.Name</a></li>
+                                <li> <a class="nav-link text-dark" title="Manage">Gerente @User.Identity.Name</a></li>
                             }
                             else
                             {
@@ -89,11 +89,20 @@
             <a asp-action="EditInmuebles" asp-controller="Admin"><i class="fa fa-angle-right"></i> Inmuebles</a>
             <a asp-action="EditObjObras" asp-controller="Admin"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
 
-            @if (User.HasClaim("Permission", "inversionista"))
-            {
-                <a asp-action="EditPlanes" asp-controller="Admin"><i class="fa fa-angle-right"></i> Planes</a>
-            }
         </div>
+
+        @if (User.HasClaim("Permission", "inversionista"))
+        {
+                <button class="dropdown-btn">
+                    <i class="fa fa-angle-double-right"></i>
+                    Planes
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-container">
+                    <a asp-action="AddPlan" asp-controller="Admin"><i class="fa fa-angle-right"></i> Crear Plan</a>
+                    <a asp-action="EditPlanes" asp-controller="Admin"><i class="fa fa-angle-right"></i> Ver Planes</a>
+                </div>
+        }
 
         <button class="dropdown-btn">
             <i class="fa fa-angle-double-right"></i>
@@ -106,8 +115,7 @@
             <a asp-action="EditMateriales" asp-controller="Admin"><i class="fa fa-angle-right"></i> Materiales</a>
         </div>
 
-        @if (User.HasClaim("Permission", "admin") || User.HasClaim("Permission", "inversionista"))
-        {<button class="dropdown-btn">
+        <button class="dropdown-btn">
                 <i class="fa fa-angle-double-right"></i>
                 Reportes
                 <i class="fa fa-caret-down"></i>
@@ -118,7 +126,6 @@
                 <a asp-controller="Reports" asp-action="ReportFour"><i class="fa fa-angle-right"></i> Reporte Cuatro</a>
                 <a asp-controller="Reports" asp-action="ReportFive"><i class="fa fa-angle-right"></i> Reporte Cinco</a>
             </div>
-        }
 
     </div>
     <div class="container">

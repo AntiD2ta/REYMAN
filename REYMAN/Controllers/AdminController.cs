@@ -18,7 +18,7 @@ using ServiceLayer.AccountServices;
 using BizLogic.Authentication;
 using System.Security.Claims;
 
-namespace REYMAN.Controllers
+namespace REYMAN.Controllers 
 {
     /// <summary>
     /// Manage all the views related to admin powers and actions.

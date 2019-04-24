@@ -90,23 +90,54 @@ namespace REYMAN.Controllers
             if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Admin");
             else
-                return RedirectToAction("PlanState", action[1]);
+                return RedirectToAction("PlanState", new PlanCommand() { PlanID = int.Parse(action[1])});
         }
 
-        public async Task<IActionResult> PlanState(string planID)
+        [HttpGet]
+        public async Task<IActionResult> PlanState(PlanCommand pc)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Plan plan = new Plan();
 
             foreach (var pl in user.UnidadOrganizativa.Planes)
             {
-                if (planID == pl.PlanID.ToString())
+                if (pc.PlanID == pl.PlanID)
                 {
                     plan = pl;
                     break;
                 }
             }
             return View(plan);
+        }
+
+        [HttpPost]
+        public IActionResult PlanState(string button)
+        {
+            var action = button.Split("/");
+            if (action[0] == "Add")
+                return RedirectToAction("AddAccionCons", new AccionConsCommand() { PlanID = int.Parse(action[1])});
+            else
+                return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = int.Parse(button) });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Materiales_AccCons(AccionConsCommand pc)
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var acc = new AccionConstructiva();
+
+            foreach (var pl in user.UnidadOrganizativa.Planes)
+            {
+                foreach (var ac in pl.AccionesConstructivas)
+                {
+                    if (pc.AccionConstructivaID == ac.AccionConstructivaID)
+                    {
+                        acc = ac;
+                        break;
+                    }
+                }
+            }
+            return View(acc);
         }
 
         /// <summary>
@@ -281,8 +312,6 @@ namespace REYMAN.Controllers
             return View(uovm);
         }
 
-
-        
         public async Task<IActionResult> AddAccionCons(AccionConsCommand cmd)
         {
             if (ModelState.IsValid)

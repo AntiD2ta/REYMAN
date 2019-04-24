@@ -11,17 +11,10 @@
         }
     }
     int a = Model.PlanID;
-   // Layout = "Adminlayout";
+    // Layout = "Adminlayout";
 }
+
 <style>
-
-
-    /** {
-        box-sizing: border-box;
-    }*/
-
-
-
     .autocomplete {
         /*the container must be positioned relative:*/
         position: relative;
@@ -86,6 +79,7 @@
         background-color: #ee0000;
     }
 </style>
+
 <body>
 
     <script>
@@ -225,7 +219,9 @@
         }
 
     </script>
+
     <form autocomplete="off" method="post">
+        
         <div class="form-group">
             <label>Inmueble</label>
             <select class="form-control" id="selInm">
@@ -235,36 +231,24 @@
                 }
             </select>
         </div>
+
         <div class="form-group">
             <label>Objeto de Obra</label>
             <select asp-for="ObjetoObraID" class="form-control" id="selobj"></select>
         </div>
+        
         <p>
             <table>
                 <tr>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>
-                        Unidad de Medida
-                    </th>
-                    <th>
-                      Especialidad
-                    </th>
-                    <th>
-                        Precio en CUC
-                    </th>
-                    <th>
-                        Precio en CUP
-                    </th>
+                    <th> Nombre </th>
+                    <th> Unidad de Medida </th>
+                    <th> Especialidad </th>
+                    <th> Precio en CUC </th>
+                    <th> Precio en CUP </th>
                 </tr>
                 <tr>
-                    <td>
-                        @Html.Partial("PartialNombre", Model)
-                    </td>
-                    <td>
-                        @Html.Partial("PartialUM", Model)
-                    </td>
+                    <td> @Html.Partial("PartialNombre", Model) </td>
+                    <td> @Html.Partial("PartialUM", Model) </td>
                     <td>
                         <select class="form-control" asp-for="EspecialidadID">
                             @foreach (var item in Model.Especialidades)
@@ -275,12 +259,8 @@
                             }
                         </select>
                     </td>
-                    <td>
-                        <input class="precio" asp-for="PrecioCUC" placeholder="CUC" />
-                    </td>
-                    <td>
-                        <input class="precio" asp-for="PrecioCUP" placeholder="CUP" />
-                    </td>
+                    <td> <input class="precio" asp-for="PrecioCUC" placeholder="CUC" /> </td>
+                    <td> <input class="precio" asp-for="PrecioCUP" placeholder="CUP" /> </td>
                 </tr>
             </table>
         </p>

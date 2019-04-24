@@ -3,7 +3,8 @@
 @model Plan
 
 @{
-
+    Layout = "AdminLayout";
+    ViewData["TiTle"] = "Estado del Plan";
 }
 
 @*@Html.Partial("PlanPartial",Model.PlanID)*@
@@ -44,37 +45,16 @@
                         <td> @item.ObjetoObra.Nombre</td>
                         <td> @item.Especialidad.Tipo </td>
                         <td> @item.ManoObra.Cantidad </td>
-                        <td> @item.ManoObra.Cantidad </td>
+                        <td> @item.ManoObra.UnidadMedida.Nombre </td>
                         <td> @item.ManoObra.PrecioCUC </td>
                         <td> @item.ManoObra.PrecioCUP</td>
-                        <td> <button class="button" type="submit" value="See/@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
+                        <td> <button class="button" type="submit" value="@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
                     </tr>
                 }
             }
         </table>
+
+        <button class="button" type="submit" value="Add/@Model.PlanID" name="button" style="resize"> <span>Añadir Acción Constructiva</span> </button> 
+
     </form>
 </div>
-
-@*<script>
-
-    var nombres = @Html.Raw(Json.Serialize(Model.InmublesUO));
-    console.log(nombres);
-    if (nombres.length == 0)
-    {
-
-        var main = document.getElementsByClassName("main")[0];
-        var label = document.createElement("label");
-        label.innerHTML = "*No tienes Inmuebles";
-        label.style.borderRadius = "2px";
-        label.style.color = "lightblue";
-        main.appendChild(label);
-        var hidden = document.getElementById("hidden");
-        hidden.hidden = 1;
-    }
-    else
-    {
-        var main = document.getElementById("hidden");
-        main.hidden = 0;
-    }
-    //autocomplete(document.getElementById("myInput"), nombres);
-</script>*@

@@ -26,8 +26,10 @@ namespace ServiceLayer.InvestorServices
         private readonly RunnerWriteDb<EspecialidadCommand, Especialidad> _runnerEspecialidad;
 
         private readonly AccionConstructivaDbAccess _accionConstructivaDbAccess;
+        private readonly AccionC_MaterialDbAccess _accionC_MaterialDbAccess;
         private readonly EspecialidadDbAccess _especialidadDbAccess;
         private readonly MaterialDbAccess _materialDbAccess;
+        private readonly ManoObraDbAccess _manoObraDbAccess;
         private readonly PlanDbAccess _planDbAccess;
         private readonly InmuebleDbAccess _inmuebleDbAccess;
         private readonly ObjetoObraDbAccess _objetoObraDbAccess;
@@ -61,6 +63,8 @@ namespace ServiceLayer.InvestorServices
             _especialidadDbAccess = new EspecialidadDbAccess(_context);
             _materialDbAccess = new MaterialDbAccess(_context);
             _unidadMedidaDbAccess = new UnidadMedidaDbAccess(_context);
+            _accionC_MaterialDbAccess = new AccionC_MaterialDbAccess(_context);
+            _manoObraDbAccess = new ManoObraDbAccess(_context);
         }
 
         public long RegisterPlan(PlanCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -395,6 +399,28 @@ namespace ServiceLayer.InvestorServices
         {
             _especialidadDbAccess.Delete(entity);
             _context.Commit();
+        }
+
+        public AccionC_Material UpdateACM(AccionC_Material entity, AccionC_Material toUpd)
+        {
+            foreach (var item in entity.AccionConstructiva.Materiales)
+            {
+                if (entity.Equals(item))
+                    throw new InvalidOperationException("Ya existe ese material en la acción constructiva actual");
+            }
+
+            toUpd = _accionC_MaterialDbAccess.Update(entity, toUpd);
+            _context.Commit();
+
+            return toUpd;
+        }
+
+        public ManoObra UpdateManoObra(ManoObra entity, ManoObra toUpd)
+        {
+            toUpd = _manoObraDbAccess.Update(entity, toUpd);
+            _context.Commit();
+
+            return toUpd;
         }
     }
 }

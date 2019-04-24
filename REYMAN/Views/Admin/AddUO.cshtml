@@ -1,5 +1,12 @@
 ﻿@using BizLogic.Administration
 @model UOCommand
+@{ 
+    Layout = "AdminLayout";
+}
+
+<div class="main">
+<h3>Rellene los campos para añadir una unidad organizativa correctamente</h3>
+    <br />
 <form method="post">
     <input asp-for="Nombre" placeholder="Nombre" name="Nombre" />
     <select asp-for="Provincia">
@@ -10,3 +17,4 @@
     </select>
     <button class="button" type="submit" value="Edit" name="button">   <span>Añadir</span> </button>
 </form>
+</div>

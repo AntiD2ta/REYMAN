@@ -2,33 +2,48 @@
 @using BizLogic.Authentication
 @using BizLogic.Administration
 @model PendingUsersViewModel;
-
-@{
+@{ 
     Layout = "AdminLayout";
-    ViewData["Title"] = "Usuarios Pendientes";
 }
 
-<section>
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
-</section>
-
 <div class="main">
+    <h1>Usuarios Pendientes</h1>
+    <p>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
+    </p>
+
     <section>
         <form method="post">
             <table id="myTable">
                 <tr>
-                    <th> Nombre </th>
-                    <th> Apellido </th>
-                    <th> Correo </th>
-                    <th> Unidad Organizativa </th>
-                    <th> </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Apellido
+                    </th>
+                    <th>
+                        Correo
+                    </th>
+                    <th>
+                        Unidad Organizativa
+                    </th>
+                    <th>
+
+                    </th>
                 </tr>
                 @foreach (var item in Model.Usuarios)
                 {
                     <tr>
-                        <td> @item.FirstName </td>
-                        <td> @item.FirstLastName </td>
-                        <td> @item.UserName </td>
+                        <td>
+                            @item.FirstName
+                        </td>
+                        <td>
+                            @item.FirstLastName
+                        </td>
+                        <td>
+                            @item.UserName
+                        </td>
                         <td>
                             @if (item.UnidadOrganizativa != null)
                 {

@@ -683,5 +683,22 @@ namespace REYMAN.Controllers
                 return RedirectToAction("EditEspecialidades");
             }
         }
+
+
+
+
+        public IActionResult EditAccionCons_Mat(AccionCons_MaterialViewModel vm)
+        {
+            if (ModelState.IsValid && vm.Button == "post")
+            {
+                new InvestorServices(_context).UpdateACM(new AccionC_Material() { Cantidad = vm.Cantidad,
+                                                                                  PrecioCUC = vm.PrecioCUC,
+                                                                                  PrecioCUP = vm.PrecioCUP},
+                                                            (new GetterAll(_getterUtils, _context).GetAll("AccionC_Material") as IEnumerable<AccionC_Material>).Where(acm => acm.AccionC_MaterialID == vm.AccionCons_MaterialID).Single());
+
+                return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.AccionConstructivaID});
+            }
+            return View(vm);
+        }
     }
 }

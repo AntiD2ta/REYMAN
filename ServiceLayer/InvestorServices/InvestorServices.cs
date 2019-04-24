@@ -403,7 +403,7 @@ namespace ServiceLayer.InvestorServices
 
         public AccionC_Material UpdateACM(AccionC_Material entity, AccionC_Material toUpd)
         {
-            foreach (var item in entity.AccionConstructiva.Materiales)
+            foreach (var item in toUpd.AccionConstructiva.Materiales)
             {
                 if (entity.Equals(item))
                     throw new InvalidOperationException("Ya existe ese material en la acción constructiva actual");

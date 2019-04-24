@@ -17,6 +17,7 @@
                 <th> Cantidad </th>
                 <th> PrecioCUC </th>
                 <th> PrecioCUP</th>
+                <th> <th>
             </tr>
             @if (Model.Materiales != null)
             {
@@ -28,8 +29,10 @@
                         <td> @item.Cantidad</td>
                         <td> @item.PrecioCUC </td>
                         <td> @item.PrecioCUP </td>
+                        <td> @Html.ActionLink("Editar", "EditAccionCons_Mat", "Admin", new AccionCons_MaterialViewModel { AccionCons_MaterialID = item.AccionC_MaterialID, AccionConstructivaID = Model.AccionConstructivaID,  Cantidad = item.Cantidad, PrecioCUC = item.PrecioCUC, PrecioCUP = item.PrecioCUP })</td>
                     </tr>
                 }
             }
         </table>
+
 </div>

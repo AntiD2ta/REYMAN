@@ -43,7 +43,7 @@ namespace BizLogic.Reports
                                                     from obj in inm.ObjetosDeObra
                                                     from ac in obj.AccionesConstructivas
                                                     from acm in ac.Materiales
-                                                    where mat.MaterialID == acm.Material.MaterialID
+                                                    where mat.MaterialID == acm.Material.MaterialID && ac.Plan.Año == year
                                                     select acm.Cantidad).Sum()
                            },
 
@@ -53,7 +53,7 @@ namespace BizLogic.Reports
                                   from obj in inm.ObjetosDeObra
                                   from ac in obj.AccionesConstructivas
                                   from acm in ac.Materiales
-                                  where mat.MaterialID == acm.Material.MaterialID
+                                  where mat.MaterialID == acm.Material.MaterialID && ac.Plan.Año == year
                                   select acm.Cantidad).Sum(),
                 año = year
             };

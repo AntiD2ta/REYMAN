@@ -1,138 +1,132 @@
 ﻿@using BizData.Entities;
 @using BizLogic.Reports;
-@model ReportTwo
+@model ReportTwoViewModel
 @{
-    ViewData["Title"] = "Reporte Uno";
-   
+    ViewData["Title"] = "Reporte Dos";
+    Layout = "AdminLayout";
+
     var printUO = true;
 }
 
-<div>
-    <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
-    <h5> Presupuesto de resumen por inmuebles de la Unidad Organizativa </h5>
-    <h5 id="test"> Año: @Model.año </h5>
-</div>
-
 <div class="main">
-    <table id="myTable">
-        <tr>
-            <th>
-                Unidad Organizativa
-            </th>
-            <th>
-                Inmueble
-            </th>
-            <th> </th>
-            <th>
-                Total
-            </th>
-            <th> </th>
-            <th> </th>
-            <th>
-                Reparaciones
-            </th>
-            <th> </th>
-            <th> </th>
-            <th>
-                Mantenimiento
-            </th>
-            <th> </th>
-        </tr>
-        <tr>
-            <th> </th>
-            <th> </th>
-            <th>
-                MT
-            </th>
-            <th>
-                CUC
-            </th>
-            <th>
-                CUP
-            </th>
-            <th>
-                MT
-            </th>
-            <th>
-                CUC
-            </th>
-            <th>
-                CUP
-            </th>
-            <th>
-                MT
-            </th>
-            <th>
-                CUC
-            </th>
-            <th>
-                CUP
-            </th>
-        </tr>
+    <CENTER>
+        <h5> Reporte Dos </h5>
+        <br>
+        
+        <form method="post">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="form-group">
+                    <label> Año </label>
+                    <input asp-for="Año" min="2019" class="form-control col-md-3" />
+                    <span asp-validation-for="Año" class="text-danger"></span>
+                </div>
 
-        @foreach (var unidad in Model.unidades)
+                <input type="submit" value="Generar" />
+            </div>
+        </form>
+
+        @if (Model.Report != null)
         {
-            foreach (var inmueble in unidad.inmuebles)
-            {
-                if (printUO)
+            <br>
+            <br>
+            <div>
+                <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
+                <h5> Presupuesto de resumen por inmuebles de la Unidad Organizativa </h5>
+                <h5 id="test"> Año: @Model.Año </h5>
+            </div>
+
+            <table id="myTable">
+                <tr>
+                    <th> Unidad Organizativa </th>
+                    <th> Inmueble </th>
+                    <th> </th>
+                    <th> Total </th>
+                    <th> </th>
+                    <th> </th>
+                    <th> Reparaciones </th>
+                    <th> </th>
+                    <th> </th>
+                    <th> Mantenimiento </th>
+                    <th> </th>
+                </tr>
+                <tr>
+                    <th> </th>
+                    <th> </th>
+                    <th> MT </th>
+                    <th> CUC </th>
+                    <th> CUP </th>
+                    <th> MT </th>
+                    <th> CUC </th>
+                    <th> CUP </th>
+                    <th> MT </th>
+                    <th> CUC </th>
+                    <th> CUP </th>
+                </tr>
+
+                @foreach (var unidad in Model.Report.unidades)
                 {
-                    <tr>
-                        <td> @unidad.Nombre </td>
-                         <td> @inmueble.Nombre</td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
-                        <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
-                        <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
-                        <td> @inmueble.reparacionesCUC </td>
-                        <td> @inmueble.reparacionesCUP </td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
-                        <td> @inmueble.mantenimientoCUC </td>
-                        <td> @inmueble.mantenimientoCUP </td>
-                    </tr>
+                    if (unidad.inmuebles.Count() != 0)
+                    {
+                        foreach (var inmueble in unidad.inmuebles)
+                        {
+                            if (printUO)
+                            {
+                                <tr>
+                                    <td> @unidad.Nombre </td>
+                                    <td> @inmueble.Nombre</td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
+                                    <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
+                                    <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                                    <td> @inmueble.reparacionesCUC </td>
+                                    <td> @inmueble.reparacionesCUP </td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
+                                    <td> @inmueble.mantenimientoCUC </td>
+                                    <td> @inmueble.mantenimientoCUP </td>
+                                </tr>
 
-                   printUO = false;
+                                printUO = false;
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td> </td>
+                                    <td> @inmueble.Nombre</td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
+                                    <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
+                                    <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
+                                    <td> @inmueble.reparacionesCUC </td>
+                                    <td> @inmueble.reparacionesCUP </td>
+                                    <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
+                                    <td> @inmueble.mantenimientoCUC </td>
+                                    <td> @inmueble.mantenimientoCUP </td>
+                                </tr>
+                            }
+                        }
+
+                        <tr>
+                            <td> </td>
+                            <td> Total de la UO</td>
+                            <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP + unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
+                            <td> @(unidad.mantenimientoCUC + unidad.reparacionesCUC) </td>
+                            <td> @(unidad.mantenimientoCUP + unidad.reparacionesCUP) </td>
+                            <td> @(unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
+                            <td> @unidad.reparacionesCUC </td>
+                            <td> @unidad.reparacionesCUP </td>
+                            <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP) </td>
+                            <td> @unidad.mantenimientoCUC </td>
+                            <td> @unidad.mantenimientoCUP </td>
+                        </tr>
+
+                        printUO = true;
+                    }
                 }
-                else
-                { 
-                    <tr>
-                        <td> </td>
-                        <td> @inmueble.Nombre</td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP + inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.reparacionesCUC) </td>
-                        <td> @(inmueble.mantenimientoCUP + inmueble.reparacionesCUP) </td>
-                        <td> @(inmueble.reparacionesCUC + inmueble.reparacionesCUP) </td>
-                        <td> @inmueble.reparacionesCUC </td>
-                        <td> @inmueble.reparacionesCUP </td>
-                        <td> @(inmueble.mantenimientoCUC + inmueble.mantenimientoCUP) </td>
-                        <td> @inmueble.mantenimientoCUC </td>
-                        <td> @inmueble.mantenimientoCUP </td>
-                    </tr>     
-                }
-            }
 
-             <tr>
-                 <td> </td>
-                 <td> Total de la UO</td>
-                 <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP + unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
-                 <td> @(unidad.mantenimientoCUC + unidad.reparacionesCUC) </td>
-                 <td> @(unidad.mantenimientoCUP + unidad.reparacionesCUP) </td>
-                 <td> @(unidad.reparacionesCUC + unidad.reparacionesCUP) </td>
-                 <td> @unidad.reparacionesCUC </td>
-                 <td> @unidad.reparacionesCUP </td>
-                 <td> @(unidad.mantenimientoCUC + unidad.mantenimientoCUP) </td>
-                 <td> @unidad.mantenimientoCUC </td>
-                 <td> @unidad.mantenimientoCUP </td>
-            </tr>
-
-             printUO = true;
-         }
-
-    </table>
+            </table>
+        
+            <br>
+            @Html.ActionLink("Exportar", "ExportReportTwo", "Reports", new ExportReportTwoViewModel { Año = Model.Año }) 
+        }
+    </CENTER>
 </div>
-
-
-<style>
-    #test {
-        text-align: right;
-    }
-</style>

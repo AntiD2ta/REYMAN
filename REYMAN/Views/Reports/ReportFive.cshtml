@@ -1,73 +1,92 @@
 ﻿@using BizLogic.Reports;
-@model ReportFive
+@model ReportFiveViewModel
 @{
-    ViewData["Title"] = "Modele Uno";
-  
-    var cant = Model.materiales.Count();
-    var cant_unidades = Model.unidades.Count();
-    var unidades = Model.unidades.ToArray();
-    var materiales = Model.materiales.ToArray();
-    var totales = Model.totales.ToArray();
+    ViewData["Title"] = "Modele Cinco";
+    Layout = "AdminLayout";
 }
 
-<div>
-    <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
-    <h5> Listado de materiales por Unidad Organizativa</h5>
-    <h5 id="test"> Año: @Model.año </h5>
-</div>
-
 <div class="main">
-    <table id="myTable">
-        <tr>
-            <th> </th>
-            <th> </th>
-            <th> </th>
-            
-            @for (int i = 0; i < cant_unidades; i++)
-            {
-                if ((i+1) == (int)(cant_unidades / 2))
-                {
-                    <th> Cantidades </th>
-                }
-                else
-                { 
-                    <th> </th>
-                }
-            }
-        </tr>
-        <tr>
-            <th> Material </th>
-            <th> u/m </th>
-            <th> Total </th>
-            
-            @foreach (var unidad in Model.unidades)
-            {
-                <th> @unidad.Nombre </th>
-            }
+    <CENTER>
+         <h5> Reporte Cinco </h5>
+        <br>
 
-        </tr>
+        <form method="post">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="form-group">
+                    <label> Año </label>
+                    <input asp-for="Año" min="2019" class="form-control col-md-3" />
+                    <span asp-validation-for="Año" class="text-danger"></span>
+                </div>
 
-        @for (int i = 0; i < cant; i++)
+                <input type="submit" value="Generar" />
+            </div>
+        </form>
+
+        @if (Model.Report != null)
         {
-            <tr>
-                <td> @materiales[i].Nombre</td>
-                <td> @materiales[i].unidadMedida </td>
-                <td> @totales[i]</td>
-                
-                @for (int j = 0; j < cant_unidades; j++)
+            var cant = Model.Report.materiales.Count();
+            var cant_unidades = Model.Report.unidades.Count();
+            var unidades = Model.Report.unidades.ToArray();
+            var materiales = Model.Report.materiales.ToArray();
+            var totales = Model.Report.totales.ToArray();
+
+            <br>
+            <br>
+            <div>
+                <h5> Plan de Reparaciones y Mantenimiento Constructivo </h5>
+                <h5> Listado de materiales por Unidad Organizativa</h5>
+                <h5 id="test"> Año: @Model.Report.año </h5>
+            </div>
+
+            <table id="myTable">
+                <tr>
+                    <th> </th>
+                    <th> </th>
+                    <th> </th>
+
+                    @for (int i = 0; i < cant_unidades; i++)
+                    {
+                        if ((i + 1) == (int)(cant_unidades / 2))
+                        {
+                            <th> Cantidades </th>
+                        }
+                        else
+                        {
+                            <th> </th>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th> Material </th>
+                    <th> u/m </th>
+                    <th> Total </th>
+
+                    @foreach (var unidad in Model.Report.unidades)
+                    {
+                        <th> @unidad.Nombre </th>
+                    }
+
+                </tr>
+
+                @for (int i = 0; i < cant; i++)
                 {
-                    var unidad_materiales = unidades[j].materiales.ToArray();
-                    <td> @unidad_materiales[i] </td>
+                    <tr>
+                        <td> @materiales[i].Nombre</td>
+                        <td> @materiales[i].unidadMedida </td>
+                        <td> @totales[i]</td>
+
+                        @for (int j = 0; j < cant_unidades; j++)
+                        {
+                            var unidad_materiales = unidades[j].materiales.ToArray();
+                            <td> @unidad_materiales[i] </td>
+                        }
+
+                    </tr>
                 }
+            </table>
 
-            </tr>
+            <br>
+            @Html.ActionLink("Exportar", "ExportReportFive", "Reports", new ExportReportFiveViewModel { Año = Model.Año })
         }
-
-    </table>
+        </CENTER>
 </div>
-
-<style>
-    #test {
-        text-align: right;
-    }
-</style>

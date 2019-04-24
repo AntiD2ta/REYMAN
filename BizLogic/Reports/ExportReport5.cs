@@ -8,7 +8,7 @@ namespace BizLogic.Reports
 {
     public class ExportReport5
     {
-        public byte[] Generate(dynamic report)
+        public byte[] Generate(ReportFive report)
         {
             byte[] fileContents;
             int fila = 10;
@@ -26,7 +26,7 @@ namespace BizLogic.Reports
                 worksheet.Cells[2, 1].Value = "Listado de materiales por U.O.";
 
                 worksheet.Cells[2, 8, 2, 9].Merge = true;
-                worksheet.Cells[2, 8].Value = $"Año: {report.Result.año}";
+                worksheet.Cells[2, 8].Value = $"Año: {report.año}";
 
                 worksheet.Cells[4, 1, 9, 6].Merge = true;
                 worksheet.Cells[4, 1].Value = "Material";
@@ -38,28 +38,28 @@ namespace BizLogic.Reports
                 worksheet.Cells[5, 8].Value = "Total";
 
                 //lenando la tabla
-                foreach (var material in report.Result.materiales)
+                foreach (var material in report.materiales)
                 {
                     worksheet.Cells[fila, 1, fila, 6].Merge = true;
-                    worksheet.Cells[fila, 1].Value = material.nombre;
+                    worksheet.Cells[fila, 1].Value = material.Nombre;
                     worksheet.Cells[fila, 7].Value = material.unidadMedida;
 
                     ++fila;
                 }
 
                 fila = 10;
-                foreach (var total in report.Result.totales)
+                foreach (var total in report.totales)
                 {
                     worksheet.Cells[fila, 8].Value = total;
                     ++fila;
                 }
 
-                foreach (var unidad in report.Result.unidades)
+                foreach (var unidad in report.unidades)
                 {
                     worksheet.Cells[5, col, fila - 1, col].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                     fila = 10;
                     worksheet.Cells[5, col, 9, col].Merge = true;
-                    worksheet.Cells[5, col].Value = unidad.nombre;
+                    worksheet.Cells[5, col].Value = unidad.Nombre;
 
                     foreach (var mat in unidad.materiales)
                     {

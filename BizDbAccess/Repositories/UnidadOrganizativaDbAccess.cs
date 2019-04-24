@@ -45,11 +45,11 @@ namespace BizDbAccess.Authentication
 
             if (entity.Inmuebles == null)
                 entity.Inmuebles = new List<Inmueble>();
-            if (entity.Inversionistas == null)
-                entity.Inversionistas = new List<Usuario>();
+            if (entity.Usuarios == null)
+                entity.Usuarios = new List<Usuario>();
 
             toUpd.Inmuebles = toUpd.Inmuebles == null ? entity.Inmuebles : (toUpd.Inmuebles.Concat(entity.Inmuebles)).ToList();
-            toUpd.Inversionistas = toUpd.Inversionistas == null ? entity.Inversionistas : (toUpd.Inversionistas.Concat(entity.Inversionistas)).ToList();
+            toUpd.Usuarios = toUpd.Usuarios == null ? entity.Usuarios : (toUpd.Usuarios.Concat(entity.Usuarios)).ToList();
             toUpd.Nombre = entity.Nombre ?? toUpd.Nombre;
             toUpd.Provincia = entity.Provincia ?? toUpd.Provincia;
 

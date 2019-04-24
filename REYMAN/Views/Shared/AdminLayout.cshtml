@@ -26,9 +26,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <form>
                         <ul class="navbar-nav ">
-                            <li>
-                                <a class="nav-link text-dark" title="Manage">@User.Claims.Where(clm => clm.Type == "Permission").Single().Value @User.Identity.Name</a>
-                            </li>
+                            @if (User.HasClaim("Permission", "admin"))
+                            {
+                                <li> <a class="nav-link text-dark" title="Manage">Administrador @User.Identity.Name</a></li>
+                            }
+                            else if (User.HasClaim("Permission", "inversionista"))
+                            {
+                                <li> <a class="nav-link text-dark" title="Manage">Inversionista @User.Identity.Name</a></li>
+                            }
+                            else if (User.HasClaim("Permission", "gerentes"))
+                            {
+                                <li> <a class="nav-link text-dark" title="Manage">Inversionista @User.Identity.Name</a></li>
+                            }
+                            else
+                            {
+                                <li> <a class="nav-link text-dark" title="Manage">Hola @User.Identity.Name</a></li>
+                            }
                             <li>
                                 <button type="submit" class="btn btn-link navbar-btn navbar-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout" formmethod="post">Log out</button>
                             </li>
@@ -56,8 +69,8 @@
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="Usuarios"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
-                <a href="PendingUsers"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
+                <a asp-action="Usuarios" asp-controller="Admin"><i class="fa fa-angle-right"></i> Ver Usuarios</a>
+                <a asp-action="PendingUsers" asp-controller="Admin"><i class="fa fa-angle-right"></i> Usuarios Pendientes</a>
             </div>
         }
 
@@ -67,32 +80,46 @@
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
+            @if (User.HasClaim("Permission", "admin"))
+            {
+                <a asp-action="EditProvincias" asp-controller="Admin"><i class="fa fa-angle-right"></i> Provincias</a>
+                <a asp-action="EditUOs" asp-controller="Admin"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
+            }
+
+            <a asp-action="EditInmuebles" asp-controller="Admin"><i class="fa fa-angle-right"></i> Inmuebles</a>
+            <a asp-action="EditObjObras" asp-controller="Admin"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
 
             @if (User.HasClaim("Permission", "inversionista"))
             {
-                <a href="EditPlanes"><i class="fa fa-angle-right"></i> Planes</a>
+                <a asp-action="EditPlanes" asp-controller="Admin"><i class="fa fa-angle-right"></i> Planes</a>
             }
-
-            @if (User.HasClaim("Permission", "admin"))
-            {
-                <a href="EditProvincias"><i class="fa fa-angle-right"></i> Provincias</a>
-            }
-
-            <a href="EditUOs"><i class="fa fa-angle-right"></i> Unidades Organizativas</a>
-            <a href="EditUnidadesMedida"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
-            <a href="EditEspecialidades"><i class="fa fa-angle-right"></i> Especialidades</a>
         </div>
+
         <button class="dropdown-btn">
             <i class="fa fa-angle-double-right"></i>
             Datos del Sistema
             <i class="fa fa-caret-down"></i>
         </button>
         <div class="dropdown-container">
-            <a href="EditInmuebles"><i class="fa fa-angle-right"></i> Inmuebles</a>
-            <a href="EditMateriales"><i class="fa fa-angle-right"></i> Materiales</a>
-            <a href="EditObjObras"><i class="fa fa-angle-right"></i> Objetos de Obra</a>
+            <a asp-action="EditUnidadesMedida" asp-controller="Admin"><i class="fa fa-angle-right"></i> Unidades de Medida</a>
+            <a asp-action="EditEspecialidades" asp-controller="Admin"><i class="fa fa-angle-right"></i> Especialidades</a>
+            <a asp-action="EditMateriales" asp-controller="Admin"><i class="fa fa-angle-right"></i> Materiales</a>
         </div>
-        <a href="#contact"><i class="fa fa-angle-double-right"></i> Coming soon</a>
+
+        @if (User.HasClaim("Permission", "admin") || User.HasClaim("Permission", "inversionista"))
+        {<button class="dropdown-btn">
+                <i class="fa fa-angle-double-right"></i>
+                Reportes
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container">
+                <a asp-controller="Reports" asp-action="ReportOne"><i class="fa fa-angle-right"></i> Reporte Uno</a>
+                <a asp-controller="Reports" asp-action="ReportTwo"><i class="fa fa-angle-right"></i> Reporte Dos</a>
+                <a asp-controller="Reports" asp-action="ReportFour"><i class="fa fa-angle-right"></i> Reporte Cuatro</a>
+                <a asp-controller="Reports" asp-action="ReportFive"><i class="fa fa-angle-right"></i> Reporte Cinco</a>
+            </div>
+        }
+
     </div>
     <div class="container">
         <partial name="_CookieConsentPartial" />

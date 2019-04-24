@@ -77,9 +77,9 @@ namespace ServiceLayer.InvestorServices
             return plan.PlanID;
         }
 
-        public Plan GetPlan(int año, string tipo)
+        public Plan GetPlan(int año, string tipo, UnidadOrganizativa unidadOrganizativa)
         {
-            return _planDbAccess.GetPlan(año, tipo);
+            return _planDbAccess.GetPlan(año, tipo, unidadOrganizativa);
         }
 
         public Plan UpdatePlan(Plan entity, Plan toUpd)
@@ -109,7 +109,7 @@ namespace ServiceLayer.InvestorServices
         public Inmueble UpdateInmueble(Inmueble entity, Inmueble toUpd)
         {
             if (entity.Direccion != null && entity.Direccion != toUpd.Direccion &&
-                _inmuebleDbAccess.GetInmueble(entity.UO, entity.Direccion) != null)
+                _inmuebleDbAccess.GetInmueble(entity.UnidadOrganizativa, entity.Direccion) != null)
             {
                 throw new Exception($"Ya existe un Inmueble con direccion {entity.Direccion}");
             }
@@ -164,7 +164,7 @@ namespace ServiceLayer.InvestorServices
         {
             if (entity.Nombre != null && entity.Nombre != toUpd.Nombre &&
                 _objetoObraDbAccess.GetObjObra(entity.Nombre, entity.Inmueble.Direccion,
-                entity.Inmueble.UO.Nombre) != null)
+                entity.Inmueble.UnidadOrganizativa.Nombre) != null)
             {
                 throw new Exception($"Ya existe un Objeto de Obra con nombre {entity.Nombre}");
             }

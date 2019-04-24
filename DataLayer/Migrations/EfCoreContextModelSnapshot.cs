@@ -25,11 +25,11 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AccionConstructivaID");
+                    b.Property<int>("AccionConstructivaID");
 
                     b.Property<decimal?>("Cantidad");
 
-                    b.Property<int?>("MaterialID");
+                    b.Property<int>("MaterialID");
 
                     b.Property<decimal?>("PrecioCUC");
 
@@ -56,9 +56,9 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Nombre");
 
-                    b.Property<int?>("ObjetoObraID");
+                    b.Property<int>("ObjetoObraID");
 
-                    b.Property<int?>("PlanID");
+                    b.Property<int>("PlanID");
 
                     b.HasKey("AccionConstructivaID");
 
@@ -94,13 +94,9 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Direccion");
 
-                    b.Property<int?>("UOUnidadOrganizativaID");
-
-                    b.Property<int?>("UnidadOrganizativaID");
+                    b.Property<int>("UnidadOrganizativaID");
 
                     b.HasKey("InmuebleID");
-
-                    b.HasIndex("UOUnidadOrganizativaID");
 
                     b.HasIndex("UnidadOrganizativaID");
 
@@ -151,7 +147,7 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("InmuebleID");
+                    b.Property<int>("InmuebleID");
 
                     b.Property<string>("Nombre");
 
@@ -176,7 +172,11 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("TipoPlan");
 
+                    b.Property<int>("UnidadOrganizativaID");
+
                     b.HasKey("PlanID");
+
+                    b.HasIndex("UnidadOrganizativaID");
 
                     b.ToTable("Planes");
                 });
@@ -215,7 +215,7 @@ namespace DataLayer.Migrations
 
                     b.Property<string>("Nombre");
 
-                    b.Property<int?>("ProvinciaID");
+                    b.Property<int>("ProvinciaID");
 
                     b.HasKey("UnidadOrganizativaID");
 
@@ -269,8 +269,6 @@ namespace DataLayer.Migrations
 
                     b.Property<int?>("UnidadOrganizativaID");
 
-                    b.Property<int?>("UnidadOrganizativaID1");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -285,8 +283,6 @@ namespace DataLayer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.HasIndex("UnidadOrganizativaID");
-
-                    b.HasIndex("UnidadOrganizativaID1");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -405,11 +401,13 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("BizData.Entities.AccionConstructiva", "AccionConstructiva")
                         .WithMany("Materiales")
-                        .HasForeignKey("AccionConstructivaID");
+                        .HasForeignKey("AccionConstructivaID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BizData.Entities.Material", "Material")
                         .WithMany("AccionesConstructivas")
-                        .HasForeignKey("MaterialID");
+                        .HasForeignKey("MaterialID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BizData.Entities.AccionConstructiva", b =>
@@ -424,23 +422,21 @@ namespace DataLayer.Migrations
 
                     b.HasOne("BizData.Entities.ObjetoObra", "ObjetoObra")
                         .WithMany("AccionesConstructivas")
-                        .HasForeignKey("ObjetoObraID");
+                        .HasForeignKey("ObjetoObraID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BizData.Entities.Plan", "Plan")
                         .WithMany("AccionesConstructivas")
-                        .HasForeignKey("PlanID");
+                        .HasForeignKey("PlanID")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BizData.Entities.Inmueble", b =>
                 {
-                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UO")
+                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
                         .WithMany("Inmuebles")
-                        .HasForeignKey("UOUnidadOrganizativaID");
-
-                    b.HasOne("BizData.Entities.UnidadOrganizativa")
-                        .WithMany()
                         .HasForeignKey("UnidadOrganizativaID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BizData.Entities.ManoObra", b =>
@@ -461,25 +457,31 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("BizData.Entities.Inmueble", "Inmueble")
                         .WithMany("ObjetosDeObra")
-                        .HasForeignKey("InmuebleID");
+                        .HasForeignKey("InmuebleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("BizData.Entities.Plan", b =>
+                {
+                    b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
+                        .WithMany("Planes")
+                        .HasForeignKey("UnidadOrganizativaID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BizData.Entities.UnidadOrganizativa", b =>
                 {
                     b.HasOne("BizData.Entities.Provincia", "Provincia")
                         .WithMany("UnidadesOrganizativas")
-                        .HasForeignKey("ProvinciaID");
+                        .HasForeignKey("ProvinciaID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BizData.Entities.Usuario", b =>
                 {
                     b.HasOne("BizData.Entities.UnidadOrganizativa", "UnidadOrganizativa")
-                        .WithMany("Inversionistas")
-                        .HasForeignKey("UnidadOrganizativaID");
-
-                    b.HasOne("BizData.Entities.UnidadOrganizativa")
-                        .WithMany()
-                        .HasForeignKey("UnidadOrganizativaID1")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("UnidadOrganizativaID")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 

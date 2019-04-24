@@ -9,7 +9,7 @@ namespace BizData.Entities
         public int InmuebleID { get; set; }
         public string Direccion { get; set; }
 
-        public virtual UnidadOrganizativa UO { get; set; }
+        public virtual UnidadOrganizativa UnidadOrganizativa { get; set; }
         public virtual ICollection<ObjetoObra> ObjetosDeObra { get; set; }
     }
 }

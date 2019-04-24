@@ -6,6 +6,10 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20190406154911_CorrectedSchema5.cs" />
+    <Compile Remove="Migrations\20190421210002_CorrectedSchema7.0.cs" />
+    <Compile Remove="Migrations\20190424001917_CorrectedSchema7.1.cs" />
+    <Compile Remove="Migrations\20190424004441_CorrectedSchema7.1.cs" />
+    <Compile Remove="Migrations\20190424015444_CorrectedSchema7.1.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,9 +3,11 @@ using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Utils;
 using BizLogic.Reports;
 using Castle.Core.Configuration;
+using DataLayer.EfCode;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +32,25 @@ namespace REYMAN.Controllers
             _getterUtils = (GetterUtils)getterUtils;
         }
 
-        public IActionResult ExportReportOne(ReportOne report)
+        public async Task<IActionResult> ExportReportOne(ExportReportOneViewModel export)
         {
-            var fileContent = new ExportReport2().Generate(report);
+            ReportOne report;
+            if (User.HasClaim("Permission", "admin"))
+            {
+                report = new GenerateReport1((EfCoreContext)_context).GenerateReport(export.Año, export.TipoPlan,
+                                                                                         (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre),
+                                                                                         (new GetterAll(_getterUtils, _context).GetAll("Inmueble") as IEnumerable<Inmueble>).Select(inm => inm.Direccion));
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                report = new GenerateReport1((EfCoreContext)_context).GenerateReport(export.Año, export.TipoPlan,
+                                                                                         new List<string>() { user.UnidadOrganizativa.Nombre },
+                                                                                         user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion));
+               
+            }
+
+            var fileContent = new ExportReport().ExportReport1(report);
 
             if (fileContent == null || fileContent.Length == 0)
             {
@@ -46,9 +64,18 @@ namespace REYMAN.Controllers
                 );
         }
 
-        public IActionResult ExportReportTwo(ReportTwo report)
+        public async Task<IActionResult> ExportReportTwo(ExportReportTwoViewModel export)
         {
-            var fileContent = new ExportReport2().Generate(report);
+            ReportTwo report;
+            if (User.HasClaim("Permission", "admin"))
+                report = new GenerateReport(_context).GenerateReport2(export.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                report = new GenerateReport(_context).GenerateReport2(export.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+            }
+
+            var fileContent = new ExportReport().ExportReport2(report);
 
             if (fileContent == null || fileContent.Length == 0)
             {
@@ -58,13 +85,23 @@ namespace REYMAN.Controllers
             return File(
                 fileContents: fileContent,
                 contentType: "application/vdn.openxmlformats-officedocument.spreadsheetml.sheet",
-                fileDownloadName: $"{report.año}_Report2.xlsx"
+                fileDownloadName: $"{export.Año}_Report2.xlsx"
                 );
         }
 
-        public IActionResult ExportReportOne(ReportFour report)
+        public async Task<IActionResult> ExportReportFour(ExportReportFourViewModel export)
         {
-            var fileContent = new ExportReport4().Generate(report);
+            ReportFour report;
+
+            if (User.HasClaim("Permission", "admin"))
+                report = new GenerateReport(_context).GenerateReport4(export.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                report = new GenerateReport(_context).GenerateReport4(export.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+            }
+
+            var fileContent = new ExportReport().ExportReport4(report);
 
             if (fileContent == null || fileContent.Length == 0)
             {
@@ -78,9 +115,18 @@ namespace REYMAN.Controllers
                 );
         }
 
-        public IActionResult ExportReportFive(ReportFive report)
+        public async Task<IActionResult> ExportReportFive(ExportReportFiveViewModel export)
         {
-            var fileContent = new ExportReport5().Generate(report);
+            ReportFive report;
+            if (User.HasClaim("Permission", "admin"))
+                report = new GenerateReport(_context).GenerateReport5(export.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                report = new GenerateReport(_context).GenerateReport5(export.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+            }
+
+            var fileContent = new ExportReport().ExportReport5(report);
 
             if (fileContent == null || fileContent.Length == 0)
             {
@@ -94,30 +140,101 @@ namespace REYMAN.Controllers
                 );
         }
 
-        public async Task<IActionResult> PickUnidadOrganizativa(ReportViewModel rvm)
+
+
+        [HttpGet]
+        public IActionResult ReportOne()
+        {
+            return View(new ReportOneViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReportOne(ReportOneViewModel rvm)
         {
             if (User.HasClaim("Permission", "admin"))
             {
-                rvm.UOs = new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>;
+                rvm.Report = new GenerateReport(_context).GenerateReport1(rvm.Año, rvm.TipoPlan,
+                                                                          (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre),
+                                                                          (new GetterAll(_getterUtils, _context).GetAll("Inmueble") as IEnumerable<Inmueble>).Select(inm => inm.Direccion));
                 return View(rvm);
             }
             else
             {
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-                rvm.UOs = new List<UnidadOrganizativa>() { user.UnidadOrganizativa };
-                return RedirectToAction("PickInmueble", rvm);
+                rvm.Report = new GenerateReport(_context).GenerateReport1(rvm.Año, rvm.TipoPlan,
+                                                                          new List<string>() { user.UnidadOrganizativa.Nombre },
+                                                                          user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion));
+                return View(rvm);
             }
         }
 
-        public IActionResult PickInmueble(ReportViewModel rvm)
+        [HttpGet]
+        public IActionResult ReportTwo()
         {
-            IEnumerable<Inmueble> inm = new List<Inmueble>();
+            return View(new ReportTwoViewModel());
+        }
 
-            foreach (var unidad in rvm.UOs)
-                inm = inm.Concat(unidad.Inmuebles);
-            
-            
-            return View(rvm);
+        [HttpPost]
+        public async Task<IActionResult> ReportTwo(ReportTwoViewModel rvm)
+        {
+            if (User.HasClaim("Permission", "admin"))
+            {
+                rvm.Report = new GenerateReport(_context).GenerateReport2(rvm.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+                                                                            
+                return View(rvm);
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                rvm.Report = new GenerateReport(_context).GenerateReport2(rvm.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+                return View(rvm);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ReportFour()
+        {
+            return View(new ReportFourViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReportFour(ReportFourViewModel rvm)
+        {
+            if (User.HasClaim("Permission", "admin"))
+            {
+                rvm.Report = new GenerateReport(_context).GenerateReport4(rvm.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+
+                return View(rvm);
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                rvm.Report = new GenerateReport(_context).GenerateReport4(rvm.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+                return View(rvm);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ReportFive()
+        {
+            return View(new ReportFiveViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReportFive(ReportFiveViewModel rvm)
+        {
+            if (User.HasClaim("Permission", "admin"))
+            {
+                rvm.Report = new GenerateReport(_context).GenerateReport5(rvm.Año, (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Select(ud => ud.Nombre));
+
+                return View(rvm);
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                rvm.Report = new GenerateReport(_context).GenerateReport5(rvm.Año, new List<string>() { user.UnidadOrganizativa.Nombre });
+                return View(rvm);
+            }
         }
     }
 }

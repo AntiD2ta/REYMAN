@@ -75,21 +75,7 @@ namespace REYMAN.Controllers
         public async Task<IActionResult> EditPlanes()
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            IEnumerable<Plan> planes= new List<Plan>();
-
-            foreach (var inm in user.UnidadOrganizativa.Inmuebles)
-            {
-                foreach (var obj in inm.ObjetosDeObra)
-                {
-
-                    foreach (var acc in obj.AccionesConstructivas)
-                    {
-                        planes = planes.Concat(new List<Plan>() { acc.Plan });
-                    }
-                }
-            }
-            return View(planes);
+            return View(user.UnidadOrganizativa.Planes);
         }
 
         /// <summary>
@@ -98,28 +84,29 @@ namespace REYMAN.Controllers
         /// <param name="button">Type of the clicked button.</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> EditPlanes(string button)
+        public IActionResult EditPlanes(string button)
         {
-
-            var action = button.Split("/");
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var pc = new PlanCommand();
-            var user = await _userManager.GetUserAsync(User);
-            //pc.InmublesUO = user.UnidadOrganizativa.Inmuebles.Select(x=>x.Direccion);
-            pc.InmublesUO = new List<string>();
+            var action = button.Split("/"); 
             if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Admin");
             else
-                pc.Set(((IEnumerable<Plan>)getter.GetAll("Plan")).Where(x => x.PlanID.ToString() == action[1]).Single());
-
-            return RedirectToAction("PlanState", "Admin", pc);
+                return RedirectToAction("PlanState", action[1]);
         }
 
-        public async Task<IActionResult> PlanState(PlanCommand cmd)
+        public async Task<IActionResult> PlanState(string planID)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            cmd.InmublesUO = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
-            return View(cmd);
+            Plan plan = new Plan();
+
+            foreach (var pl in user.UnidadOrganizativa.Planes)
+            {
+                if (planID == pl.PlanID.ToString())
+                {
+                    plan = pl;
+                    break;
+                }
+            }
+            return View(plan);
         }
 
         /// <summary>
@@ -151,10 +138,21 @@ namespace REYMAN.Controllers
         /// <param name="cmd">Data of new Plan.</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult AddPlan(PlanCommand cmd)
+        public async Task<IActionResult> AddPlan(PlanCommand cmd)
         {
             InvestorServices Is = new InvestorServices(_context);
-            //display errors if errors is not null
+
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+            foreach (var ud in (new GetterAll(_getterUtils, _context).GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>))
+            {
+                if (ud.Nombre == user.UnidadOrganizativa.Nombre)
+                {
+                    cmd.UO = ud;
+                    break;
+                }
+            }
+
             Is.RegisterPlan(cmd, out var errors);
             return RedirectToAction("EditPlanes", "Admin");
         }
@@ -349,7 +347,7 @@ namespace REYMAN.Controllers
                 InvestorServices ins = new InvestorServices(_context);
 
                 var inm = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>).Where(x => x.InmuebleID == cmd.Id).Single();
-                cmd.UO = inm.UO;
+                cmd.UO = inm.UnidadOrganizativa;
                 ins.UpdateInmueble(cmd.ToInmueble(), inm);
                 return RedirectToAction("EditInmuebles", "Admin");
             }
@@ -369,7 +367,7 @@ namespace REYMAN.Controllers
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterInmueble(cmd, user.UnidadOrganizativa.Nombre, out var errors);
-                return RedirectToAction("EditPlanes", "Admin");
+                return RedirectToAction("EditInmuebles", "Admin");
             }
             return View(cmd);
         }
@@ -390,7 +388,7 @@ namespace REYMAN.Controllers
                 InvestorServices investorServices = new InvestorServices(_context);
                 cmd.nombreUO = user.UnidadOrganizativa.Nombre;
                 investorServices.RegisterObjObra(cmd, cmd.Direccion, out var errors);
-                return RedirectToAction("EditPlanes", "Admin");
+                return RedirectToAction("EditObjObras", "Admin");
             }
             return View(cmd);
         }

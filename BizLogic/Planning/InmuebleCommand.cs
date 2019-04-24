@@ -14,7 +14,7 @@ namespace BizLogic.Planning
             return new Inmueble()
             {
                 Direccion = Direccion,
-                UO = UO
+                UnidadOrganizativa = UO
             };
         }
     }

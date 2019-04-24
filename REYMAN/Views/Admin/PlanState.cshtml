@@ -1,68 +1,61 @@
 ﻿@using BizLogic.Planning
 @using BizData.Entities
-@model PlanCommand;
+@model Plan
 
 @{
-    Model.InmublesUO = Model.InmublesUO == null ? new List<string>() : Model.InmublesUO;
+
 }
-@Html.Partial("PlanPartial",Model.PlanID)
+
+@*@Html.Partial("PlanPartial",Model.PlanID)*@
+
 <div class="main">
     <h1>Plan de @Model.TipoPlan del @Model.Año</h1>
-    <table id="hidden">
-        <tr>
-            <th>
-                Inmueble
-            </th>
-            <th>
-                Objetos de Obra
-            </th>
-            <th>
-                Editar
-            </th>
-            <th>
-                Eliminar
-            </th>
-        </tr>
-        @foreach (var item in Model.InmublesUO)
-        {
-        <tr>
-            <td>
-                @item
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-              "FirstPage",  // <-- ActionMethod
-              "Admin",   //<-- Controller Name.
-              null  // <-- htmlArguments .. which are none. You need this value
-                    //     otherwise you call the WRONG method ...
-                    //     (refer to comments, below).
-              )
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-             "Login",  // <-- Controller Name.
-             "Item",   // <-- ActionMethod
-             "", // <-- Route arguments.
-             item  // <-- htmlArguments .. which are none. You need this value
-                   //     otherwise you call the WRONG method ...
-                   //     (refer to comments, below).
-             )
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-             "Login",  // <-- Controller Name.
-             "Item",   // <-- ActionMethod
-             "", // <-- Route arguments.
-             item  // <-- htmlArguments .. which are none. You need this value
-                   //     otherwise you call the WRONG method ...
-                   //     (refer to comments, below).
-             )
-            </td>
-        </tr>
-        }
-    </table>
+    <form method="post">
+        <table id="hidden">
+            <tr>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> Mano de Obra </th>
+                <th> </th>
+                <th> </th>
+            </tr>
+            <tr>
+                <th> Accion Constructiva </th>
+                <th> Inmueble </th>
+                <th> Objeto de Obra </th>
+                <th> Especialidad</th>
+                <th> Cantidad</th>
+                <th> u/m</th>
+                <th> CUC</th>
+                <th> CUP </th>
+                <th> </th>
+            </tr>
+            @if (Model.AccionesConstructivas != null)
+            {
+                @foreach (var item in Model.AccionesConstructivas)
+                {
+                    <tr>
+                        <td> @item.Nombre</td>
+                        <td> @item.ObjetoObra.Inmueble.Direccion </td>
+                        <td> @item.ObjetoObra.Nombre</td>
+                        <td> @item.Especialidad.Tipo </td>
+                        <td> @item.ManoObra.Cantidad </td>
+                        <td> @item.ManoObra.Cantidad </td>
+                        <td> @item.ManoObra.PrecioCUC </td>
+                        <td> @item.ManoObra.PrecioCUP</td>
+                        <td> <button class="button" type="submit" value="See/@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
+                    </tr>
+                }
+            }
+        </table>
+    </form>
 </div>
-<script>
+
+@*<script>
 
     var nombres = @Html.Raw(Json.Serialize(Model.InmublesUO));
     console.log(nombres);
@@ -84,4 +77,4 @@
         main.hidden = 0;
     }
     //autocomplete(document.getElementById("myInput"), nombres);
-</script>
+</script>*@

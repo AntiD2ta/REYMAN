@@ -29,7 +29,7 @@ namespace BizLogic.Planning.Concrete
 
             try
             {
-                var p = _dbAccess.GetPlan(plan.Año, plan.TipoPlan);
+                var p = _dbAccess.GetPlan(plan.Año, plan.TipoPlan, plan.UnidadOrganizativa);
                 
                 if (p != null)
                     AddError("Ya existe ese plan");

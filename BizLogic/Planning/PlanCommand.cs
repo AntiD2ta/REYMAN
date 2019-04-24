@@ -9,6 +9,8 @@ namespace BizLogic.Planning
     {
         public string button { get; set; }
         public int PlanID { get; set; }
+        public UnidadOrganizativa UO { get; set; }
+
         public Plan ToPlan()
         {
             return new Plan
@@ -16,6 +18,7 @@ namespace BizLogic.Planning
                 Presupuesto = Presupuesto,
                 Año = Año,
                 TipoPlan = TipoPlan,
+                UnidadOrganizativa = UO,
                 AccionesConstructivas = new List<AccionConstructiva>()
             };
         }

@@ -15,7 +15,5 @@ namespace BizLogic.Planning
 
         [Required] 
         public string TipoPlan { get; set; }
-
-        public IEnumerable<string> InmublesUO { get; set; }
     }
 }

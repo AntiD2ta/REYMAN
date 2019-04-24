@@ -31,17 +31,53 @@ namespace DataLayer.EfCode
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Provincia>()
+                .HasMany(prov => prov.UnidadesOrganizativas)
+                .WithOne(ud => ud.Provincia)
+                .IsRequired();
+
             builder.Entity<UnidadOrganizativa>()
-                .HasMany<Inmueble>()
-                .WithOne()
+                .HasMany(ud => ud.Inmuebles)
+                .WithOne(inm => inm.UnidadOrganizativa)
+                .IsRequired();
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany(ud => ud.Planes)
+                .WithOne(plan => plan.UnidadOrganizativa)
+                .IsRequired();                
+
+            builder.Entity<UnidadOrganizativa>()
+                .HasMany(ud => ud.Usuarios)
+                .WithOne(user => user.UnidadOrganizativa)
                 .OnDelete(DeleteBehavior.SetNull)
                 .IsRequired(false);
 
-            builder.Entity<UnidadOrganizativa>()
-                .HasMany<Usuario>()
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired(false);
+            builder.Entity<Inmueble>()
+                .HasMany(ud => ud.ObjetosDeObra)
+                .WithOne(obj => obj.Inmueble)
+                .IsRequired();
+
+            builder.Entity<ObjetoObra>()
+                .HasMany(obj => obj.AccionesConstructivas)
+                .WithOne(ac => ac.ObjetoObra)
+                .IsRequired();
+
+            builder.Entity<Plan>()
+               .HasMany(plan => plan.AccionesConstructivas)
+               .WithOne(ac => ac.Plan)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<AccionC_Material>()
+                .HasOne(acm => acm.AccionConstructiva)
+                .WithMany(ac => ac.Materiales)
+                .IsRequired();
+
+            builder.Entity<AccionC_Material>()
+                .HasOne(acm => acm.Material)
+                .WithMany(mat => mat.AccionesConstructivas)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public int Commit()

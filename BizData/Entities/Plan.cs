@@ -20,6 +20,7 @@ namespace BizData.Entities
         public string TipoPlan { get; set; }
         public EstadoPlan Estado { get; set; }
 
+        public virtual UnidadOrganizativa UnidadOrganizativa { get; set; }
         public virtual ICollection<AccionConstructiva> AccionesConstructivas { get; set; }
     }
 }

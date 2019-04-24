@@ -34,7 +34,7 @@ namespace BizLogic.Reports
                            {
                                Nombre = unidad.Nombre,
                                inmuebles = from inm in inmuebles
-                                           where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
+                                           where inm.UnidadOrganizativa.UnidadOrganizativaID == unidad.UnidadOrganizativaID
                                            select new ReportOneInmueble()
                                            {
                                                Nombre = inm.Direccion,
@@ -113,26 +113,26 @@ namespace BizLogic.Reports
                                                                      select acm.PrecioCUP).Sum()
                                            },
                                manoObraTotalCUC = (from inm in inmuebles
-                                                   where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
+                                                   where inm.UnidadOrganizativa.UnidadOrganizativaID == unidad.UnidadOrganizativaID
                                                    from obj in inm.ObjetosDeObra
                                                    from ac in obj.AccionesConstructivas
                                                    where ac.Plan.TipoPlan == tipoPlan
                                                    select ac.ManoObra.PrecioCUC).Sum(),
                                materialesTotalCUC = (from inm in inmuebles
-                                                     where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
+                                                     where inm.UnidadOrganizativa.UnidadOrganizativaID == unidad.UnidadOrganizativaID
                                                      from obj in inm.ObjetosDeObra
                                                      from ac in obj.AccionesConstructivas
                                                      where ac.Plan.TipoPlan == tipoPlan
                                                      from acm in ac.Materiales
                                                      select acm.PrecioCUC).Sum(),
                                manoObraTotalCUP = (from inm in inmuebles
-                                                   where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
+                                                   where inm.UnidadOrganizativa.UnidadOrganizativaID == unidad.UnidadOrganizativaID
                                                    from obj in inm.ObjetosDeObra
                                                    from ac in obj.AccionesConstructivas
                                                    where ac.Plan.TipoPlan == tipoPlan
                                                    select ac.ManoObra.PrecioCUP).Sum(),
                                materialesTotalCUP = (from inm in inmuebles
-                                                     where inm.UO.UnidadOrganizativaID == unidad.UnidadOrganizativaID
+                                                     where inm.UnidadOrganizativa.UnidadOrganizativaID == unidad.UnidadOrganizativaID
                                                      from obj in inm.ObjetosDeObra
                                                      from ac in obj.AccionesConstructivas
                                                      where ac.Plan.TipoPlan == tipoPlan

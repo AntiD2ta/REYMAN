@@ -349,7 +349,7 @@ namespace REYMAN.Controllers
                 InvestorServices ins = new InvestorServices(_context);
 
                 var inm = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>).Where(x => x.InmuebleID == cmd.Id).Single();
-                cmd.UO = inm.UO;
+                cmd.UO = inm.UnidadOrganizativa;
                 ins.UpdateInmueble(cmd.ToInmueble(), inm);
                 return RedirectToAction("EditInmuebles", "Admin");
             }

@@ -35,7 +35,7 @@ namespace BizDbAccess.User
 
         public Inmueble GetInmueble(UnidadOrganizativa uo, string direccion)
         {
-            return _context.Inmuebles.Where(i => i.UO == uo && i.Direccion == direccion).SingleOrDefault();
+            return _context.Inmuebles.Where(i => i.UnidadOrganizativa == uo && i.Direccion == direccion).SingleOrDefault();
         }
 
         public IEnumerable<Inmueble> GetAll()

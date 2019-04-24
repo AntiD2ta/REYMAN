@@ -27,11 +27,12 @@ namespace BizLogic.Authentication
 
         [Required, StringLength(100)]
         [DataType(DataType.Password)]
+        [DisplayName("Contraseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Confirm password")]
+        [DisplayName("Confirme su contraseña")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Su contraseña y la confirmación no son iguales")]
         public string ConfirmPassword { get; set; }
 
         public string EditEmail { get; set; }

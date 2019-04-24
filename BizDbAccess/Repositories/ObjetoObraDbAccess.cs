@@ -55,7 +55,7 @@ namespace BizDbAccess.User
         {
             return _context.ObjetosObra.Where(obj => obj.Nombre == nombre &&
                     obj.Inmueble.Direccion == dirInmueble &&
-                    obj.Inmueble.UO.Nombre == nombreUO).SingleOrDefault();
+                    obj.Inmueble.UnidadOrganizativa.Nombre == nombreUO).SingleOrDefault();
         }
 
         public ObjetoObra GetObjObra(int id)

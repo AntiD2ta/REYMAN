@@ -1,23 +1,30 @@
 ﻿@using BizLogic.Planning
+@{ 
+    Layout = "AdminLayout";
+}
 @model AccionCons_MaterialViewModel
 
 <form method="post">
-    <div class="form-group">
-        <label>Cantidad</label>
-        <input asp-for="Cantidad" class="form-control" />
-        <span asp-validation-for="Cantidad" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label>PrecioCUC</label>
-        <input asp-for="PrecioCUC" class="form-control" />
-        <span asp-validation-for="PrecioCUC" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label>PrecioCUP</label>
-        <input asp-for="PrecioCUP" class="form-control" />
-        <span asp-validation-for="PrecioCUP" class="text-danger"></span>
-    </div>
-    <input asp-for="AccionCons_MaterialID" hidden="hidden" />
-    <input asp-for="AccionConstructivaID" hidden="hidden" />
-    <button class="button" name="Button" value="post">Enviar</button>
+    <CENTER>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="form-group col-md-4">
+                <label>Cantidad</label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>PrecioCUC</label>
+                <input asp-for="PrecioCUC" class="form-control" />
+                <span asp-validation-for="PrecioCUC" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>PrecioCUP</label>
+                <input asp-for="PrecioCUP" class="form-control" />
+                <span asp-validation-for="PrecioCUP" class="text-danger"></span>
+            </div>
+            <input asp-for="AccionCons_MaterialID" hidden="hidden" />
+            <input asp-for="AccionConstructivaID" hidden="hidden" />
+            <button class="button" name="Button" value="post">Enviar</button>
+        </div>
+    </CENTER>
 </form>

@@ -10,31 +10,25 @@
 @*@Html.Partial("PlanPartial",Model.PlanID)*@
 
 <div class="main">
+    <style>
+       table
+       {
+           width:100%;
+       }
+    </style>
     <h1>Plan de @Model.TipoPlan del @Model.Año</h1>
     <form method="post">
         <table id="hidden">
-            <tr>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-                <th> Mano de Obra </th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-            </tr>
+          
             <tr>
                 <th> Accion Constructiva </th>
                 <th> Inmueble </th>
                 <th> Objeto de Obra </th>
                 <th> Especialidad</th>
-                <th> Cantidad</th>
                 <th> u/m</th>
+                <th> Cantidad</th>
                 <th> CUC</th>
                 <th> CUP </th>
-                <th> </th>
                 <th> </th>
             </tr>
             @if (Model.AccionesConstructivas != null)
@@ -46,8 +40,8 @@
                         <td> @item.ObjetoObra.Inmueble.Direccion </td>
                         <td> @item.ObjetoObra.Nombre</td>
                         <td> @item.Especialidad.Tipo </td>
-                        <td> @item.ManoObra.Cantidad </td>
                         <td> @item.ManoObra.UnidadMedida.Nombre </td>
+                        <td> @item.ManoObra.Cantidad </td>
                         <td> @item.ManoObra.PrecioCUC </td>
                         <td> @item.ManoObra.PrecioCUP</td>
                         @*<td> @Html.ActionLink("Editar", "EditInmueble", "Admin", new InmuebleCommand { Id = item.InmuebleID, Direccion = item.Direccion })</td>*@

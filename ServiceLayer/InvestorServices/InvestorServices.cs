@@ -26,8 +26,10 @@ namespace ServiceLayer.InvestorServices
         private readonly RunnerWriteDb<EspecialidadCommand, Especialidad> _runnerEspecialidad;
 
         private readonly AccionConstructivaDbAccess _accionConstructivaDbAccess;
+        private readonly AccionC_MaterialDbAccess _accionC_MaterialDbAccess;
         private readonly EspecialidadDbAccess _especialidadDbAccess;
         private readonly MaterialDbAccess _materialDbAccess;
+        private readonly ManoObraDbAccess _manoObraDbAccess;
         private readonly PlanDbAccess _planDbAccess;
         private readonly InmuebleDbAccess _inmuebleDbAccess;
         private readonly ObjetoObraDbAccess _objetoObraDbAccess;
@@ -61,6 +63,8 @@ namespace ServiceLayer.InvestorServices
             _especialidadDbAccess = new EspecialidadDbAccess(_context);
             _materialDbAccess = new MaterialDbAccess(_context);
             _unidadMedidaDbAccess = new UnidadMedidaDbAccess(_context);
+            _accionC_MaterialDbAccess = new AccionC_MaterialDbAccess(_context);
+            _manoObraDbAccess = new ManoObraDbAccess(_context);
         }
 
         public long RegisterPlan(PlanCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -77,9 +81,9 @@ namespace ServiceLayer.InvestorServices
             return plan.PlanID;
         }
 
-        public Plan GetPlan(int año, string tipo)
+        public Plan GetPlan(int año, string tipo, UnidadOrganizativa unidadOrganizativa)
         {
-            return _planDbAccess.GetPlan(año, tipo);
+            return _planDbAccess.GetPlan(año, tipo, unidadOrganizativa);
         }
 
         public Plan UpdatePlan(Plan entity, Plan toUpd)
@@ -109,7 +113,7 @@ namespace ServiceLayer.InvestorServices
         public Inmueble UpdateInmueble(Inmueble entity, Inmueble toUpd)
         {
             if (entity.Direccion != null && entity.Direccion != toUpd.Direccion &&
-                _inmuebleDbAccess.GetInmueble(entity.UO, entity.Direccion) != null)
+                _inmuebleDbAccess.GetInmueble(entity.UnidadOrganizativa, entity.Direccion) != null)
             {
                 throw new Exception($"Ya existe un Inmueble con direccion {entity.Direccion}");
             }
@@ -164,7 +168,7 @@ namespace ServiceLayer.InvestorServices
         {
             if (entity.Nombre != null && entity.Nombre != toUpd.Nombre &&
                 _objetoObraDbAccess.GetObjObra(entity.Nombre, entity.Inmueble.Direccion,
-                entity.Inmueble.UO.Nombre) != null)
+                entity.Inmueble.UnidadOrganizativa.Nombre) != null)
             {
                 throw new Exception($"Ya existe un Objeto de Obra con nombre {entity.Nombre}");
             }
@@ -395,6 +399,28 @@ namespace ServiceLayer.InvestorServices
         {
             _especialidadDbAccess.Delete(entity);
             _context.Commit();
+        }
+
+        public AccionC_Material UpdateACM(AccionC_Material entity, AccionC_Material toUpd)
+        {
+            foreach (var item in toUpd.AccionConstructiva.Materiales)
+            {
+                if (entity.Equals(item))
+                    throw new InvalidOperationException("Ya existe ese material en la acción constructiva actual");
+            }
+
+            toUpd = _accionC_MaterialDbAccess.Update(entity, toUpd);
+            _context.Commit();
+
+            return toUpd;
+        }
+
+        public ManoObra UpdateManoObra(ManoObra entity, ManoObra toUpd)
+        {
+            toUpd = _manoObraDbAccess.Update(entity, toUpd);
+            _context.Commit();
+
+            return toUpd;
         }
     }
 }

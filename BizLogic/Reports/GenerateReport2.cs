@@ -33,75 +33,75 @@ namespace BizLogic.Reports
                                                Nombre = inm.Direccion,
                                                reparacionesCUC = (from obj in inm.ObjetosDeObra
                                                                   from ac in obj.AccionesConstructivas
-                                                                  where ac.Plan.TipoPlan == "Reparación"
+                                                                  where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                   select ac.ManoObra.PrecioCUC).Sum() + (from obj in inm.ObjetosDeObra
                                                                                                          from ac in obj.AccionesConstructivas
-                                                                                                         where ac.Plan.TipoPlan == "Reparación"
+                                                                                                         where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                                                          from acm in ac.Materiales
                                                                                                          select acm.PrecioCUC).Sum(),
                                                reparacionesCUP = (from obj in inm.ObjetosDeObra
                                                                   from ac in obj.AccionesConstructivas
-                                                                  where ac.Plan.TipoPlan == "Reparación"
+                                                                  where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                   select ac.ManoObra.PrecioCUP).Sum() + (from obj in inm.ObjetosDeObra
                                                                                                          from ac in obj.AccionesConstructivas
-                                                                                                         where ac.Plan.TipoPlan == "Reparación"
+                                                                                                         where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                                                          from acm in ac.Materiales
                                                                                                          select acm.PrecioCUP).Sum(),
                                                mantenimientoCUC = (from obj in inm.ObjetosDeObra
                                                                    from ac in obj.AccionesConstructivas
-                                                                   where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                   where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                    select ac.ManoObra.PrecioCUC).Sum() + (from obj in inm.ObjetosDeObra
                                                                                                           from ac in obj.AccionesConstructivas
-                                                                                                          where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                                          where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                                                           from acm in ac.Materiales
                                                                                                           select acm.PrecioCUC).Sum(),
                                                mantenimientoCUP = (from obj in inm.ObjetosDeObra
                                                                    from ac in obj.AccionesConstructivas
-                                                                   where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                   where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                    select ac.ManoObra.PrecioCUP).Sum() + (from obj in inm.ObjetosDeObra
                                                                                                           from ac in obj.AccionesConstructivas
-                                                                                                          where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                                          where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                                                           from acm in ac.Materiales
                                                                                                           select acm.PrecioCUP).Sum()
                                            },
                                reparacionesCUC = (from inm in unidad.Inmuebles
                                                   from obj in inm.ObjetosDeObra
                                                   from ac in obj.AccionesConstructivas
-                                                  where ac.Plan.TipoPlan == "Reparación"
+                                                  where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                   select ac.ManoObra.PrecioCUC).Sum() + (from inm in unidad.Inmuebles
                                                                                          from obj in inm.ObjetosDeObra
                                                                                          from ac in obj.AccionesConstructivas
-                                                                                         where ac.Plan.TipoPlan == "Reparación"
+                                                                                         where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                                          from acm in ac.Materiales
                                                                                          select acm.PrecioCUC).Sum(),
                                reparacionesCUP = (from inm in unidad.Inmuebles
                                                   from obj in inm.ObjetosDeObra
                                                   from ac in obj.AccionesConstructivas
-                                                  where ac.Plan.TipoPlan == "Reparación"
+                                                  where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                   select ac.ManoObra.PrecioCUP).Sum() + (from inm in unidad.Inmuebles
                                                                                          from obj in inm.ObjetosDeObra
                                                                                          from ac in obj.AccionesConstructivas
-                                                                                         where ac.Plan.TipoPlan == "Reparación"
+                                                                                         where ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                                          from acm in ac.Materiales
                                                                                          select acm.PrecioCUP).Sum(),
                                mantenimientoCUC = (from inm in unidad.Inmuebles
                                                    from obj in inm.ObjetosDeObra
                                                    from ac in obj.AccionesConstructivas
-                                                   where ac.Plan.TipoPlan == "Mantenimiento"
+                                                   where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                    select ac.ManoObra.PrecioCUC).Sum() + (from inm in unidad.Inmuebles
                                                                                           from obj in inm.ObjetosDeObra
                                                                                           from ac in obj.AccionesConstructivas
-                                                                                          where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                          where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                                           from acm in ac.Materiales
                                                                                           select acm.PrecioCUC).Sum(),
                                mantenimientoCUP = (from inm in unidad.Inmuebles
                                                    from obj in inm.ObjetosDeObra
                                                    from ac in obj.AccionesConstructivas
-                                                   where ac.Plan.TipoPlan == "Mantenimiento"
+                                                   where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                    select ac.ManoObra.PrecioCUP).Sum() + (from inm in unidad.Inmuebles
                                                                                           from obj in inm.ObjetosDeObra
                                                                                           from ac in obj.AccionesConstructivas
-                                                                                          where ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                          where ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                                           from acm in ac.Materiales
                                                                                           select acm.PrecioCUP).Sum()
                            },

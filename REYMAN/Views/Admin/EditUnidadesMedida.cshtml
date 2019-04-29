@@ -3,6 +3,7 @@
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Unidades de Medida";
+    var inv= User.Claims.Any(x => x.Value == "inversionista");
 }
 
 <div class="main">
@@ -10,7 +11,7 @@
         <h1>Unidades de medida</h1>
     </p>
     <p>
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
     </p>
 
     <section>
@@ -20,7 +21,12 @@
                     <th>
                         Unidad de Medida
                     </th>
-                    <th> </th>
+                    @if (!inv)
+                    {
+
+                        <th> </th>
+                    }
+                   
                 </tr>
                 @foreach (var item in Model)
                  {
@@ -28,9 +34,12 @@
                     <td>
                         @item.Nombre
                     </td>
+                    @if (!inv)
+                    {
                     <td>
                         <button class="button" type="submit" value="Delete/@item.UnidadMedidaID" name="button">   <span>Eliminar</span> </button>
                     </td>
+                    }
                 </tr>
                   }
             </table>

@@ -3,6 +3,7 @@
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Materiales";
+    var inv = User.Claims.Any(x => x.Value == "inversionista");
 }
 
 <div class="main">
@@ -10,7 +11,7 @@
         <h1>Materiales</h1>
     </p>
     <p>
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
     </p>
 
     <section>
@@ -23,25 +24,31 @@
                     <th>
                         Unidad de Medida
                     </th>
-                    <th> </th>
-                    <th> </th>
+                    @if (!inv)
+                    {
+                        <th> </th>
+                        <th> </th>
+                    }
                 </tr>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @item.Nombre
-                    </td>
-                    <td>
-                        <a>@item.UnidadMedida.Nombre</a>
-                    </td>
-                    <td>
-                        <button class="button" type="submit" value="Edit/@item.MaterialID" name="button">   <span>Editar</span> </button>
-                    </td>
-                    <td>
-                        <button class="button" type="submit" value="Delete/@item.MaterialID" name="button">   <span>Eliminar</span> </button>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        <td>
+                            <a>@item.UnidadMedida.Nombre</a>
+                        </td>
+                        @if (!inv)
+                        {
+                            <td>
+                                <button class="button" type="submit" value="Edit/@item.MaterialID" name="button">   <span>Editar</span> </button>
+                            </td>
+                            <td>
+                                <button class="button" type="submit" value="Delete/@item.MaterialID" name="button">   <span>Eliminar</span> </button>
+                            </td>
+                        }
+                    </tr>
                 }
             </table>
             <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>

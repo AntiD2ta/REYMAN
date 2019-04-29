@@ -120,94 +120,104 @@ namespace DataLayer.EfCode
     #endregion
 
                 #region UNIDADES ORGANIZATIVAS
-                var uo = new UnidadOrganizativa()
+                var UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Plaza",
                     Provincia = _ctx.Provincias.Find(3),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Playa",
                     Provincia = _ctx.Provincias.Find(3),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Pinar del Rio",
                     Provincia = _ctx.Provincias.Find(1),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Artemisa",
                     Provincia = _ctx.Provincias.Find(2),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Mayabeque",
                     Provincia = _ctx.Provincias.Find(4),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Guantanamo",
                     Provincia = _ctx.Provincias.Find(5),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Santiago de Cuba",
                     Provincia = _ctx.Provincias.Find(6),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Granma",
                     Provincia = _ctx.Provincias.Find(7),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Las Tunas",
                     Provincia = _ctx.Provincias.Find(8),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
-                uo = new UnidadOrganizativa()
+                UnidadOrganizativa = new UnidadOrganizativa()
                 {
                     Nombre = "Las Villas",
                     Provincia = _ctx.Provincias.Find(9),
-                    Inversionistas = new List<Usuario>()
+                    Usuarios = new List<Usuario>(),
+                    Planes = new List<Plan>()
                 };
-                _ctx.Add(uo);
+                _ctx.Add(UnidadOrganizativa);
                 _ctx.SaveChanges();
 
                 #endregion
@@ -216,7 +226,7 @@ namespace DataLayer.EfCode
                 var inm = new Inmueble()
                 {
                     Direccion = "direccion1",
-                    UO = _ctx.UnidadesOrganizativas.Find(1)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(1)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -224,7 +234,7 @@ namespace DataLayer.EfCode
                 inm = new Inmueble()
                 {
                     Direccion = "direccion2",
-                    UO = _ctx.UnidadesOrganizativas.Find(1)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(1)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -232,7 +242,7 @@ namespace DataLayer.EfCode
                 inm = new Inmueble()
                 {
                     Direccion = "direccion3",
-                    UO = _ctx.UnidadesOrganizativas.Find(2)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(2)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -240,7 +250,7 @@ namespace DataLayer.EfCode
                 inm = new Inmueble()
                 {
                     Direccion = "direccion4",
-                    UO = _ctx.UnidadesOrganizativas.Find(2)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(2)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -248,7 +258,7 @@ namespace DataLayer.EfCode
                 inm = new Inmueble()
                 {
                     Direccion = "direccion5",
-                    UO = _ctx.UnidadesOrganizativas.Find(3)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(3)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -256,7 +266,7 @@ namespace DataLayer.EfCode
                 inm = new Inmueble()
                 {
                     Direccion = "direccion6",
-                    UO = _ctx.UnidadesOrganizativas.Find(3)
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(3)
                 };
                 _ctx.Add(inm);
                 _ctx.SaveChanges();
@@ -358,29 +368,14 @@ namespace DataLayer.EfCode
                 };
                 _ctx.Add(obj);
                 _ctx.SaveChanges();
-
-                obj = new ObjetoObra()
-                {
-                    Nombre = "objeto13",
-                    Inmueble = _ctx.Inmuebles.Find(7)
-                };
-                _ctx.Add(obj);
-                _ctx.SaveChanges();
-
-                obj = new ObjetoObra()
-                {
-                    Nombre = "objeto14",
-                    Inmueble = _ctx.Inmuebles.Find(7)
-                };
-                _ctx.Add(obj);
-                _ctx.SaveChanges();
                 #endregion
 
                 #region PLANES
                 var plan = new Plan()
                 {
                     Año = 2019,
-                    TipoPlan = "Reparación"
+                    TipoPlan = "Reparación",
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(1)
                 };
                 _ctx.Add(plan);
                 _ctx.SaveChanges();
@@ -388,7 +383,8 @@ namespace DataLayer.EfCode
                 plan = new Plan()
                 {
                     Año = 2019,
-                    TipoPlan = "Mantenimiento"
+                    TipoPlan = "Mantenimiento",
+                    UnidadOrganizativa = _ctx.UnidadesOrganizativas.Find(1)
                 };
                 _ctx.Add(plan);
                 _ctx.SaveChanges();

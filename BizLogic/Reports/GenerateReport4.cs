@@ -44,10 +44,10 @@ namespace BizLogic.Reports
                                                                               Nombre = acm.Material.Nombre,
                                                                               unidadMedida = acm.Material.UnidadMedida.Nombre,
                                                                               reparaciones = (from mat in ac.Materiales
-                                                                                              where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Reparación"
+                                                                                              where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Reparación" && ac.Plan.Año == year
                                                                                               select mat.Cantidad).Sum(),
                                                                               mantenimiento = (from mat in ac.Materiales
-                                                                                               where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Mantenimiento"
+                                                                                               where mat.Material.MaterialID == acm.Material.MaterialID && ac.Plan.TipoPlan == "Mantenimiento" && ac.Plan.Año == year
                                                                                                select mat.Cantidad).Sum()
                                                                           }
                                                          }

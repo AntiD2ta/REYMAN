@@ -1,87 +1,57 @@
 ﻿@using BizLogic.Planning
 @using BizData.Entities
-@model PlanCommand;
+@model Plan
 
 @{
-    Model.InmublesUO = Model.InmublesUO == null ? new List<string>() : Model.InmublesUO;
+    Layout = "AdminLayout";
+    ViewData["TiTle"] = "Estado del Plan";
 }
-@Html.Partial("PlanPartial",Model.PlanID)
+
+@*@Html.Partial("PlanPartial",Model.PlanID)*@
+
 <div class="main">
+    <style>
+       table
+       {
+           width:100%;
+       }
+    </style>
     <h1>Plan de @Model.TipoPlan del @Model.Año</h1>
-    <table id="hidden">
-        <tr>
-            <th>
-                Inmueble
-            </th>
-            <th>
-                Objetos de Obra
-            </th>
-            <th>
-                Editar
-            </th>
-            <th>
-                Eliminar
-            </th>
-        </tr>
-        @foreach (var item in Model.InmublesUO)
-        {
-        <tr>
-            <td>
-                @item
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-              "FirstPage",  // <-- ActionMethod
-              "Admin",   //<-- Controller Name.
-              null  // <-- htmlArguments .. which are none. You need this value
-                    //     otherwise you call the WRONG method ...
-                    //     (refer to comments, below).
-              )
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-             "Login",  // <-- Controller Name.
-             "Item",   // <-- ActionMethod
-             "", // <-- Route arguments.
-             item  // <-- htmlArguments .. which are none. You need this value
-                   //     otherwise you call the WRONG method ...
-                   //     (refer to comments, below).
-             )
-            </td>
-            <td>
-                @Html.ActionLink("Ver",
-             "Login",  // <-- Controller Name.
-             "Item",   // <-- ActionMethod
-             "", // <-- Route arguments.
-             item  // <-- htmlArguments .. which are none. You need this value
-                   //     otherwise you call the WRONG method ...
-                   //     (refer to comments, below).
-             )
-            </td>
-        </tr>
-        }
-    </table>
+    <form method="post">
+        <table id="hidden">
+          
+            <tr>
+                <th> Accion Constructiva </th>
+                <th> Inmueble </th>
+                <th> Objeto de Obra </th>
+                <th> Especialidad</th>
+                <th> u/m</th>
+                <th> Cantidad</th>
+                <th> CUC</th>
+                <th> CUP </th>
+                <th> </th>
+            </tr>
+            @if (Model.AccionesConstructivas != null)
+            {
+                @foreach (var item in Model.AccionesConstructivas)
+                {
+                    <tr>
+                        <td> @item.Nombre</td>
+                        <td> @item.ObjetoObra.Inmueble.Direccion </td>
+                        <td> @item.ObjetoObra.Nombre</td>
+                        <td> @item.Especialidad.Tipo </td>
+                        <td> @item.ManoObra.UnidadMedida.Nombre </td>
+                        <td> @item.ManoObra.Cantidad </td>
+                        <td> @item.ManoObra.PrecioCUC </td>
+                        <td> @item.ManoObra.PrecioCUP</td>
+                        @*<td> @Html.ActionLink("Editar", "EditInmueble", "Admin", new InmuebleCommand { Id = item.InmuebleID, Direccion = item.Direccion })</td>*@
+                        <td> <button class="button" type="submit" value="@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
+                    </tr>
+                }
+            }
+        </table>
+
+        <button class="button" type="submit" value="Add/@Model.PlanID" name="button" style="resize"> <span>Añadir Acción Constructiva</span> </button> 
+
+    </form>
 </div>
-<script>
-
-    var nombres = @Html.Raw(Json.Serialize(Model.InmublesUO));
-    console.log(nombres);
-    if (nombres.length == 0)
-    {
-
-        var main = document.getElementsByClassName("main")[0];
-        var label = document.createElement("label");
-        label.innerHTML = "*No tienes Inmuebles";
-        label.style.borderRadius = "2px";
-        label.style.color = "lightblue";
-        main.appendChild(label);
-        var hidden = document.getElementById("hidden");
-        hidden.hidden = 1;
-    }
-    else
-    {
-        var main = document.getElementById("hidden");
-        main.hidden = 0;
-    }
-    //autocomplete(document.getElementById("myInput"), nombres);
-</script>

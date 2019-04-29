@@ -1,4 +1,7 @@
 ﻿@using BizData.Entities
+@{ 
+    Layout = "AdminLayout";
+}
 @model IEnumerable<Plan>
 
 <style>
@@ -7,46 +10,49 @@
         background-color: #f7cfcf;
     }
 </style>
-<h1>Planes</h1>
-<p>
+
+<div class="main">
+    <h1>Planes</h1>
+    <p>
+        <section>
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por año">
+        </section>
+    </p>
     <section>
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por año">
-    </section>
-</p>
-<section>
-    <form method="post">
-        <table id="myTable">
-            <tr>
-                <th>
-                    Año
-                </th>
-                <th>
-                    Presupuesto
-                </th>
-                <th>
-                    Tipo de Plan
-                </th>
-                <th>
-                </th>
-            </tr>
-            @foreach (var item in Model)
-            {
+        <form method="post">
+            <table id="myTable">
                 <tr>
-                    <td>
-                        @item.Año
-                    </td>
-                    <td>
-                        @item.Presupuesto
-                    </td>
-                    <td>
-                        @item.TipoPlan
-                    </td>
-                    <td>
-                        <button class="button" type="submit" value="Edit/@item.PlanID" name="button">   <span>Editar</span> </button>
-                    </td>
+                    <th>
+                        Año
+                    </th>
+                    <th>
+                        Presupuesto
+                    </th>
+                    <th>
+                        Tipo de Plan
+                    </th>
+                    <th>
+                    </th>
                 </tr>
-            }
-        </table>
-        <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
-    </form>
-</section>
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @item.Año
+                        </td>
+                        <td>
+                            @item.Presupuesto
+                        </td>
+                        <td>
+                            @item.TipoPlan
+                        </td>
+                        <td>
+                            <button class="button" type="submit" value="Edit/@item.PlanID" name="button">   <span>Editar</span> </button>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+        </form>
+    </section>
+</div>

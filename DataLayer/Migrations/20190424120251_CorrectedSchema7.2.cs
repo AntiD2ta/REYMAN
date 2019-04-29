@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
-    public partial class CorrectedSchema70 : Migration
+    public partial class CorrectedSchema72 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,22 +33,6 @@ namespace DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Especialidades", x => x.EspecialidadID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Planes",
-                columns: table => new
-                {
-                    PlanID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Presupuesto = table.Column<decimal>(nullable: false),
-                    Año = table.Column<int>(nullable: false),
-                    TipoPlan = table.Column<string>(nullable: true),
-                    Estado = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Planes", x => x.PlanID);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,7 +89,7 @@ namespace DataLayer.Migrations
                     UnidadOrganizativaID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(nullable: true),
-                    ProvinciaID = table.Column<int>(nullable: true)
+                    ProvinciaID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,7 +99,7 @@ namespace DataLayer.Migrations
                         column: x => x.ProvinciaID,
                         principalTable: "Provincias",
                         principalColumn: "ProvinciaID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,8 +167,7 @@ namespace DataLayer.Migrations
                     SecondName = table.Column<string>(nullable: true),
                     FirstLastName = table.Column<string>(nullable: true),
                     SecondLastName = table.Column<string>(nullable: true),
-                    UnidadOrganizativaID = table.Column<int>(nullable: true),
-                    UnidadOrganizativaID1 = table.Column<int>(nullable: true)
+                    UnidadOrganizativaID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,12 +175,6 @@ namespace DataLayer.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUsers_UnidadesOrganizativas_UnidadOrganizativaID",
                         column: x => x.UnidadOrganizativaID,
-                        principalTable: "UnidadesOrganizativas",
-                        principalColumn: "UnidadOrganizativaID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_UnidadesOrganizativas_UnidadOrganizativaID1",
-                        column: x => x.UnidadOrganizativaID1,
                         principalTable: "UnidadesOrganizativas",
                         principalColumn: "UnidadOrganizativaID",
                         onDelete: ReferentialAction.SetNull);
@@ -210,24 +187,40 @@ namespace DataLayer.Migrations
                     InmuebleID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Direccion = table.Column<string>(nullable: true),
-                    UOUnidadOrganizativaID = table.Column<int>(nullable: true),
-                    UnidadOrganizativaID = table.Column<int>(nullable: true)
+                    UnidadOrganizativaID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Inmuebles", x => x.InmuebleID);
                     table.ForeignKey(
-                        name: "FK_Inmuebles_UnidadesOrganizativas_UOUnidadOrganizativaID",
-                        column: x => x.UOUnidadOrganizativaID,
-                        principalTable: "UnidadesOrganizativas",
-                        principalColumn: "UnidadOrganizativaID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Inmuebles_UnidadesOrganizativas_UnidadOrganizativaID",
                         column: x => x.UnidadOrganizativaID,
                         principalTable: "UnidadesOrganizativas",
                         principalColumn: "UnidadOrganizativaID",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Planes",
+                columns: table => new
+                {
+                    PlanID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Presupuesto = table.Column<decimal>(nullable: false),
+                    Año = table.Column<int>(nullable: false),
+                    TipoPlan = table.Column<string>(nullable: true),
+                    Estado = table.Column<int>(nullable: false),
+                    UnidadOrganizativaID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Planes", x => x.PlanID);
+                    table.ForeignKey(
+                        name: "FK_Planes_UnidadesOrganizativas_UnidadOrganizativaID",
+                        column: x => x.UnidadOrganizativaID,
+                        principalTable: "UnidadesOrganizativas",
+                        principalColumn: "UnidadOrganizativaID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,7 +315,7 @@ namespace DataLayer.Migrations
                     ObjetoObraID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(nullable: true),
-                    InmuebleID = table.Column<int>(nullable: true)
+                    InmuebleID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -332,7 +325,7 @@ namespace DataLayer.Migrations
                         column: x => x.InmuebleID,
                         principalTable: "Inmuebles",
                         principalColumn: "InmuebleID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -343,8 +336,8 @@ namespace DataLayer.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(nullable: true),
                     EspecialidadID = table.Column<int>(nullable: true),
-                    ObjetoObraID = table.Column<int>(nullable: true),
-                    PlanID = table.Column<int>(nullable: true),
+                    ObjetoObraID = table.Column<int>(nullable: false),
+                    PlanID = table.Column<int>(nullable: false),
                     ManoObraID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -367,7 +360,7 @@ namespace DataLayer.Migrations
                         column: x => x.ObjetoObraID,
                         principalTable: "ObjetosObra",
                         principalColumn: "ObjetoObraID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AccionesCons_Planes_PlanID",
                         column: x => x.PlanID,
@@ -385,8 +378,8 @@ namespace DataLayer.Migrations
                     PrecioCUP = table.Column<decimal>(nullable: true),
                     PrecioCUC = table.Column<decimal>(nullable: true),
                     Cantidad = table.Column<decimal>(nullable: true),
-                    AccionConstructivaID = table.Column<int>(nullable: true),
-                    MaterialID = table.Column<int>(nullable: true)
+                    AccionConstructivaID = table.Column<int>(nullable: false),
+                    MaterialID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -396,7 +389,7 @@ namespace DataLayer.Migrations
                         column: x => x.AccionConstructivaID,
                         principalTable: "AccionesCons",
                         principalColumn: "AccionConstructivaID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AccCons_Mat_Materiales_MaterialID",
                         column: x => x.MaterialID,
@@ -480,16 +473,6 @@ namespace DataLayer.Migrations
                 column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UnidadOrganizativaID1",
-                table: "AspNetUsers",
-                column: "UnidadOrganizativaID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Inmuebles_UOUnidadOrganizativaID",
-                table: "Inmuebles",
-                column: "UOUnidadOrganizativaID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Inmuebles_UnidadOrganizativaID",
                 table: "Inmuebles",
                 column: "UnidadOrganizativaID");
@@ -508,6 +491,11 @@ namespace DataLayer.Migrations
                 name: "IX_ObjetosObra_InmuebleID",
                 table: "ObjetosObra",
                 column: "InmuebleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Planes_UnidadOrganizativaID",
+                table: "Planes",
+                column: "UnidadOrganizativaID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UnidadesOrganizativas_ProvinciaID",

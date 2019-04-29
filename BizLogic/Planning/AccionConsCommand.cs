@@ -7,6 +7,7 @@ namespace BizLogic.Planning
 {
     public class AccionConsCommand : AccionConsViewModel
     {
+        public int AccionConstructivaID { get; set; }
         public Plan Plan { get; set; }
         public Especialidad Especialidad { get; set; }
         public ObjetoObra ObjetoObra { get; set; }

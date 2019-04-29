@@ -1,11 +1,12 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using System.Linq;
 
 namespace BizLogic.Reports
 {
     public class ExportReport2
     {
-        public byte[] Generate(dynamic report)
+        public byte[] Generate(ReportTwo report)
         {
             byte[] fileContents;
             int fila = 6;
@@ -51,45 +52,48 @@ namespace BizLogic.Reports
                 //llenando la tabla
                 foreach (var unidad in report.unidades)
                 {
-                    worksheet.Cells[fila, 1, fila, 2].Merge = true;
-                    worksheet.Cells[fila, 1, fila, 2].Value = unidad.nombre;
-                    worksheet.Cells[fila, 1].Style.Font.Bold = true;
-
-                    foreach (var inmueble in unidad.inmuebles)
+                    if (unidad.inmuebles.Count() != 0)
                     {
-                        worksheet.Cells[fila, 3, fila, 4].Merge = true;
-                        worksheet.Cells[fila, 3, fila, 4].Value = inmueble.nombre;
+                        worksheet.Cells[fila, 1, fila, 2].Merge = true;
+                        worksheet.Cells[fila, 1, fila, 2].Value = unidad.Nombre;
+                        worksheet.Cells[fila, 1].Style.Font.Bold = true;
 
-                        worksheet.Cells[fila, 5].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP + inmueble.mantenimientoCUC + inmueble.mantenimientoCUP;
-                        worksheet.Cells[fila, 6].Value = inmueble.reparacionesCUC + inmueble.mantenimientoCUC;
-                        worksheet.Cells[fila, 7].Value = inmueble.reparacionesCUP + inmueble.mantenimientoCUP;
-                        worksheet.Cells[fila, 8].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP;
-                        worksheet.Cells[fila, 9].Value = inmueble.reparacionesCUC;
-                        worksheet.Cells[fila, 10].Value = inmueble.reparacionesCUP;
-                        worksheet.Cells[fila, 11].Value = inmueble.mantenimientoCUC + inmueble.mantenimientoCUP;
-                        worksheet.Cells[fila, 12].Value = inmueble.mantenimientoCUC;
-                        worksheet.Cells[fila, 13].Value = inmueble.mantenimientoCUP;
+                        foreach (var inmueble in unidad.inmuebles)
+                        {
+                            worksheet.Cells[fila, 3, fila, 4].Merge = true;
+                            worksheet.Cells[fila, 3, fila, 4].Value = inmueble.Nombre;
+
+                            worksheet.Cells[fila, 5].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP + inmueble.mantenimientoCUC + inmueble.mantenimientoCUP;
+                            worksheet.Cells[fila, 6].Value = inmueble.reparacionesCUC + inmueble.mantenimientoCUC;
+                            worksheet.Cells[fila, 7].Value = inmueble.reparacionesCUP + inmueble.mantenimientoCUP;
+                            worksheet.Cells[fila, 8].Value = inmueble.reparacionesCUC + inmueble.reparacionesCUP;
+                            worksheet.Cells[fila, 9].Value = inmueble.reparacionesCUC;
+                            worksheet.Cells[fila, 10].Value = inmueble.reparacionesCUP;
+                            worksheet.Cells[fila, 11].Value = inmueble.mantenimientoCUC + inmueble.mantenimientoCUP;
+                            worksheet.Cells[fila, 12].Value = inmueble.mantenimientoCUC;
+                            worksheet.Cells[fila, 13].Value = inmueble.mantenimientoCUP;
+
+                            ++fila;
+                        }
+
+                        worksheet.Cells[fila, 3, fila, 4].Merge = true;
+                        worksheet.Cells[fila, 3, fila, 13].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[fila, 1, fila, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[fila, 3, fila, 13].Style.Font.Bold = true;
+                        worksheet.Cells[fila, 3, fila, 4].Value = "Total de la UO";
+
+                        worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimientoCUP;
+                        worksheet.Cells[fila, 6].Value = unidad.reparacionesCUC + unidad.mantenimientoCUC;
+                        worksheet.Cells[fila, 7].Value = unidad.reparacionesCUP + unidad.mantenimientoCUP;
+                        worksheet.Cells[fila, 8].Value = unidad.reparacionesCUC + unidad.reparacionesCUP;
+                        worksheet.Cells[fila, 9].Value = unidad.reparacionesCUC;
+                        worksheet.Cells[fila, 10].Value = unidad.reparacionesCUP;
+                        worksheet.Cells[fila, 11].Value = unidad.mantenimientoCUC + unidad.mantenimientoCUP;
+                        worksheet.Cells[fila, 12].Value = unidad.mantenimientoCUC;
+                        worksheet.Cells[fila, 13].Value = unidad.mantenimientoCUP;
 
                         ++fila;
                     }
-
-                    worksheet.Cells[fila, 3, fila, 4].Merge = true;
-                    worksheet.Cells[fila, 3, fila, 13].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                    worksheet.Cells[fila, 1, fila, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                    worksheet.Cells[fila, 3, fila, 13].Style.Font.Bold = true;
-                    worksheet.Cells[fila, 3, fila, 4].Value = "Total de la UO";
-
-                    worksheet.Cells[fila, 5].Value = unidad.reparacionesCUC + unidad.reparacionesCUP + unidad.mantenimientoCUC + unidad.mantenimientoCUP;
-                    worksheet.Cells[fila, 6].Value = unidad.reparacionesCUC + unidad.mantenimientoCUC;
-                    worksheet.Cells[fila, 7].Value = unidad.reparacionesCUP + unidad.mantenimientoCUP;
-                    worksheet.Cells[fila, 8].Value = unidad.reparacionesCUC + unidad.reparacionesCUP;
-                    worksheet.Cells[fila, 9].Value = unidad.reparacionesCUC;
-                    worksheet.Cells[fila, 10].Value = unidad.reparacionesCUP;
-                    worksheet.Cells[fila, 11].Value = unidad.mantenimientoCUC + unidad.mantenimientoCUP;
-                    worksheet.Cells[fila, 12].Value = unidad.mantenimientoCUC;
-                    worksheet.Cells[fila, 13].Value = unidad.mantenimientoCUP;
-
-                    ++fila;
                 }
 
                 worksheet.Cells[5, 1, 5, 13].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;

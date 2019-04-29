@@ -22,11 +22,11 @@ namespace BizLogic.Planning.Concrete
 
             try
             {
-                _dbAccess.GetInmueble(inm.UO, inm.Direccion);
+                _dbAccess.GetInmueble(inm.UnidadOrganizativa, inm.Direccion);
             }
             catch
             {
-                AddError($"Ya existe ese inmueble en {inm.UO.Nombre}");
+                AddError($"Ya existe ese inmueble en {inm.UnidadOrganizativa.Nombre}");
             }
 
             if (!HasErrors)

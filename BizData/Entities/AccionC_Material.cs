@@ -13,5 +13,14 @@ namespace BizData.Entities
 
         public virtual AccionConstructiva AccionConstructiva { get; set; }
         public virtual Material Material { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var acm = obj as AccionC_Material;
+
+            if (acm.Cantidad == Cantidad && acm.PrecioCUC == PrecioCUC && acm.PrecioCUP == PrecioCUP)
+                return true;
+            return false;
+        }
     }
 }

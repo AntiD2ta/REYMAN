@@ -9,7 +9,7 @@ namespace BizLogic.Reports
 {
     public class ExportReport4
     {
-        public byte[] Generate(dynamic report)
+        public byte[] Generate(ReportFour report)
         {
             byte[] fileContents;
             int fila = 6;
@@ -52,40 +52,43 @@ namespace BizLogic.Reports
                 //llenando la tabla
                 foreach (var unidad in report.unidades)
                 {
-                    worksheet.Cells[fila, 1, fila, 2].Merge = true;
-                    worksheet.Cells[fila, 1].Value = unidad.nombre;
-
-                    foreach (var inmueble in unidad.inmuebles)
+                    if (unidad.inmuebles.Count() != 0)
                     {
-                        worksheet.Cells[fila, 3, fila, 4].Merge = true;
-                        worksheet.Cells[fila, 3].Value = inmueble.nombre;
+                        worksheet.Cells[fila, 1, fila, 2].Merge = true;
+                        worksheet.Cells[fila, 1].Value = unidad.Nombre;
 
-                        foreach (var obj in inmueble.objetos)
+                        foreach (var inmueble in unidad.inmuebles)
                         {
-                            worksheet.Cells[fila, 5, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                            worksheet.Cells[fila, 5, fila, 6].Merge = true;
-                            worksheet.Cells[fila, 5].Value = obj.nombre;
+                            worksheet.Cells[fila, 3, fila, 4].Merge = true;
+                            worksheet.Cells[fila, 3].Value = inmueble.Nombre;
 
-                            foreach (var material in obj.materiales)
+                            foreach (var obj in inmueble.objetos)
                             {
-                                worksheet.Cells[fila, 7, fila, 8].Merge = true;
-                                worksheet.Cells[fila, 7].Value = material.nombre;
+                                worksheet.Cells[fila, 5, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                                worksheet.Cells[fila, 5, fila, 6].Merge = true;
+                                worksheet.Cells[fila, 5].Value = obj.Nombre;
 
-                                worksheet.Cells[fila, 9].Value = material.unidadMedida;
-                                worksheet.Cells[fila, 10].Value = material.reparaciones;
-                                worksheet.Cells[fila, 11].Value = material.mantenimiento;
-                                worksheet.Cells[fila, 12].Value = material.reparaciones + material.mantenimiento;
-                                ++fila;
+                                foreach (var material in obj.materiales)
+                                {
+                                    worksheet.Cells[fila, 7, fila, 8].Merge = true;
+                                    worksheet.Cells[fila, 7].Value = material.Nombre;
+
+                                    worksheet.Cells[fila, 9].Value = material.unidadMedida;
+                                    worksheet.Cells[fila, 10].Value = material.reparaciones;
+                                    worksheet.Cells[fila, 11].Value = material.mantenimiento;
+                                    worksheet.Cells[fila, 12].Value = material.reparaciones + material.mantenimiento;
+                                    ++fila;
+                                }
+
+                                if (obj.materiales.Count() == 0)
+                                    ++fila;
                             }
 
-                            if (((IEnumerable<dynamic>)obj.materiales).Count() == 0)
-                                ++fila;
+                            worksheet.Cells[fila, 3, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                         }
 
-                        worksheet.Cells[fila, 3, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        worksheet.Cells[fila, 1, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                     }
-
-                    worksheet.Cells[fila, 1, fila, 12].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                 }
 
                 worksheet.Cells[1, 1, 5, 12].Style.Font.Bold = true;

@@ -10,35 +10,44 @@
 
 <div class="main">
     <h2>Página de inicio</h2>
-    <p>Desde aquí podrá regular la aplicación. Por favor revise el alcance de sus acciones
-       y sus poderes en la documentación.</p>
-    <br />
-    <h2>Notificaciones:</h2>
-    <br />
-    <h4>Usuarios Pendientes de autorización:</h4>
-    @{ 
-        if (!Model.UserPendings.Any())
-        {
-            <p>No hay usuarios pendientes.</p>
-        }
-        foreach (var item in Model.UserPendings)
-        {
-            <p>@item</p>
-        }
+    @if (User.HasClaim("Permission", "inversionista"))
+    {
+        <p>
+            Desde aquí podrá usar todas las herramientas que la aplicación ofrece para crear, editar y controlar los planes de mantenimiento y reparación de su Unidad Organizativa. Por favor revise el alcance de sus acciones
+            y sus poderes en la documentación.
+        </p>
     }
-    <br />
-    @{ 
-        if (!Model.Provincias)
-        {
-            <h3>No hay provincias en la base de datos, por favor inserte las provicias actuales.</h3>
-        }
-    }
-    <br />
-    @{ 
-        if (!Model.UO)
-        {
-            <h3>No hay Unidades Organizativas en la base de datos, por favor inserte las Unidades Organizativas actuales</h3>
-        }
+    else
+    {
+        <p>Desde aquí podrá regular la aplicación. Por favor revise el alcance de sus acciones
+           y sus poderes en la documentación.</p>
+        <br />
+        <h2>Notificaciones:</h2>
+        <br />
+        <h4>Usuarios Pendientes de autorización:</h4>
+         
+            if (!Model.UserPendings.Any())
+            {
+                <p>No hay usuarios pendientes.</p>
+            }
+            foreach (var item in Model.UserPendings)
+            {
+                <p>@item</p>
+            }
+        <br />
+         
+            if (!Model.Provincias)
+            {
+                <h3>No hay provincias en la base de datos, por favor inserte las provicias actuales.</h3>
+            }
+        
+        <br />
+         
+            if (!Model.UO)
+            {
+                <h3>No hay Unidades Organizativas en la base de datos, por favor inserte las Unidades Organizativas actuales</h3>
+            }
+        
     }
 </div>
 

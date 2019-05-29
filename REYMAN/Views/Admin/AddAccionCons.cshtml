@@ -190,7 +190,16 @@
                 </tr>
                 <tr>
                     <td> @Html.Partial("PartialNombre", Model) </td>
-                    <td> @Html.Partial("PartialUM", Model) </td>
+                    <td> 
+                        <select class="form-control" asp-for="UM">
+                            @foreach (var item in Model.UnidadesMedida)
+                            {
+
+                                <option value="@item"> @item</option>
+
+                            }
+                        </select>
+                    </td>
                     <td>
                         <select class="form-control" asp-for="EspecialidadID">
                             @foreach (var item in Model.Especialidades)

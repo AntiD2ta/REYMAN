@@ -236,7 +236,17 @@
             </tr>
             <tr>
                 <td><input type="text" name="ListItems[0].nameMaterial"></td>
-                <td><input type="text" name="ListItems[0].unidadMedida"></td>
+                <td>
+                    <select class="form-control"  name="ListItems[0].unidadMedida">
+                        @foreach (var item in Model.UnidadesMedida)
+                        {
+
+                            <option value="@item"> @item</option>
+
+                        }
+                    </select>
+
+                </td>
                 <td><input type="text" class="precio" name="ListItems[0].precioCUC"></td>
                 <td><input type="text" class="precio" name="ListItems[0].precioCUP"></td>
             </tr>
@@ -296,9 +306,15 @@
             td.appendChild(inp);
             tr.appendChild(td);
             var td4 = document.createElement("td");
-            var inp4 = document.createElement("input");
-            inp4.type = "text";
-            //inp4.className = "precio";
+            var inp4 = document.createElement("select");
+            var um =  @Html.Raw(Json.Serialize(Model.UnidadesMedida));
+            for (var i = 0; i < um.length; i++) {
+                var temp = document.createElement("option");
+                temp.value = um[i];
+                temp.innerText = um[i];
+                inp4.appendChild(temp);
+            }
+            inp4.className = "form-control";
             inp4.name = "ListItems[" + i + "].unidadMedida";
             td4.appendChild(inp4);
             tr.appendChild(td4);

@@ -29,3 +29,17 @@ namespace REYMAN
 //MEMO: Las monedas no se van a cambiar, solo se va a mostrar los precios en la moneda que fue insertado.
 //MEMO: Vamos a dejar que se ponga un precio en las dos monedas, pero se para los reportes se debe especificar al menos un precio en alguna moneda.
 //TODO: En los reportes solo salen los O.O o los Inmuebles que tengan AC's.
+
+//Front
+//TODO: Editar AC, y en ver materiales en las AC poder annadir materiales.
+//TODO: Los materiales salgan organizados por orden alfabetico en EditMateriales
+//TODO: No salen los errores en el view del log in
+//TODO: Cuando insertas un inmueble, si eres admin, tiene q dar a escoger la unidad organizativa del inmueble
+//TODO: (karle) Cambiar todos los editar que no salgan como boton para que salgan como boton
+//TODO: (karle) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
+
+//Back
+//TODO: Chequear q pasa cuando se borra un objeto de obra que q esta siendo usado en una AC
+//TODO: Chequear q pasa cuando se borra un inmueble que q esta siendo usado en una AC
+//TODO: Debuguear para ver xq cuando edito un inmueble y se le asigna nombre igual a otro inmueble existente, lanza excepcion en vez de no hacer nada
+

@@ -115,7 +115,7 @@ namespace ServiceLayer.InvestorServices
             if (entity.Direccion != null && entity.Direccion != toUpd.Direccion &&
                 _inmuebleDbAccess.GetInmueble(entity.UnidadOrganizativa, entity.Direccion) != null)
             {
-                throw new Exception($"Ya existe un Inmueble con direccion {entity.Direccion}");
+                throw new InvalidOperationException($"Ya existe un Inmueble con direccion {entity.Direccion}");
             }
 
             var inmueble = _inmuebleDbAccess.Update(entity, toUpd);
@@ -353,10 +353,6 @@ namespace ServiceLayer.InvestorServices
             }
         }
 
-
-
-
-
         public int RegisterUnidadMedida(UnidadMedidaCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var unidadMedida = _runnerUnidadMedida.RunAction(cmd);
@@ -376,10 +372,6 @@ namespace ServiceLayer.InvestorServices
             _unidadMedidaDbAccess.Delete(entity);
             _context.Commit();
         }
-
-
-
-
 
         public int RegisterEspecialidad(EspecialidadCommand cmd, out IImmutableList<ValidationResult> errors)
         {

@@ -43,27 +43,24 @@ function myFunction() {
 function set() {
     table = document.getElementById("myTable");
     ths = table.getElementsByTagName("th");
-    input = document.getElementById("myInput");
-    input.placeholder = "Buscar por " + ths[0].innerText;
-    ths[0].style.color = "blue";
-    ths[0].value = "selected";
     for (var i = 0; i < ths.length; i++) {
-        ths[i].addEventListener("click", function (e) {
+        ths[i].addEventListener("click", function () {
             if (this.innerText == "")
                 return;
             input = document.getElementById("myInput");
             input.placeholder = "Buscar por " + this.innerText;
-            th = this;
+            input.size = input.placeholder.length;
             table = document.getElementById("myTable");
             ths = table.getElementsByTagName("th");
             for (var i = 0; i < ths.length; i++) {
-                ths[i].value = "";
                 ths[i].style.color = "white";
+                ths[i].value = "";
             }
-            th.style.color = "blue";
-            th.value = "selected";
+            this.style.color = "blue";
+            this.value = "selected";
         });
     }
+    ths[0].click();
 }
 
 function drop() {

@@ -3,7 +3,7 @@
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Unidades de Medida";
-    var inv= User.Claims.Any(x => x.Value == "inversionista");
+    var adm = User.Claims.Any(x => x.Value == "admin");
 }
 
 <div class="main">
@@ -21,7 +21,7 @@
                     <th>
                         Unidad de Medida
                     </th>
-                    @if (!inv)
+                    @if (adm)
                     {
 
                         <th> </th>
@@ -34,7 +34,7 @@
                     <td>
                         @item.Nombre
                     </td>
-                    @if (!inv)
+                    @if (adm)
                     {
                     <td>
                         <button class="button" type="submit" value="Delete/@item.UnidadMedidaID" name="button">   <span>Eliminar</span> </button>

@@ -22,7 +22,10 @@ namespace BizLogic.Planning.Concrete
 
             try
             {
-                _dbAccess.GetObjObra(objObra.Nombre, objObra.Inmueble.Direccion, dto.nombreUO);
+                var oo = _dbAccess.GetObjObra(objObra.Nombre, objObra.Inmueble.Direccion, dto.nombreUO);
+
+                if (oo != null)
+                    AddError($"Ya existe un objeto de obra {objObra.Nombre} en el inmueble {objObra.Inmueble}");
             }
             catch(InvalidOperationException)
             {

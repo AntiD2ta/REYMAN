@@ -3,7 +3,7 @@
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Materiales";
-    var inv = User.Claims.Any(x => x.Value == "inversionista");
+    var adm = User.Claims.Any(x => x.Value == "admin");
 }
 
 <div class="main">
@@ -24,7 +24,7 @@
                     <th>
                         Unidad de Medida
                     </th>
-                    @if (!inv)
+                    @if (adm)
                     {
                         <th> </th>
                         <th> </th>
@@ -39,7 +39,7 @@
                         <td>
                             <a>@item.UnidadMedida.Nombre</a>
                         </td>
-                        @if (!inv)
+                        @if (adm)
                         {
                             <td>
                                 <button class="button" type="submit" value="Edit/@item.MaterialID" name="button">   <span>Editar</span> </button>
@@ -51,7 +51,11 @@
                     </tr>
                 }
             </table>
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+
+            @if(!User.Claims.Any(x => x.Value == "gerentes"))
+            {
+                <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            }
         </form>
     </section>
 </div>

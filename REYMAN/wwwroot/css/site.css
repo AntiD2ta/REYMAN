@@ -100,13 +100,13 @@ body {
 
 
 /************************/
-#myTable tr.header, #myTable tr:hover {
+table tr.header, table tr:hover {
     /* Add a grey background color to the table header and on hover */
     background-color: #f7cfcf;
 }
 
 table {
-    width:100%;
+    width:auto;
     border-collapse: collapse;
     border-spacing: 0;
     width: 75%;

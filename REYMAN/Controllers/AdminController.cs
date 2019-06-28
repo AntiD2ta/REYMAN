@@ -216,7 +216,7 @@ namespace REYMAN.Controllers
                     ad.RegisterProvincia(vm);
                 else
                     ad.DeleteProvincia((getter.GetAll("Provincia") as IEnumerable<Provincia>).Where(x => x.Nombre == vm.Nombre).Single());
-                return RedirectToAction("EditProvincia", "Admin");
+                return RedirectToAction("EditProvincias", "Admin");
             }
 
             ModelState.AddModelError(string.Empty, "An error occured trying to edit the entity Provincia");
@@ -318,6 +318,7 @@ namespace REYMAN.Controllers
             {
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterAccionCons(cmd, out var errors);
+                return RedirectToAction("EditPlanes", "Admin");
             }
 
             GetterAll getter = new GetterAll(_getterUtils, _context);

@@ -4,14 +4,20 @@
 // Write your JavaScript code.
 function myFunction() {
     // Declare variables
-    var input, filter, table, tr, td, i, txtValue;
+    var input, filter, table, tr, td, i, txtValue, pos;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
     table = document.getElementById("myTable");
     tr = table.getElementsByTagName("tr");
+    th = table.getElementsByTagName("th");
+    pos = 0;
+    for (i = 0; i < th.length; i++) {
+        if (th[i].value == "selected")
+            pos = i;
+    }
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
+        td = tr[i].getElementsByTagName("td")[pos];
         if (td) {
             txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -20,6 +26,43 @@ function myFunction() {
                 tr[i].style.display = "none";
             }
         }
+    }
+}
+//function select(th)
+//{
+//    table = document.getElementById("myTable");
+//    ths = table.getElementsByTagName("th");
+//    for (var i = 0; i < ths.length; i++) {
+//        ths[i].value = "";
+//        ths[i].style.color="white";
+//    }
+//    th.style.color = "blue";
+//    th.value = "select";
+//    console.log(th);
+//}
+function set() {
+    table = document.getElementById("myTable");
+    ths = table.getElementsByTagName("th");
+    input = document.getElementById("myInput");
+    input.placeholder = "Buscar por " + ths[0].innerText;
+    ths[0].style.color = "blue";
+    ths[0].value = "selected";
+    for (var i = 0; i < ths.length; i++) {
+        ths[i].addEventListener("click", function (e) {
+            if (this.innerText == "")
+                return;
+            input = document.getElementById("myInput");
+            input.placeholder = "Buscar por " + this.innerText;
+            th = this;
+            table = document.getElementById("myTable");
+            ths = table.getElementsByTagName("th");
+            for (var i = 0; i < ths.length; i++) {
+                ths[i].value = "";
+                ths[i].style.color = "white";
+            }
+            th.style.color = "blue";
+            th.value = "selected";
+        });
     }
 }
 
@@ -40,4 +83,5 @@ function drop() {
         });
     }
 }
-drop()
+drop();
+set();

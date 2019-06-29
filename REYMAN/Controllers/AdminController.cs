@@ -378,7 +378,14 @@ namespace REYMAN.Controllers
 
                 var inm = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>).Where(x => x.InmuebleID == cmd.Id).Single();
                 cmd.UO = inm.UnidadOrganizativa;
-                ins.UpdateInmueble(cmd.ToInmueble(), inm);
+                try
+                {
+                    ins.UpdateInmueble(cmd.ToInmueble(), inm);
+                }
+                catch(InvalidOperationException e)
+                {
+                    //TODO: (karle) Hacerle display a e.Message
+                }
                 return RedirectToAction("EditInmuebles", "Admin");
             }
             return View(cmd);
@@ -454,7 +461,7 @@ namespace REYMAN.Controllers
             else if (action[0] == "Delete")
                 investorServices.DeleteObjetoObra((getter.GetAll("ObjetoObra") as IEnumerable<ObjetoObra>)
                      .Where(x => x.ObjetoObraID.ToString() == action[1]).Single());
-            return RedirectToAction("AddObjObra", "Admin");
+            return EditObjObras().Result;
         }
         public IActionResult EditObjObra(ObjObraCommand uocmd)
         {
@@ -641,15 +648,17 @@ namespace REYMAN.Controllers
                 return RedirectToAction("AddUnidadMedida");
             else
             {
-                new InvestorServices(_context).DeleteUnidadMedida((new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == int.Parse(action[1])).Single());
+                try
+                {
+                    new InvestorServices(_context).DeleteUnidadMedida((new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == int.Parse(action[1])).Single());
+                }
+                catch
+                {
+                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
+                }
                 return RedirectToAction("EditUnidadesMedida");
             }
         }
-
-
-
-
-
 
         [HttpGet]
         public IActionResult AddEspecialidad()
@@ -680,7 +689,14 @@ namespace REYMAN.Controllers
                 return RedirectToAction("AddEspecialidad");
             else
             {
-                new InvestorServices(_context).DeleteEspecialidad((new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>).Where(esp => esp.EspecialidadID == int.Parse(action[1])).Single());
+                try
+                {
+                    new InvestorServices(_context).DeleteEspecialidad((new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>).Where(esp => esp.EspecialidadID == int.Parse(action[1])).Single());
+                }
+                catch
+                {
+                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
+                }
                 return RedirectToAction("EditEspecialidades");
             }
         }

@@ -76,27 +76,29 @@ body {
     padding: 8px 0;
     border-radius: 0px 10px 10px 0px;
 }
+
 .main {
     top: auto;
     left: auto;
     margin-left: 310px;
 }
-    .vertical-menu a {
-        background-color: #eee;
-        color: black;
-        display: block;
-        padding: 12px;
-        text-decoration: none;
+
+.vertical-menu a {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+}
+
+    .vertical-menu a:hover {
+        background-color: #ccc; /* Dark grey background on mouse-over */
     }
 
-        .vertical-menu a:hover {
-            background-color: #ccc; /* Dark grey background on mouse-over */
-        }
-
-        .vertical-menu a.active {
-            background-color: #a90005;
-            color: white;
-        }
+    .vertical-menu a.active {
+        background-color: #a90005;
+        color: white;
+    }
 
 
 /************************/
@@ -106,7 +108,7 @@ table tr.header, table tr:hover {
 }
 
 table {
-    width:auto;
+    width: auto;
     border-collapse: collapse;
     border-spacing: 0;
     width: 75%;
@@ -114,10 +116,10 @@ table {
 }
 
 th, td {
-    width:auto;
+    width: auto;
     text-align: center;
     padding: 10px;
-    font-size:16px;
+    font-size: 16px;
 }
 
 th {
@@ -141,43 +143,58 @@ tr:nth-child(even) {
     color: red;
 }
 /*''''''''''''''''''''''''''''''''''''''''''''''''''''''*/
-.button {
-    border-radius: 4px;
-    background-color: #a90005;
-    border: none;
-    color: #ffffff;
-    text-align: center;
-    font-size: 15px;
-    width: 110px;
-    transition: all 0.5s;
+
+.button span {
     cursor: pointer;
-    margin: 5px;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
-    .button span {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
+    .button span:after {
+        content: '\00bb';
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: -20px;
         transition: 0.5s;
     }
 
-        .button span:after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
+.button:hover span {
+    padding-right: 25px;
+}
 
-    .button:hover span {
-        padding-right: 25px;
+    .button:hover span:after {
+        opacity: 1;
+        right: 0;
     }
 
-        .button:hover span:after {
-            opacity: 1;
-            right: 0;
-        }
+.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: small;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #a90005;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+
+    .button:hover {
+        background-color: darkred;
+        color:white;
+    }
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
 .sidemenu ul {
     list-style-type: none;
     top: auto;
@@ -202,25 +219,25 @@ tr:nth-child(even) {
     padding-top: 20px;
 }
 
-/* Style the sidenav links and the dropdown button */
-.sidenav a, .dropdown-btn {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 20px;
-    color: white;
-    display: block;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    outline: none;
-}
-
-/* On mouse-over */
-    .sidenav a:hover, .dropdown-btn:hover {
-        color: #909090;
+    /* Style the sidenav links and the dropdown button */
+    .sidenav a, .dropdown-btn {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: white;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
     }
+
+        /* On mouse-over */
+        .sidenav a:hover, .dropdown-btn:hover {
+            color: #909090;
+        }
 
 /* Main content */
 .main {

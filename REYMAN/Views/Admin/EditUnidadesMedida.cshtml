@@ -1,5 +1,5 @@
-﻿@using BizData.Entities
-@model IEnumerable<UnidadMedida>
+﻿@using BizLogic.Administration
+@model UMViewModel
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Unidades de Medida";
@@ -13,7 +13,13 @@
     <p>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
     </p>
+    @if (Model.id != 0)
+    {
+        <p style="color:lightcoral">
+            La unidad de medida @ViewData["Nombre"].ToString() no puede ser eliminada
+        </p>
 
+    }
     <section>
         <form method="post">
             <table id="myTable">
@@ -28,7 +34,7 @@
                     }
                    
                 </tr>
-                @foreach (var item in Model)
+                @foreach (var item in Model.UnidadMedida)
                  {
                 <tr>
                     <td>
@@ -37,14 +43,14 @@
                     @if (adm)
                     {
                     <td>
-                        <button class="button" type="submit" value="Delete/@item.UnidadMedidaID" name="button">   <span>Eliminar</span> </button>
+                        <button  class="button" type="submit" value=@item.UnidadMedidaID name="id">   <span>Eliminar</span> </button>
                     </td>
                     }
                 </tr>
                   }
             </table>
 
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            <a href="AddUnidadMedida" class="button" type="submit" value="Add">   <span>Añadir</span> </a>
             </form>
     </section>
 </div>

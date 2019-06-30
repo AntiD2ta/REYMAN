@@ -37,9 +37,11 @@ namespace REYMAN
 //TODO: Cuando insertas un inmueble, si eres admin, tiene q dar a escoger la unidad organizativa del inmueble
 //TODO: (karle) Cambiar todos los editar que no salgan como boton para que salgan como boton
 //TODO: (karle) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
+//TODO: (karle) Ajustarle el tamaño del input, y ponerle el layout bien.
+//TODO: los mensajes de salen cuando se valida algo, i.e cuando no se rellena un campo required, salen en ingles
+//TODO: Hacer la pagina de contacto, con nuestros nombres y emails, ponerle el layout que te dice hola <nombre de usuario>
 
 //Back
 //TODO: Chequear q pasa cuando se borra un objeto de obra que q esta siendo usado en una AC
 //TODO: Chequear q pasa cuando se borra un inmueble que q esta siendo usado en una AC
-//TODO: Debuguear para ver xq cuando edito un inmueble y se le asigna nombre igual a otro inmueble existente, lanza excepcion en vez de no hacer nada
 

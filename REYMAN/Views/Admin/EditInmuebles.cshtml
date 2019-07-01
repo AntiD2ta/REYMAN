@@ -11,7 +11,6 @@
     <p>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por dirección">
     </p>
-
     <section>
         <form method="post">
             <table id="myTable">
@@ -23,7 +22,7 @@
                         UnidadOrganizativa
                     </th>
                     <th>
-                      
+
                     </th>
                     <th>
                     </th>
@@ -36,26 +35,33 @@
                         </td>
                         @if (item.UnidadOrganizativa != null)
                         {
-                        <td>
-                            @item.UnidadOrganizativa.Nombre
-                        </td>
-                        }else
-                        {
                             <td>
-
+                                @item.UnidadOrganizativa.Nombre
                             </td>
+                        }
+                        else
+                        {
+                            <td></td>
 
                         }
+
                         <td>
-                            @Html.ActionLink("Editar", "EditInmueble", "Admin", new InmuebleCommand { Id = item.InmuebleID, Direccion=item.Direccion})
+                            <a class="button" href="/Admin/EditInmueble?Direccion=@item.Direccion&PlanID=0&Id=@item.InmuebleID"><span>Editar</span></a>
                         </td>
                         <td>
-                            <button class="button" type="submit" value="Delete/@item.InmuebleID" name="button">   <span>Eliminar</span> </button>
+                            <button class="button" type="submit" value=@item.InmuebleID name="ID">   <span>Eliminar</span> </button>
                         </td>
                     </tr>
                 }
             </table>
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            @if (User.HasClaim("Permission", "admin"))
+            {
+                <a href="/Admin/AddInmuebleAdm" class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </a>
+            }
+            else
+            {
+                <a href="/Admin/AddInmueble" class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </a>
+            }
         </form>
     </section>
 </div>

@@ -43,16 +43,13 @@
                     <th rowspan="2"> Material </th>
                     <th rowspan="2"> u/m </th>
                     <th rowspan="2"> Total </th>
-                    <th colspan=@cant_unidades> Cantidades </th>
-                    
+                    <th colspan=@cant_unidades> Cantidades </th>     
                 </tr>
                 <tr>
-
                     @foreach (var unidad in Model.Report.unidades)
                     {
                         <th> @unidad.Nombre </th>
                     }
-
                 </tr>
 
                 @for (int i = 0; i < cant; i++)

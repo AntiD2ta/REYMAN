@@ -12,7 +12,7 @@ function myFunction() {
     th = table.getElementsByTagName("th");
     pos = 0;
     for (i = 0; i < th.length; i++) {
-        if (th[i].value == "selected")
+        if (th[i].value === "selected")
             pos = i;
     }
     // Loop through all table rows, and hide those who don't match the search query
@@ -45,7 +45,7 @@ function set() {
     ths = table.getElementsByTagName("th");
     for (var i = 0; i < ths.length; i++) {
         ths[i].addEventListener("click", function () {
-            if (this.innerText == "")
+            if (this.innerText === "")
                 return;
             input = document.getElementById("myInput");
             input.placeholder = "Buscar por " + this.innerText;
@@ -82,3 +82,38 @@ function drop() {
 }
 drop();
 set();
+
+function int_validate(e, val) {
+    if (e.keyCode === 8 || e.keyCode === 39 || e.keyCode === 37 || e.keyCode === 46 || !isNaN(e.key))
+        return true;
+    return false;
+}
+
+function parse(caller) {
+    if (caller.value !== "")
+        caller.value = parseInt(caller.value);
+    else
+        caller.value = 0;
+}
+
+function double_validate(e, val) {
+    if (int_validate(e, val)) return true;
+    var dot = val.split(',').length + val.split('.').length;
+    if (dot === 2 && (e.key === "." || e.key === ",")) {
+        return true;
+    }
+    return false;
+}
+
+function precision(caller, digits) {
+    var symbols = [',', '.'];
+    for (var a in symbols) {
+        var num = caller.value.split(symbols[a]);
+        if (num.length === 2) {
+            caller.value = parseInt(num[0]) + symbols[a] + num[1].substring(0, digits);
+            return;
+        }
+    }
+    parse(caller);
+}
+

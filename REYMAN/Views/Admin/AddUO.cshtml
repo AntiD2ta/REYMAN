@@ -8,13 +8,17 @@
 <h3>Rellene los campos para añadir una unidad organizativa correctamente</h3>
     <br />
 <form method="post">
-    <input asp-for="Nombre" placeholder="Nombre" name="Nombre" />
-    <select asp-for="Provincia">
-        @foreach (var item in Model.Provincias)
-        {
-            <option value=@item.Nombre> @item.Nombre </option>
-        }
-    </select>
-    <button class="button" type="submit" value="Edit" name="button">   <span>Añadir</span> </button>
+    <div class="form-group col-md-4">
+        <input asp-for="Nombre" placeholder="Nombre" name="Nombre" class="form-control" />
+        <br />
+        <select asp-for="Provincia" class="form-control">
+            @foreach (var item in Model.Provincias)
+            {
+                <option value=@item.Nombre> @item.Nombre </option>
+            }
+        </select>
+        <br />
+        <button class="button" type="submit" value="Edit" name="button">   <span>Añadir</span> </button>
+    </div>
 </form>
 </div>

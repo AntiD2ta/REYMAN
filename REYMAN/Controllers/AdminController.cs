@@ -356,16 +356,12 @@ namespace REYMAN.Controllers
             }
         }
         [HttpPost]
-        public IActionResult EditInmuebles(string button)
+        public IActionResult EditInmuebles(int id)
         {
             InvestorServices adminService = new InvestorServices(_context);
-            var action = button.Split("/");
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            if (action[0] == "Add")
-                return RedirectToAction("AddInmueble", "Admin");
-            else if (action[0] == "Delete")
-                adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
-                    .Where(x => x.InmuebleID.ToString() == action[1]).Single());
+             GetterAll getter = new GetterAll(_getterUtils, _context);
+            adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
+                .Where(x => x.InmuebleID == id).Single());
             return RedirectToAction("EditInmuebles", "Admin");
         }
 
@@ -387,7 +383,7 @@ namespace REYMAN.Controllers
                 {
                     cmd.error = e.Message;
                 }
-                
+
             }
             return View(cmd);
         }
@@ -400,11 +396,33 @@ namespace REYMAN.Controllers
         [HttpPost]
         public async Task<IActionResult> AddInmueble(InmuebleCommand cmd)
         {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterInmueble(cmd, user.UnidadOrganizativa.Nombre, out var errors);
+                return RedirectToAction("EditInmuebles", "Admin");
+            }
+            return View(cmd);
+        }
+
+        [HttpGet]
+        public IActionResult AddInmuebleAdm()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            ViewData["UO"] = getter.GetAll("UnidadOrganizativa");
+            return View(new InmuebleCommand());
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddInmuebleAdm(InmuebleCommand cmd)
+        {
+         
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                InvestorServices investorServices = new InvestorServices(_context);
+                investorServices.RegisterInmueble(cmd, cmd.UOnombre, out var errors);
                 return RedirectToAction("EditInmuebles", "Admin");
             }
             return View(cmd);

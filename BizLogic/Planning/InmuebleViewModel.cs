@@ -15,6 +15,9 @@ namespace BizLogic.Planning
         public int Id { get; set; }
 
         public string button { get; set; }
+        
+        public string error { get; set; }
 
+        public string UOnombre { get; set;}
     }
 }

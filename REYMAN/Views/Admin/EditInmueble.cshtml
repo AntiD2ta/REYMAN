@@ -5,7 +5,13 @@
 @model InmuebleCommand
 
 <form method="post" class="main">
+   
     <CENTER>
+        @if (Model.error != null)
+        {
+            <p style="color:lightcoral">♦@Model.error</p>
+
+        }
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group col-md-7">
                 <label>Nombre</label>

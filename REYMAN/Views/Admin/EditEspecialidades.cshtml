@@ -1,19 +1,24 @@
-﻿@using BizData.Entities
-@model IEnumerable<Especialidad>
+﻿@using BizLogic.Administration
+@model EspViewModel
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Especialidades";
-    var inv = User.Claims.Any(x => x.Value == "inversionista");
+    var adm = User.Claims.Any(x => x.Value == "admin");
 }
 
 <div class="main">
+
     <p>
         <h1>Especialidades</h1>
     </p>
     <p>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
     </p>
+    @if (Model.id != 0)
+    {
 
+        <p style="color:lightcoral"> No se puede eliminar la especialidad @ViewData["Nombre"]</p>
+    }
     <section>
         <form method="post">
             <table id="myTable">
@@ -21,27 +26,31 @@
                     <th>
                         Especialidad
                     </th>
-                    @if (!inv)
+                    @if (adm)
                     {
                         <th> </th>
                     }
                 </tr>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Especialidad)
                 {
                     <tr>
                         <td>
                             @item.Tipo
                         </td>
-                        @if (!inv)
+                        @if (adm)
                         {
                             <td>
-                                <button class="button" type="submit" value="Delete/@item.EspecialidadID" name="button">   <span>Eliminar</span> </button>
+                                <button class="button" type="submit" value=@item.EspecialidadID name="id">   <span>Eliminar</span> </button>
                             </td>
                         }
                     </tr>
                 }
             </table>
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+
+            @if (adm)
+            {
+                <a href="AddEspecialidad" class="button" type="submit" name="button">   <span>Añadir</span> </a>
+            }
         </form>
     </section>
 </div>

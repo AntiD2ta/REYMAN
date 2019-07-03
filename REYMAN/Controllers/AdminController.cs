@@ -19,7 +19,7 @@ using BizLogic.Authentication;
 using System.Security.Claims;
 using REYMAN.ViewModels;
 
-namespace REYMAN.Controllers 
+namespace REYMAN.Controllers
 {
     /// <summary>
     /// Manage all the views related to admin powers and actions.
@@ -87,11 +87,11 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult EditPlanes(string button)
         {
-            var action = button.Split("/"); 
+            var action = button.Split("/");
             if (action[0] == "Add")
                 return RedirectToAction("AddPlan", "Admin");
             else
-                return RedirectToAction("PlanState", new PlanCommand() { PlanID = int.Parse(action[1])});
+                return RedirectToAction("PlanState", new PlanCommand() { PlanID = int.Parse(action[1]) });
         }
 
         [HttpGet]
@@ -116,7 +116,7 @@ namespace REYMAN.Controllers
         {
             var action = button.Split("/");
             if (action[0] == "Add")
-                return RedirectToAction("AddAccionCons", new AccionConsCommand() { PlanID = int.Parse(action[1])});
+                return RedirectToAction("AddAccionCons", new AccionConsCommand() { PlanID = int.Parse(action[1]) });
             else
                 return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = int.Parse(button) });
         }
@@ -370,7 +370,7 @@ namespace REYMAN.Controllers
             var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
             cmd.Inmuebles = inmueble;
             cmd.UnidadesMedida = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Select(um => um.Nombre);
-            cmd.Especialidades= (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+            cmd.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             IEnumerable<AccionConstructiva> ac = new List<AccionConstructiva>();
 
@@ -401,16 +401,12 @@ namespace REYMAN.Controllers
             }
         }
         [HttpPost]
-        public IActionResult EditInmuebles(string button)
+        public IActionResult EditInmuebles(int id)
         {
             InvestorServices adminService = new InvestorServices(_context);
-            var action = button.Split("/");
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            if (action[0] == "Add")
-                return RedirectToAction("AddInmueble", "Admin");
-            else if (action[0] == "Delete")
-                adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
-                    .Where(x => x.InmuebleID.ToString() == action[1]).Single());
+             GetterAll getter = new GetterAll(_getterUtils, _context);
+            adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
+                .Where(x => x.InmuebleID == id).Single());
             return RedirectToAction("EditInmuebles", "Admin");
         }
 
@@ -423,8 +419,16 @@ namespace REYMAN.Controllers
 
                 var inm = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>).Where(x => x.InmuebleID == cmd.Id).Single();
                 cmd.UO = inm.UnidadOrganizativa;
-                ins.UpdateInmueble(cmd.ToInmueble(), inm);
-                return RedirectToAction("EditInmuebles", "Admin");
+                try
+                {
+                    ins.UpdateInmueble(cmd.ToInmueble(), inm);
+                    return RedirectToAction("EditInmuebles", "Admin");
+                }
+                catch (InvalidOperationException e)
+                {
+                    cmd.error = e.Message;
+                }
+
             }
             return View(cmd);
         }
@@ -437,11 +441,33 @@ namespace REYMAN.Controllers
         [HttpPost]
         public async Task<IActionResult> AddInmueble(InmuebleCommand cmd)
         {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterInmueble(cmd, user.UnidadOrganizativa.Nombre, out var errors);
+                return RedirectToAction("EditInmuebles", "Admin");
+            }
+            return View(cmd);
+        }
+
+        [HttpGet]
+        public IActionResult AddInmuebleAdm()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            ViewData["UO"] = getter.GetAll("UnidadOrganizativa");
+            return View(new InmuebleCommand());
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddInmuebleAdm(InmuebleCommand cmd)
+        {
+         
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                InvestorServices investorServices = new InvestorServices(_context);
+                investorServices.RegisterInmueble(cmd, cmd.UOnombre, out var errors);
                 return RedirectToAction("EditInmuebles", "Admin");
             }
             return View(cmd);
@@ -499,7 +525,7 @@ namespace REYMAN.Controllers
             else if (action[0] == "Delete")
                 investorServices.DeleteObjetoObra((getter.GetAll("ObjetoObra") as IEnumerable<ObjetoObra>)
                      .Where(x => x.ObjetoObraID.ToString() == action[1]).Single());
-            return RedirectToAction("AddObjObra", "Admin");
+            return EditObjObras().Result;
         }
         public IActionResult EditObjObra(ObjObraCommand uocmd)
         {
@@ -675,26 +701,30 @@ namespace REYMAN.Controllers
         public IActionResult EditUnidadesMedida()
         {
             var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
-            return View(ums);
+            return View(new UMViewModel { UnidadMedida = ums });
         }
 
         [HttpPost]
-        public IActionResult EditUnidadesMedida(string button)
+        public IActionResult EditUnidadesMedida(UMViewModel vm)
         {
-            var action = button.Split('/');
-            if (action[0] == "Add")
-                return RedirectToAction("AddUnidadMedida");
-            else
+
+            var temp = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == vm.id).Single();
+            try
             {
-                new InvestorServices(_context).DeleteUnidadMedida((new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Where(um => um.UnidadMedidaID == int.Parse(action[1])).Single());
+                new InvestorServices(_context).DeleteUnidadMedida(temp);
                 return RedirectToAction("EditUnidadesMedida");
             }
+            catch
+            {
+                var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+                vm.UnidadMedida = ums;
+                ViewData["Nombre"] = temp.Nombre;
+                return View(vm);
+                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
+            }
+
+
         }
-
-
-
-
-
 
         [HttpGet]
         public IActionResult AddEspecialidad()
@@ -713,21 +743,30 @@ namespace REYMAN.Controllers
         [HttpGet]
         public IActionResult EditEspecialidades()
         {
-            var ums = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
-            return View(ums);
+            var esp = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
+            return View(new EspViewModel { Especialidad = esp });
         }
 
         [HttpPost]
-        public IActionResult EditEspecialidades(string button)
+        public IActionResult EditEspecialidades(EspViewModel vm)
         {
-            var action = button.Split('/');
-            if (action[0] == "Add")
-                return RedirectToAction("AddEspecialidad");
-            else
+
+            var es = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
+            var temp = es.Where(esp => esp.EspecialidadID == vm.id).Single();
+            try
             {
-                new InvestorServices(_context).DeleteEspecialidad((new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>).Where(esp => esp.EspecialidadID == int.Parse(action[1])).Single());
+                new InvestorServices(_context).DeleteEspecialidad(temp);
                 return RedirectToAction("EditEspecialidades");
             }
+            catch
+            {
+                ViewData["Nombre"] = temp.Tipo;
+                vm.Especialidad = es;
+                return View(vm);
+                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
+            }
+
+
         }
 
 
@@ -737,12 +776,15 @@ namespace REYMAN.Controllers
         {
             if (ModelState.IsValid && vm.Button == "post")
             {
-                new InvestorServices(_context).UpdateACM(new AccionC_Material() { Cantidad = vm.Cantidad,
-                                                                                  PrecioCUC = vm.PrecioCUC,
-                                                                                  PrecioCUP = vm.PrecioCUP},
+                new InvestorServices(_context).UpdateACM(new AccionC_Material()
+                {
+                    Cantidad = vm.Cantidad,
+                    PrecioCUC = vm.PrecioCUC,
+                    PrecioCUP = vm.PrecioCUP
+                },
                                                             (new GetterAll(_getterUtils, _context).GetAll("AccionC_Material") as IEnumerable<AccionC_Material>).Where(acm => acm.AccionC_MaterialID == vm.AccionCons_MaterialID).Single());
 
-                return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.AccionConstructivaID});
+                return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.AccionConstructivaID });
             }
             return View(vm);
         }

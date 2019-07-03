@@ -1,9 +1,11 @@
 ﻿@using BizLogic.Planning
+@using BizData.Entities
 @model InmuebleCommand
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Añadir Inmueble";
 }
+@*@Html.Partial("PlanPartial", Model.PlanID)*@
 
 <form method="post">
     <CENTER>
@@ -16,9 +18,19 @@
                     <input asp-for="Direccion" placeholder="Dirección" />
                     <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label>Unidad Organizativa</label>
+                    <br />
+                    <select asp-for="UOnombre">
+                        @foreach (var item in ViewData["UO"] as IEnumerable<UnidadOrganizativa>)
+                        {
+                            <option value=@item.Nombre> @item.Nombre</option>
+                        }
+                    </select>
+                    <span asp-validation-for="UOnombre" class="text-danger"></span>
+                </div>
                 <button class="button" type="submit"> <span>Enviar</span></button>
             </div>
         </div>
     </CENTER>
-
 </form>

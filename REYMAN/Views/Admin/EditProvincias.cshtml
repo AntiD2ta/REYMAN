@@ -36,7 +36,7 @@
                             @item.Nombre
                         </td>
                         <td>
-                          @Html.ActionLink("editar", "EditProvincia", "Admin", new ProvinciaViewModel { Nombre = item.Nombre, Id = item.ProvinciaID })
+                            <a class="button" href="/Admin/EditProvincia?Nombre=@item.Nombre&Id=@item.ProvinciaID"><span>Editar</span></a>
                         </td>
                         <td>
                             <button class="button" type="submit" value="@item.Nombre" name="Nombre">   <span>Eliminar</span> </button>
@@ -58,6 +58,3 @@
         </form>
     </section>
 </div>
-<script>
-
-</script>

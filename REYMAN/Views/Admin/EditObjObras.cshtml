@@ -23,7 +23,6 @@
                         Inmueble
                     </th>
                     <th>
-                        Acciones Constructivas
                     </th>
                     <th>
                     </th>
@@ -38,7 +37,7 @@
                             @item.Inmueble.Direccion
                         </td>
                         <td>
-                            @Html.ActionLink("Editar", "EditObjObra", "Admin", new ObjObraCommand { Id = item.ObjetoObraID, Nombre = item.Nombre,Direccion=item.Inmueble.Direccion })
+                            <a href="/Admin/EditObjObra?Nombre=@item.Nombre&Direccion=@item.Inmueble.Direccion&Id=@item.ObjetoObraID" class="button"><span>Editar</span></a>
                         </td>
                         <td>
                             <button class="button" type="submit" value="Delete/@item.ObjetoObraID" name="button">   <span>Eliminar</span> </button>

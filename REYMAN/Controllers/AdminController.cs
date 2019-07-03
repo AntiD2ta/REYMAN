@@ -17,6 +17,7 @@ using BizLogic.Planning;
 using ServiceLayer.AccountServices;
 using BizLogic.Authentication;
 using System.Security.Claims;
+using REYMAN.ViewModels;
 
 namespace REYMAN.Controllers
 {
@@ -240,6 +241,50 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> EditAC(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult EditAC(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAcMaterial(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddAcMaterial(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditUOs()
         {
             if (User.HasClaim("Permission", "admin"))
@@ -356,16 +401,12 @@ namespace REYMAN.Controllers
             }
         }
         [HttpPost]
-        public IActionResult EditInmuebles(string button)
+        public IActionResult EditInmuebles(int id)
         {
             InvestorServices adminService = new InvestorServices(_context);
-            var action = button.Split("/");
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            if (action[0] == "Add")
-                return RedirectToAction("AddInmueble", "Admin");
-            else if (action[0] == "Delete")
-                adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
-                    .Where(x => x.InmuebleID.ToString() == action[1]).Single());
+             GetterAll getter = new GetterAll(_getterUtils, _context);
+            adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
+                .Where(x => x.InmuebleID == id).Single());
             return RedirectToAction("EditInmuebles", "Admin");
         }
 
@@ -387,7 +428,7 @@ namespace REYMAN.Controllers
                 {
                     cmd.error = e.Message;
                 }
-                
+
             }
             return View(cmd);
         }
@@ -400,11 +441,33 @@ namespace REYMAN.Controllers
         [HttpPost]
         public async Task<IActionResult> AddInmueble(InmuebleCommand cmd)
         {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterInmueble(cmd, user.UnidadOrganizativa.Nombre, out var errors);
+                return RedirectToAction("EditInmuebles", "Admin");
+            }
+            return View(cmd);
+        }
+
+        [HttpGet]
+        public IActionResult AddInmuebleAdm()
+        {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            ViewData["UO"] = getter.GetAll("UnidadOrganizativa");
+            return View(new InmuebleCommand());
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddInmuebleAdm(InmuebleCommand cmd)
+        {
+         
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                InvestorServices investorServices = new InvestorServices(_context);
+                investorServices.RegisterInmueble(cmd, cmd.UOnombre, out var errors);
                 return RedirectToAction("EditInmuebles", "Admin");
             }
             return View(cmd);
@@ -557,7 +620,7 @@ namespace REYMAN.Controllers
         public IActionResult AddMaterial()
         {
             var lvm = new MaterialViewModel();
-            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            lvm.UnidadesMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
             return View(lvm);
         }
 

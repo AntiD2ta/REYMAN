@@ -16,10 +16,10 @@
         <form method="post">
             <table id="myTable">
                 <tr>
-                    <th onclick="select(this)">
+                    <th>
                         Nombre
-                    </th >
-                    <th onclick="select(this)">
+                    </th>
+                    <th>
                         Provincia
                     </th>
                     <th>
@@ -37,9 +37,7 @@
                             @item.Provincia.Nombre
                         </td>
                         <td>
-                        
-                            @Html.ActionLink("editar", "EditUO", "Admin", new UOViewModel { Nombre = item.Nombre, Id = item.UnidadOrganizativaID, Provincia = item.Provincia.Nombre })
-                        
+                        <a class="button" href="/Admin/EditUO?Nombre=@item.Nombre&Provincia=@item.Provincia&@item.UnidadOrganizativaID=1"><span>Editar</span></a>                        
                         </td>
                         <td>
                             <button class="button" type="submit" value="Delete/@item.UnidadOrganizativaID" name="button">   <span>Eliminar</span> </button>

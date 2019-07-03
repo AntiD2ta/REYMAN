@@ -17,6 +17,7 @@ using BizLogic.Planning;
 using ServiceLayer.AccountServices;
 using BizLogic.Authentication;
 using System.Security.Claims;
+using REYMAN.ViewModels;
 
 namespace REYMAN.Controllers
 {
@@ -237,6 +238,50 @@ namespace REYMAN.Controllers
                 return RedirectToAction("EditProvincias", "Admin");
             }
             return View(pvm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAC(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult EditAC(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAcMaterial(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddAcMaterial(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
         }
 
         [HttpGet]
@@ -575,7 +620,7 @@ namespace REYMAN.Controllers
         public IActionResult AddMaterial()
         {
             var lvm = new MaterialViewModel();
-            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            lvm.UnidadesMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
             return View(lvm);
         }
 

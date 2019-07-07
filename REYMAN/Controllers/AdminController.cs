@@ -557,8 +557,10 @@ namespace REYMAN.Controllers
 
                 var user = await _userManager.FindByEmailAsync(cmd.Email);
                 var claims = (await _userManager.GetClaimsAsync(user)).ToList();
-                var permission = claims.Where(x => x.Type == "Permission").Single();
-                if (permission.Value != cmd.Claim)
+                var permission = claims.Where(x => x.Type == "Permission").SingleOrDefault();
+                if (permission == null) 
+                   await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
+                else if (permission.Value != cmd.Claim)
                 {
                     await _userManager.RemoveClaimAsync(user, permission);
                     await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));

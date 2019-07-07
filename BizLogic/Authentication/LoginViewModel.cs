@@ -8,10 +8,11 @@ namespace BizLogic.Authentication
 {
     public class LoginViewModel
     {
-        [Required, StringLength(100), EmailAddress]
+        [Required(ErrorMessage = "El Email es necesario.")]
+        [StringLength(100), EmailAddress]
         public string Email { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "La Contraseña es necesaria."), StringLength(100)]
         [DataType(DataType.Password)]
         [DisplayName("Contraseña")]
         public string Password { get; set; }

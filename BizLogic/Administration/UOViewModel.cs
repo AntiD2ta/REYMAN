@@ -8,10 +8,12 @@ namespace BizLogic.Administration
 {
     public class UOViewModel
     {
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "El nombre de la Unidad Organizativa es necesario."]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "La Provincia es necesaria."]
+        [StringLength(100)]
         public string Provincia { get; set; }
 
         public int Id { get; set; }

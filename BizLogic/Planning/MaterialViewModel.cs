@@ -8,10 +8,10 @@ namespace BizLogic.Planning
 {
     public class MaterialViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El Nombre del Material es necesario.")]
         public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "La Unidad de Medida del Material es necesaria.")]
         public string UnidadMedida { get; set; }
 
         public string Button { get; set; }

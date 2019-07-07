@@ -7,7 +7,7 @@ namespace BizLogic.Planning
 {
     public class EspecialidadViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El Nombre de la Especialidad es necesario.")]
         public string Nombre { get; set; }
     }
 }

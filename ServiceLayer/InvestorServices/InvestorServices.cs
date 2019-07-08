@@ -93,6 +93,12 @@ namespace ServiceLayer.InvestorServices
             return plan;
         }
 
+        public void DeletePlan(Plan plan)
+        {
+            _planDbAccess.Delete(plan);
+            _context.Commit();
+        }
+
         public long RegisterInmueble(InmuebleCommand cmd, string nombreUO, out IImmutableList<ValidationResult> errors)
         {
             var uo = _unidadOrganizativaDbAccess.GetUO(nombreUO);
@@ -186,13 +192,14 @@ namespace ServiceLayer.InvestorServices
 
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
         {
-            cmd.Materiales = cmd.ListItems.Select(i => (i.nameMaterial, i.unidadMedida, i.precioCUP, i.precioCUC));
+            cmd.Materiales = cmd.ListItems.Where(i => i.nameMaterial != null && (i.precioCUC != null || i.precioCUP != null))
+                                          .Select(i => (i.nameMaterial, i.unidadMedida, i.precioCUP, i.precioCUC));
 
             cmd.Plan = _planDbAccess.GetPlan(cmd.PlanID);
             cmd.Especialidad = _especialidadDbAccess.GetEspecialidad(cmd.EspecialidadID);
             cmd.ObjetoObra = _objetoObraDbAccess.GetObjObra(cmd.ObjetoObraID);
 
-            var data = cmd.ToAC_M();
+            var data = cmd.ToAC_M(_unidadMedidaDbAccess.GetAll().ToList(), _materialDbAccess.GetAll().ToList());
             cmd.MaterialPrecio = new List<(Material, decimal?, decimal?)>();
             foreach (var t in data)
             {
@@ -220,42 +227,45 @@ namespace ServiceLayer.InvestorServices
                 return -1;
             }
 
-            var aux = ac.Materiales.ToArray();
-            for (int i = 0; i < aux.Length; i++)
+            if (ac.Materiales != null)
             {
-                if (aux[i].Material.AccionesConstructivas != null)
+                var aux = ac.Materiales.ToArray();
+                for (int i = 0; i < aux.Length; i++)
                 {
-                    //finded remains false if exist the actual material has no ac as
-                    //AccionConstructiva
-                    bool finded = false;
-                    AccionC_Material temp = new AccionC_Material();
-                    foreach (var item in aux[i].Material.AccionesConstructivas)
+                    if (aux[i].Material.AccionesConstructivas != null)
                     {
-                        temp = item;
-                        if (item.AccionConstructiva.Nombre == ac.Nombre)
+                        //finded remains false if exist the actual material has no ac as
+                        //AccionConstructiva
+                        bool finded = false;
+                        AccionC_Material temp = new AccionC_Material();
+                        foreach (var item in aux[i].Material.AccionesConstructivas)
                         {
-                            finded = true;
-                            break;
+                            temp = item;
+                            if (item.AccionConstructiva.Nombre == ac.Nombre)
+                            {
+                                finded = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (!finded)
-                    {
-                        temp.AccionConstructiva = ac;
-                    }
-                }
-                else
-                {   //enter here if actual material not have AccionesContructivas initialized
-                    //and initialize it.
-                    aux[i].Material.AccionesConstructivas = new List<AccionC_Material>()
-                    {
-                        new AccionC_Material()
+                        if (!finded)
                         {
-                            AccionConstructiva = ac,
-                            Material = aux[i].Material
+                            temp.AccionConstructiva = ac;
                         }
-                    };
-                    break;
+                    }
+                    else
+                    {   //enter here if actual material not have AccionesContructivas initialized
+                        //and initialize it.
+                        aux[i].Material.AccionesConstructivas = new List<AccionC_Material>()
+                        {
+                            new AccionC_Material()
+                            {
+                                AccionConstructiva = ac,
+                                Material = aux[i].Material
+                            }
+                        };
+                        break;
+                    }
                 }
             }
 
@@ -267,7 +277,7 @@ namespace ServiceLayer.InvestorServices
         {
             if (entity.Nombre != null && entity.Nombre != toUpd.Nombre &&
                 _accionConstructivaDbAccess.GetAccionCons(entity.Nombre,
-                entity.ObjetoObra) != null)
+                entity.ObjetoObra, entity.Plan.TipoPlan) != null)
             {
                 throw new Exception($"Ya existe una Accion Constructiva con nombre {entity.Nombre} en" +
                     $" {entity.ObjetoObra.Nombre}");
@@ -276,6 +286,12 @@ namespace ServiceLayer.InvestorServices
             var ac = _accionConstructivaDbAccess.Update(entity, toUpd);
             _context.Commit();
             return ac;
+        }
+
+        public void DeleteAC(AccionConstructiva ac)
+        {
+            _accionConstructivaDbAccess.Delete(ac);
+            _context.Commit();
         }
 
         public bool TryGetMaterial(Material temp, out Material current)

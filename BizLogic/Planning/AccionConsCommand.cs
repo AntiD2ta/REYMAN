@@ -1,6 +1,7 @@
 ﻿using BizData.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizLogic.Planning
@@ -40,18 +41,20 @@ namespace BizLogic.Planning
             };
         }
 
-        public IEnumerable<(Material material, Decimal? precioCUP, Decimal? precioCUC)> ToAC_M()
+        public IEnumerable<(Material material, Decimal? precioCUP, Decimal? precioCUC)> ToAC_M(List<UnidadMedida> ums, List<Material> mat)
         {
             foreach(var t in Materiales)
             {
-                var material = new Material()
+                Material material = mat.Where(m => m.Nombre == t.nameMaterial && m.UnidadMedida.Nombre == t.unidadMedida).SingleOrDefault();
+
+                if (material == null)
                 {
-                    Nombre = t.nameMaterial,
-                    UnidadMedida = new UnidadMedida()
+                    material = new Material()
                     {
-                        Nombre = t.unidadMedida
-                    }
-                };
+                        Nombre = t.nameMaterial,
+                        UnidadMedida = ums.Find(um => um.Nombre == t.unidadMedida)
+                    };                  
+                }
 
                 yield return (material, t.precioCUP, t.precioCUC);
             }

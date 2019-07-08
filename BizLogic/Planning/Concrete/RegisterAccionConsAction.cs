@@ -23,7 +23,10 @@ namespace BizLogic.Planning.Concrete
 
             try
             {
-                _dbAccess.GetAccionCons(ac.Nombre, ac.ObjetoObra);
+                var res = _dbAccess.GetAccionCons(ac.Nombre, ac.ObjetoObra, dto.Plan.TipoPlan);
+                if (res != null)
+                    AddError($"Una acción constructiva con nombre {ac.Nombre} ya existe en el" +
+                        $"objeto de obra {ac.ObjetoObra.Nombre}");
             }
             catch (InvalidOperationException)
             {

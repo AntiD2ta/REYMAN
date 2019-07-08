@@ -9,19 +9,18 @@
 
 <form method="post">
     <CENTER>
-        <div class="col-md-2 col-md-offset-3">
-            <div class="form-group">
-                <h1>Agregar Inmueble</h1>
+        <div class="col-md-offset-3">
+            <h1>Agregar Inmueble</h1>
+            <br />
+            <div class="form-group col-md-3">
                 <div class="form-group">
-                    <label>Direccion</label>
-                    <br />
-                    <input asp-for="Direccion" placeholder="Dirección" />
+                    <input asp-for="Direccion" placeholder="Dirección" class="form-control" />
                     <span asp-validation-for="Direccion" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Unidad Organizativa</label>
                     <br />
-                    <select asp-for="UOnombre">
+                    <select asp-for="UOnombre" class="form-control">
                         @foreach (var item in ViewData["UO"] as IEnumerable<UnidadOrganizativa>)
                         {
                             <option value=@item.Nombre> @item.Nombre</option>

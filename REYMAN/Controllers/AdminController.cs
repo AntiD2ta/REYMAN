@@ -687,8 +687,16 @@ namespace REYMAN.Controllers
                 return RedirectToAction("AddMaterial");
             else if (action[0] == "Delete")
             {
-                new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
-                return RedirectToAction("EditMateriales");
+                try
+                {
+                    new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
+                    return RedirectToAction("EditMateriales");
+                }
+                catch
+                {
+                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
+                    throw new NotImplementedException();
+                }
             }
             else
             {
@@ -741,7 +749,7 @@ namespace REYMAN.Controllers
                 vm.UnidadMedida = ums;
                 ViewData["Nombre"] = temp.Nombre;
                 return View(vm);
-                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
+                //TODO: [Karle] corregir el error para que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
             }
         }
 
@@ -784,7 +792,7 @@ namespace REYMAN.Controllers
                 ViewData["Nombre"] = temp.Tipo;
                 vm.Especialidad = es;
                 return View(vm);
-                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
+                //TODO: [Karle] corregir el error para q diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
             }
 
 

@@ -43,7 +43,6 @@ namespace REYMAN
 //TODO: [karle] la sombra del boton añadir material de AddAccionCons solapa a la tabla de los materiales, y hace falta separar el boton añadir de esta tabla.
 //TODO: [Karle] Ponerle el layout a AddObjObra.
 //TODO: [karle] En AddAccionCons si no añado un material me deja crear la AC, pero me añade un material vacio con unidad de medida m2.
-//TODO: [karle] En AddAccionCons que el nombre del material sea una lista desplegable
 //TODO: [karle] Implementar borrar AC y borrar plan(Ya estan puestos los metodos en el backend)
 //TODO: [karle] Ponerle el layout a EditUO
 

@@ -8,8 +8,5 @@ namespace BizLogic.Administration
     public class UOCommand : UOViewModel
     {
         public IEnumerable<Provincia> Provincias { get; set; }
-
-     
-
     }
 }

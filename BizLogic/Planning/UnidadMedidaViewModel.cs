@@ -7,7 +7,7 @@ namespace BizLogic.Planning
 {
     public class UnidadMedidaViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El Nombre de la Unidad de Medida es necesario.")]
         public string Nombre { get; set; }
     }
 }

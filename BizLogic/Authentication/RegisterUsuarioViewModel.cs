@@ -10,22 +10,27 @@ namespace BizLogic.Authentication
 {
     public class RegisterUsuarioViewModel
     {
-        [Required, StringLength(100), DisplayName("Primer Nombre")]
+        [Required(ErrorMessage = "Complete el campo de Primer Nombre correctamente.")]
+        [StringLength(100), DisplayName("Primer Nombre")]
         public string FirstName { get; set; }
 
         [StringLength(100), DisplayName("Segundo Nombre(Opcional)")]
         public string SecondName { get; set; }
 
-        [Required, StringLength(100), DisplayName("Primer Apellido")]
+        [Required(ErrorMessage = "Complete el campo de Primer Apellido correctamente.")]
+        [StringLength(100), DisplayName("Primer Apellido")]
         public string FirstLastName { get; set; }
 
-        [Required, StringLength(100), DisplayName("Segundo Apellido")]
+        [Required(ErrorMessage = "Complete el campo de Segundo Apellido correctamente.")]
+        [StringLength(100), DisplayName("Segundo Apellido")]
         public string SecondLastName { get; set; }
 
-        [Required, StringLength(100), EmailAddress]
+        [Required(ErrorMessage = "Complete el campo de Email correctamente.")]
+        [StringLength(100), EmailAddress]
         public string Email { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "Complete el campo de Contraseña correctamente.")]
+        [StringLength(100)]
         [DataType(DataType.Password)]
         [DisplayName("Contraseña")]
         public string Password { get; set; }

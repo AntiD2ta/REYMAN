@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -698,7 +698,6 @@ namespace REYMAN.Controllers
                     var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
                     ViewData["Materiales"] = materiales;
                     return View(true);
-                    throw new NotImplementedException();
                 }
             }
             else

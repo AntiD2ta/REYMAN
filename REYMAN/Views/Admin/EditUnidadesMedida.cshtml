@@ -16,7 +16,7 @@
     @if (Model.id != 0)
     {
         <p style="color:lightcoral">
-            La unidad de medida @ViewData["Nombre"].ToString() no puede ser eliminada
+            Esa unidad de medida (@ViewData["Nombre"].ToString()) no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
         </p>
 
     }

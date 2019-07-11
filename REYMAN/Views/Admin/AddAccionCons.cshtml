@@ -14,14 +14,12 @@
     Layout = "_AddACLayout";
 }
 
-
 <body>
     <style>
         .form-control {
             width: 200px;
         }
     </style>
-
     <h1>Añadir Acción Constructiva</h1>
     <script>
         function autocomplete(inp, arr) {
@@ -160,9 +158,7 @@
         }
 
     </script>
-
     <form autocomplete="off" method="post">
-
         <div class="form-group">
             <label>Inmueble</label>
             <select class="form-control" id="selInm">
@@ -172,14 +168,11 @@
                 }
             </select>
         </div>
-
         <div class="form-group">
             <label>Objeto de Obra</label>
             <select asp-for="ObjetoObraID" class="form-control" id="selobj"></select>
         </div>
-
         <p>
-
             <table>
                 <tr>
                     <th> Nombre </th>
@@ -190,7 +183,7 @@
                 </tr>
                 <tr>
                     <td> @Html.Partial("PartialNombre", Model) </td>
-                    <td> 
+                    <td>
                         <select class="form-control" asp-for="UM">
                             @foreach (var item in Model.UnidadesMedida)
                             {
@@ -214,10 +207,9 @@
                     <td> <input class="precio" asp-for="PrecioCUP" placeholder="CUP" /> </td>
                 </tr>
             </table>
+            <button type="button" class="button" id="add"> <span> Añadir Material</span></button>
         </p>
         <br />
-        <button type="button" class="button" id="add"> <span> Añadir Material</span></button>
-
         <table id="tabla2">
             <tr>
                 <th>
@@ -232,12 +224,11 @@
                 <th>
                     Precio CUP
                 </th>
-
             </tr>
             <tr>
                 <td><input type="text" name="ListItems[0].nameMaterial"></td>
                 <td>
-                    <select class="form-control"  name="ListItems[0].unidadMedida">
+                    <select class="form-control" name="ListItems[0].unidadMedida">
                         @foreach (var item in Model.UnidadesMedida)
                         {
 
@@ -245,7 +236,6 @@
 
                         }
                     </select>
-
                 </td>
                 <td><input type="text" class="precio" name="ListItems[0].precioCUC"></td>
                 <td><input type="text" class="precio" name="ListItems[0].precioCUP"></td>
@@ -253,10 +243,8 @@
             @Html.EditorFor(F => F.ListItems)
         </table>
         <input asp-for="PlanID" hidden="hidden" />
-
         <button type="submit" class="button"> <span>Añadir</span></button>
     </form>
-
 
     <script>
         function inputdouble() {
@@ -273,7 +261,7 @@
 
                     while (isNaN(this.value) || this.value[this.value.length - 1] == " ") {
 
-                        
+
                         this.value = this.value.substring(0, this.value.length - 1);
                     }
 
@@ -474,5 +462,4 @@
             background-color: #ee0000;
         }
     </style>
-
 </body>

@@ -1,41 +1,39 @@
 ﻿@using BizLogic.Planning
 @using BizData.Entities
 @model AccionConstructiva
-
 @{
     Layout = "AdminLayout";
     ViewData["TiTle"] = "Materiales de la Accion Constructiva";
 }
 
-
 <div class="main">
     <h1>Materiales de la Accion Constructiva: @Model.Nombre</h1>
-        <table id="hidden">
-            <tr>
-                <th> Material </th>
-                <th> u/m</th>
-                <th> Cantidad </th>
-                <th> PrecioCUC </th>
-                <th> PrecioCUP</th>
-                <th> </th>
-            </tr>
-            @if (Model.Materiales != null)
+    <table id="hidden">
+        <tr>
+            <th> Material </th>
+            <th> u/m</th>
+            <th> Cantidad </th>
+            <th> PrecioCUC </th>
+            <th> PrecioCUP</th>
+            <th> </th>
+        </tr>
+        @if (Model.Materiales != null)
             {
-                @foreach (var item in Model.Materiales)
+            @foreach (var item in Model.Materiales)
                 {
-                    <tr>
-                        <td> @item.Material.Nombre</td>
-                        <td> @item.Material.UnidadMedida.Nombre </td>
-                        <td> @item.Cantidad</td>
-                        <td> @item.PrecioCUC </td>
-                        <td> @item.PrecioCUP </td>
-                        <td> @Html.ActionLink("Editar", "EditAccionCons_Mat", "Admin", new AccionCons_MaterialViewModel { AccionCons_MaterialID = item.AccionC_MaterialID, AccionConstructivaID = Model.AccionConstructivaID,  Cantidad = item.Cantidad, PrecioCUC = item.PrecioCUC, PrecioCUP = item.PrecioCUP })</td>
-                    </tr>
-                }
+                <tr>
+                    <td> @item.Material.Nombre</td>
+                    <td> @item.Material.UnidadMedida.Nombre </td>
+                    <td> @item.Cantidad</td>
+                    <td> @item.PrecioCUC </td>
+                    <td> @item.PrecioCUP </td>
+                    <td><a class="button" href="/Admin/EditAccionCons_Mat?AccionConstructivaID=@Model.AccionConstructivaID&AccionCons_MaterialID=@item.AccionC_MaterialID&Cantidad=@item.Cantidad&PrecioCUP=@item.PrecioCUP&PrecioCUC=@item.PrecioCUC"> <span>Editar</span></a></td>
+
+                </tr>
             }
-        </table>
+        }
+    </table>
     <form method="post">
         <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Annadir</span></button>
     </form>
-
 </div>

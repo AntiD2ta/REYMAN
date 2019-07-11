@@ -40,32 +40,16 @@
 
             <table id="myTable">
                 <tr>
-                    <th> </th>
-                    <th> </th>
-                    <th> </th>
-
-                    @for (int i = 0; i < cant_unidades; i++)
-                    {
-                        if ((i + 1) == (int)(cant_unidades / 2))
-                        {
-                            <th> Cantidades </th>
-                        }
-                        else
-                        {
-                            <th> </th>
-                        }
-                    }
+                    <th rowspan="2"> Material </th>
+                    <th rowspan="2"> u/m </th>
+                    <th rowspan="2"> Total </th>
+                    <th colspan=@cant_unidades> Cantidades </th>     
                 </tr>
                 <tr>
-                    <th> Material </th>
-                    <th> u/m </th>
-                    <th> Total </th>
-
                     @foreach (var unidad in Model.Report.unidades)
                     {
                         <th> @unidad.Nombre </th>
                     }
-
                 </tr>
 
                 @for (int i = 0; i < cant; i++)

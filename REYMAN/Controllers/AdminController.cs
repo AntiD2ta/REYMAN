@@ -17,6 +17,7 @@ using BizLogic.Planning;
 using ServiceLayer.AccountServices;
 using BizLogic.Authentication;
 using System.Security.Claims;
+using REYMAN.ViewModels;
 
 namespace REYMAN.Controllers
 {
@@ -72,6 +73,7 @@ namespace REYMAN.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize("Inversionista")]
         public async Task<IActionResult> EditPlanes()
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -94,6 +96,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Inversionista")]
         public async Task<IActionResult> PlanState(PlanCommand pc)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -121,6 +124,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Inversionista")]
         public async Task<IActionResult> Materiales_AccCons(AccionConsCommand pc)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -145,11 +149,13 @@ namespace REYMAN.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize("Inversionista")]
         public IActionResult AddPlan()
         {
             return View();
         }
 
+        [Authorize("Inversionista")]
         public IActionResult EditPlan(PlanCommand command)
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
@@ -206,6 +212,7 @@ namespace REYMAN.Controllers
         /// <param name="vm">Data of the new edited Provincia</param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize("Admin")]
         public IActionResult EditProvincias(ProvinciaViewModel vm)
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
@@ -226,6 +233,7 @@ namespace REYMAN.Controllers
             return View(vm);
         }
 
+        [Authorize("Admin")]
         public IActionResult EditProvincia(ProvinciaViewModel pvm)
         {
             if (ModelState.IsValid && pvm.button == "sub")
@@ -240,6 +248,53 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Inversionista")]
+        public async Task<IActionResult> EditAC(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult EditAC(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        [Authorize("Inversionista")]
+        public async Task<IActionResult> AddAcMaterial(int ac_id)
+        {
+            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
+            var vm = new EditACViewModel();
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
+            vm.Inmuebles = inmueble;
+            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
+            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddAcMaterial(EditACViewModel vm)
+        {
+            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+
+            return View(vm);
+        }
+
+        [HttpGet]
+        [Authorize("Admin")]
         public async Task<IActionResult> EditUOs()
         {
             if (User.HasClaim("Permission", "admin"))
@@ -284,6 +339,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult AddUO()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
@@ -298,6 +354,8 @@ namespace REYMAN.Controllers
             adminService.RegisterUO(cmd, out var errors);
             return RedirectToAction("EditUOs", "Admin");
         }
+
+        [Authorize("Admin")]
         public IActionResult EditUO(UOViewModel uovm)
         {
             if (ModelState.IsValid && uovm.button == "sub")
@@ -312,6 +370,7 @@ namespace REYMAN.Controllers
             return View(uovm);
         }
 
+        [Authorize("Inversionista")]
         public async Task<IActionResult> AddAccionCons(AccionConsCommand cmd)
         {
             if (ModelState.IsValid)
@@ -355,6 +414,7 @@ namespace REYMAN.Controllers
                 return View(user.UnidadOrganizativa.Inmuebles);
             }
         }
+
         [HttpPost]
         public IActionResult EditInmuebles(int id)
         {
@@ -387,6 +447,7 @@ namespace REYMAN.Controllers
             }
             return View(cmd);
         }
+
         [HttpGet]
         public IActionResult AddInmueble()
         {
@@ -408,12 +469,14 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult AddInmuebleAdm()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context);
             ViewData["UO"] = getter.GetAll("UnidadOrganizativa");
             return View(new InmuebleCommand());
         }
+
         [HttpPost]
         public async Task<IActionResult> AddInmuebleAdm(InmuebleCommand cmd)
         {
@@ -435,6 +498,7 @@ namespace REYMAN.Controllers
             var inmuebles = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
             return View(new ObjObraCommand { Inmuebles = inmuebles });
         }
+
         [HttpPost]
         public async Task<IActionResult> AddObjObra(ObjObraCommand cmd)
         {
@@ -448,6 +512,7 @@ namespace REYMAN.Controllers
             }
             return View(cmd);
         }
+
         [HttpGet]
         public async Task<IActionResult> EditObjObras()
         {
@@ -467,6 +532,7 @@ namespace REYMAN.Controllers
                 return View(obs);
             }
         }
+
         [HttpPost]
         public IActionResult EditObjObras(string button)
         {
@@ -482,6 +548,7 @@ namespace REYMAN.Controllers
                      .Where(x => x.ObjetoObraID.ToString() == action[1]).Single());
             return EditObjObras().Result;
         }
+
         public IActionResult EditObjObra(ObjObraCommand uocmd)
         {
             if (ModelState.IsValid && uocmd.button == "sub")
@@ -496,12 +563,15 @@ namespace REYMAN.Controllers
             }
             return View(uocmd);
         }
+
+        [Authorize("Admin")]
         public IActionResult Usuarios()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
             return View(getter.GetAll("Usuario"));
         }
 
+        [Authorize("Admin")]
         public async Task<IActionResult> EditUsuario(RegisterUsuarioCommand cmd)
         {
 
@@ -512,8 +582,10 @@ namespace REYMAN.Controllers
 
                 var user = await _userManager.FindByEmailAsync(cmd.Email);
                 var claims = (await _userManager.GetClaimsAsync(user)).ToList();
-                var permission = claims.Where(x => x.Type == "Permission").Single();
-                if (permission.Value != cmd.Claim)
+                var permission = claims.Where(x => x.Type == "Permission").SingleOrDefault();
+                if (permission == null) 
+                   await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
+                else if (permission.Value != cmd.Claim)
                 {
                     await _userManager.RemoveClaimAsync(user, permission);
                     await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
@@ -529,6 +601,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public async Task<IActionResult> PendingUsers()
         {
             GetterAll getter = new GetterAll(_getterUtils, _context, _signInManager, _userManager);
@@ -566,16 +639,11 @@ namespace REYMAN.Controllers
             return RedirectToAction("PendingUsers", "Admin");
         }
 
-
-
-
-
-
         [HttpGet]
         public IActionResult AddMaterial()
         {
             var lvm = new MaterialViewModel();
-            lvm.UnidadesMedida = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
+            lvm.UnidadesMedida = (new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
             return View(lvm);
         }
 
@@ -604,6 +672,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult EditMateriales()
         {
             var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
@@ -618,8 +687,16 @@ namespace REYMAN.Controllers
                 return RedirectToAction("AddMaterial");
             else if (action[0] == "Delete")
             {
-                new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
-                return RedirectToAction("EditMateriales");
+                try
+                {
+                    new InvestorServices(_context).DeleteMaterial((new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>).Where(mat => mat.MaterialID == int.Parse(action[1])).Single());
+                    return RedirectToAction("EditMateriales");
+                }
+                catch
+                {
+                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
+                    throw new NotImplementedException();
+                }
             }
             else
             {
@@ -633,12 +710,8 @@ namespace REYMAN.Controllers
             }
         }
 
-
-
-
-
-
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult AddUnidadMedida()
         {
             return View(new UnidadMedidaCommand());
@@ -653,6 +726,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult EditUnidadesMedida()
         {
             var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
@@ -675,13 +749,12 @@ namespace REYMAN.Controllers
                 vm.UnidadMedida = ums;
                 ViewData["Nombre"] = temp.Nombre;
                 return View(vm);
-                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
+                //TODO: [Karle] corregir el error para que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
             }
-
-
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult AddEspecialidad()
         {
             return View(new EspecialidadCommand());
@@ -696,6 +769,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("Admin")]
         public IActionResult EditEspecialidades()
         {
             var esp = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
@@ -718,15 +792,13 @@ namespace REYMAN.Controllers
                 ViewData["Nombre"] = temp.Tipo;
                 vm.Especialidad = es;
                 return View(vm);
-                //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
+                //TODO: [Karle] corregir el error para q diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
             }
 
 
         }
 
-
-
-
+        [Authorize("Inversionista")]
         public IActionResult EditAccionCons_Mat(AccionCons_MaterialViewModel vm)
         {
             if (ModelState.IsValid && vm.Button == "post")

@@ -7,7 +7,8 @@ namespace BizLogic.Planning
 {
     public class InmuebleViewModel
     {
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "La Dirección del Inmueble es necesaria.")] 
+        [StringLength(100)]
         public string Direccion { get; set; }
 
         public int PlanID { get; set; }

@@ -51,10 +51,11 @@ namespace BizDbAccess.Repositories
             return toUpd;
         }
 
-        public AccionConstructiva GetAccionCons(string nombre, ObjetoObra objO)
+        public AccionConstructiva GetAccionCons(string nombre, ObjetoObra objO, string tipoPlan)
         {
             return _context.AccionesCons.Where(ac => ac.Nombre.ToLower() == nombre.ToLower() &&
-                                                ac.ObjetoObra.ObjetoObraID == objO.ObjetoObraID)
+                                                ac.ObjetoObra.ObjetoObraID == objO.ObjetoObraID &&
+                                                ac.Plan.TipoPlan == tipoPlan)
                                                 .SingleOrDefault();
         }
 

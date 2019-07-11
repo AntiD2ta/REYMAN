@@ -8,7 +8,7 @@ namespace BizLogic.Planning
 {
     public class AccionConsViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El Nombre de la Acción Constructiva es necesario.")]
         public string Nombre { get; set; }
 
         public string TipoEspecialidad { get; set; }

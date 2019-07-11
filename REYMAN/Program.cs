@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,15 +31,19 @@ namespace REYMAN
 //TODO: En los reportes solo salen los O.O o los Inmuebles que tengan AC's.
 
 //Front
-//TODO: Editar AC, y en ver materiales en las AC poder annadir materiales.
-//TODO: Los materiales salgan organizados por orden alfabetico en EditMateriales
-//TODO: No salen los errores en el view del log in
-//TODO: Cuando insertas un inmueble, si eres admin, tiene q dar a escoger la unidad organizativa del inmueble
-//TODO: (karle) Cambiar todos los editar que no salgan como boton para que salgan como boton
-//TODO: (karle) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
+//TODO: side-nav-bar si lo abres todo sale un scroll al lado pero se pierden cosas al menos en mi pc
+//TODO: Poner el layout de side-nav a todas las paginas q no lo tenga. Esta fula sin eso.
+//TODO: [Raul] Hacer la pagina de contacto, con nuestros nombres y emails, ponerle el layout que te dice hola <nombre de usuario>
+//TODO: [Raul] Arreglar el nombre del boton annadir Materiales_AccCons
+//TODO: [Raul] Falta editar el nombre y la unidad de medida de un material de la AC
+//TODO: [Raul] Arreglar EditAC, rellenar los campos con los datos actuales de esa AC. Arreglar la ortografia del header y comenzarlo todo en mayusculas.
+//TODO: [Raul] Los materiales salgan organizados por orden alfabetico en EditMateriales
+//TODO: [karle] En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
+//TODO: [karle] El link modificar de PlanState ponerlo como boton, al igual que el link editar de Materiales_AccCons.
+//TODO: [karle] la sombra del boton añadir material de AddAccionCons solapa a la tabla de los materiales, y hace falta separar el boton añadir de esta tabla.
+//TODO: [Karle] Ponerle el layout a AddObjObra.
+//TODO: [karle] En AddAccionCons si no añado un material me deja crear la AC, pero me añade un material vacio con unidad de medida m2.
+//TODO: [karle] Implementar borrar AC y borrar plan(Ya estan puestos los metodos en el backend)
+//TODO: [karle] Ponerle el layout a EditUO
 
-//Back
-//TODO: Chequear q pasa cuando se borra un objeto de obra que q esta siendo usado en una AC
-//TODO: Chequear q pasa cuando se borra un inmueble que q esta siendo usado en una AC
-//TODO: Debuguear para ver xq cuando edito un inmueble y se le asigna nombre igual a otro inmueble existente, lanza excepcion en vez de no hacer nada
 

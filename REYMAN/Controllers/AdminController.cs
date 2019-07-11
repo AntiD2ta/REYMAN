@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -676,7 +676,8 @@ namespace REYMAN.Controllers
         public IActionResult EditMateriales()
         {
             var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
-            return View(materiales);
+            ViewData["Materiales"] = materiales;
+            return View(false);
         }
 
         [HttpPost]
@@ -695,7 +696,9 @@ namespace REYMAN.Controllers
                 catch
                 {
                     //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
-                    throw new NotImplementedException();
+                    var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
+                    ViewData["Materiales"] = materiales;
+                    return View(true);
                 }
             }
             else

@@ -1,8 +1,9 @@
 ﻿@using BizLogic.Planning
 @model ObjObraCommand
-
-@*@Html.Partial("PlanPartial",1)*@
-
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "Añadir Objeto de Obra";
+}
 <div class="main">
     <form method="post">
         <h1>Agregar Objeto de Obra</h1>

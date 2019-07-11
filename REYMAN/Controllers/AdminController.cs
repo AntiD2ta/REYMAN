@@ -695,6 +695,7 @@ namespace REYMAN.Controllers
                 }
                 catch
                 {
+                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
                     var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
                     ViewData["Materiales"] = materiales;
                     return View(true);

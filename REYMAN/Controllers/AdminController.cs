@@ -144,6 +144,15 @@ namespace REYMAN.Controllers
             return View(acc);
         }
 
+        [HttpPost]
+        [Authorize("Inversionista")]
+        public async Task<IActionResult> Materiales_AccCons(int id)
+        {
+            //TODO: [TENORIO] eliminar el AccionC_material con ID = id.
+            //TODO: [TENORIO] redireccionar correctamente a la misma vista, es decir crear el AccionConsCommand correspondiente
+            return View();
+        }
+
         /// <summary>
         /// GET method of AddPlan view. This page manage the create Plan entity feature.
         /// </summary>

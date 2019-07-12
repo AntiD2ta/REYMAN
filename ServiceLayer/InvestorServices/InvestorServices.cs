@@ -290,6 +290,15 @@ namespace ServiceLayer.InvestorServices
             return ac;
         }
 
+        public int DeleteAccionC_Material(int id)
+        {
+            var mat = _accionC_MaterialDbAccess.GetAccionC_Material(id);
+            int ac_id = mat.AccionConstructiva.AccionConstructivaID;
+            _accionC_MaterialDbAccess.Delete(mat);
+            _context.Commit();
+            return ac_id;
+        }
+
         public void DeleteAC(AccionConstructiva ac)
         {
             _accionConstructivaDbAccess.Delete(ac);

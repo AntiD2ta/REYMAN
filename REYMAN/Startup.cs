@@ -65,8 +65,8 @@ namespace REYMAN
 
             Dictionary<string, int> levels = new Dictionary<string, int>
                 {
-                   { "inversionista", 1 },
-                   { "gerentes",  2  },
+                   { "gerentes",  1  },
+                   { "inversionista", 2 },
                    { "admin", 3  }
                 };
 
@@ -89,6 +89,14 @@ namespace REYMAN
                     policyBuilder => policyBuilder.AddRequirements(
                         new LevelAuthRequirement(levels, "Permission", 3)
                         ));
+
+                cfg.AddPolicy(
+                    "Admin",
+                    policyBuilder => policyBuilder.RequireClaim("Permission", "admin"));
+
+                cfg.AddPolicy(
+                    "Inversionista",
+                    policyBuilder => policyBuilder.RequireClaim("Permission", "inversionista"));
             });
 
             services.Configure<CookiePolicyOptions>(options =>

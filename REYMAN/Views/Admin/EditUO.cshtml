@@ -1,18 +1,24 @@
 ﻿@using BizLogic.Administration
 @model UOViewModel
+@{
+    Layout = "AdminLayout";
+    ViewData["Title"] = "Editar Unidad Organizativa";
+}
 <form method="post">
-    <CENTER>
-        <div class="col-md-6 col-md-offset-3">
-            <div class="form-group col-md-6 ">
-                <div class="form-group">
-                    <label>Nombre</label>
-                    <input asp-for="Nombre" class="form-control" />
-                    <span asp-validation-for="Nombre" class="text-danger"></span>
+    <div class="main">
+        <CENTER>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="form-group col-md-6 ">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <input asp-for="Id" hidden="hidden" />
+                    <input asp-for="Provincia" hidden="hidden" />
+                    <button class="button" name="button" value="sub">Enviar</button>
                 </div>
-                <input asp-for="Id" hidden="hidden" />
-                <input asp-for="Provincia" hidden="hidden" />
-                <button class="button" name="button" value="sub">Enviar</button>
             </div>
-        </div>
-    </CENTER>
+        </CENTER>
+    </div>
 </form>

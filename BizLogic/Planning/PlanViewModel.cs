@@ -10,10 +10,10 @@ namespace BizLogic.Planning
     {
         public Decimal Presupuesto { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El Año del Plan es necesario.")]
         public int Año { get; set; }
 
-        [Required] 
+        [Required(ErrorMessage = "El Tipo del Plan es necesario.")] 
         public string TipoPlan { get; set; }
     }
 }

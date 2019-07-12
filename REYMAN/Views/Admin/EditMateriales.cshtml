@@ -1,19 +1,22 @@
 ﻿@using BizData.Entities
-@model IEnumerable<Material>
+@model bool
 @{
     Layout = "AdminLayout";
     ViewData["Title"] = "Materiales";
     var adm = User.Claims.Any(x => x.Value == "admin");
 }
-
 <div class="main">
+   
     <p>
         <h1>Materiales</h1>
     </p>
     <p>
         <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre">
     </p>
-
+    @if (Model)
+    {
+        <p style="color:lightcoral"> Ese material no puede ser eliminado porque existe una acción constructiva que la está usando.</p>
+    }
     <section>
         <form method="post">
             <table id="myTable">
@@ -30,7 +33,7 @@
                         <th> </th>
                     }
                 </tr>
-                @foreach (var item in Model)
+                @foreach (var item in ViewData["Materiales"] as IEnumerable<Material>)
                 {
                     <tr id=@item.MaterialID>
                         <td>
@@ -51,8 +54,7 @@
                     </tr>
                 }
             </table>
-
-            @if(!User.Claims.Any(x => x.Value == "gerentes"))
+            @if (!User.Claims.Any(x => x.Value == "gerentes"))
             {
                 <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
             }

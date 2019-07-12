@@ -8,7 +8,7 @@ namespace BizLogic.Planning
 {
     public class ObjObraViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El Nombre del Objeto de Obra es necesario.")]
         public string Nombre { get; set; }
         
         public string Direccion { get; set; }

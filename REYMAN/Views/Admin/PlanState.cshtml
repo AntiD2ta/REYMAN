@@ -45,9 +45,7 @@
                         <td> @item.ManoObra.Cantidad </td>
                         <td> @item.ManoObra.PrecioCUC </td>
                         <td> @item.ManoObra.PrecioCUP</td>
-                        <td> @Html.ActionLink("Modificar", "EditAC", "Admin", @item.AccionConstructivaID)</td>
-                        @*<td> <button class="button" type="submit" asp-controller="Admin" asp-action="EditAC" value=@item.AccionConstructivaID name="ac_id"> <span>Modificar</span> </button> </td>
-                        *@
+                        <td> <a  class="button" href="/Admin/EditAC?ac_id=@item.AccionConstructivaID" > <span>Modificar</span></a></td>
                         <td> <button class="button" type="submit" value="@item.AccionConstructivaID" name="button"> <span>Ver materiales</span> </button> </td>
                     </tr>
                 }

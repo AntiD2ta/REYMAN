@@ -311,13 +311,7 @@ namespace REYMAN.Controllers
         [Authorize("Inversionista")]
         public async Task<IActionResult> AddAcMaterial(int ac_id)
         {
-            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
-            var vm = new EditACViewModel();
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
-            vm.Inmuebles = inmueble;
-            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
-            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+            var vm = new NewMaterialViewModel();
 
             return View(vm);
         }

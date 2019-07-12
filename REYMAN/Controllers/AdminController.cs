@@ -695,7 +695,6 @@ namespace REYMAN.Controllers
                 }
                 catch
                 {
-                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
                     var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
                     ViewData["Materiales"] = materiales;
                     return View(true);
@@ -729,7 +728,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditUnidadesMedida()
         {
             var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
@@ -752,7 +751,6 @@ namespace REYMAN.Controllers
                 vm.UnidadMedida = ums;
                 ViewData["Nombre"] = temp.Nombre;
                 return View(vm);
-                //TODO: [Karle] corregir el error para que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
             }
         }
 
@@ -772,7 +770,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditEspecialidades()
         {
             var esp = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
@@ -795,7 +793,6 @@ namespace REYMAN.Controllers
                 ViewData["Nombre"] = temp.Tipo;
                 vm.Especialidad = es;
                 return View(vm);
-                //TODO: [Karle] corregir el error para q diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
             }
 
 

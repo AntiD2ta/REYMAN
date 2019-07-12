@@ -190,6 +190,8 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
+        public ObjetoObra GetObjetoObra(string nombre, string dirInmueble, string nombreUO) => _objetoObraDbAccess.GetObjObra(nombre, dirInmueble, nombreUO);
+
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             cmd.Materiales = cmd.ListItems.Where(i => i.nameMaterial != null && (i.precioCUC != null || i.precioCUP != null))
@@ -294,6 +296,11 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
+        public AccionConstructiva GetAC(int id)
+        {
+            return _accionConstructivaDbAccess.GetAccionCons(id);
+        }
+
         public bool TryGetMaterial(Material temp, out Material current)
         {
             if (temp.UnidadMedida.Nombre == null)
@@ -355,18 +362,11 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
-        public void RemoveMaterialFromAC(Material mat, AccionConstructiva ac)
+        public void RemoveMaterialFromAC(int id)
         {
-            foreach (var item in ac.Materiales)
-            {
-                if (item.Material.Equals(mat))
-                {
-                    //TODO: This needs to be tested
-                    ac.Materiales.Remove(item);
-                    _context.Commit();
-                    break;
-                }
-            }
+            var item = _accionC_MaterialDbAccess.GetAccionC_Material(id);
+            _accionC_MaterialDbAccess.Delete(item);
+            _context.Commit();
         }
 
         public int RegisterUnidadMedida(UnidadMedidaCommand cmd, out IImmutableList<ValidationResult> errors)
@@ -389,6 +389,8 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
+        public UnidadMedida GetUM(string nombre) => _unidadMedidaDbAccess.GetUM(nombre);
+
         public int RegisterEspecialidad(EspecialidadCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var especialidad = _runnerEspecialidad.RunAction(cmd);
@@ -408,6 +410,8 @@ namespace ServiceLayer.InvestorServices
             _especialidadDbAccess.Delete(entity);
             _context.Commit();
         }
+
+        public Especialidad GetEspecialidad(string tipo) => _especialidadDbAccess.GetEspecialidad(tipo);
 
         public AccionC_Material UpdateACM(AccionC_Material entity, AccionC_Material toUpd)
         {

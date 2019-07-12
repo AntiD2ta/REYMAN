@@ -34,9 +34,7 @@ namespace REYMAN
 //TODO: side-nav-bar si lo abres todo sale un scroll al lado pero se pierden cosas al menos en mi pc
 //TODO: Poner el layout de side-nav a todas las paginas q no lo tenga. Esta fula sin eso.
 //TODO: [Raul] Hacer la pagina de contacto, con nuestros nombres y emails, ponerle el layout que te dice hola <nombre de usuario>
-//TODO: [Raul] Arreglar el nombre del boton annadir Materiales_AccCons
-//TODO: [Raul] Falta editar el nombre y la unidad de medida de un material de la AC
-//TODO: [Raul] Arreglar EditAC, rellenar los campos con los datos actuales de esa AC. Arreglar la ortografia del header y comenzarlo todo en mayusculas.
+//TODO: [TENORIO] Arreglar EditAC, rellenar los campos con los datos actuales de esa AC. Arreglar la ortografia del header y comenzarlo todo en mayusculas.
 //TODO: [Raul] Los materiales salgan organizados por orden alfabetico en EditMateriales
 //TODO: [Karle] Cambiaste algo para el AddObjObra, el admin ahora tiene q tener una UO obligado seteada para poder acceder a la pagina, haz un chequeo q si es admin no pida la UO.
 //TODO: [karle] (LLevas 3 pr sin hacer esto) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.

@@ -16,6 +16,7 @@
             <th> PrecioCUC </th>
             <th> PrecioCUP</th>
             <th> </th>
+            <th> </th>
         </tr>
         @if (Model.Materiales != null)
             {
@@ -28,12 +29,16 @@
                     <td> @item.PrecioCUC </td>
                     <td> @item.PrecioCUP </td>
                     <td><a class="button" href="/Admin/EditAccionCons_Mat?AccionConstructivaID=@Model.AccionConstructivaID&AccionCons_MaterialID=@item.AccionC_MaterialID&Cantidad=@item.Cantidad&PrecioCUP=@item.PrecioCUP&PrecioCUC=@item.PrecioCUC"> <span>Editar</span></a></td>
-
+                    <td>
+                        <form method="post">
+                            <button class="submit" name="id" value=@item.AccionC_MaterialID><span>Añadir</span></button>
+                        </form>
+                    </td>
                 </tr>
             }
         }
     </table>
     <form method="post">
-        <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Annadir</span></button>
+        <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Añadir</span></button>
     </form>
 </div>

@@ -144,6 +144,15 @@ namespace REYMAN.Controllers
             return View(acc);
         }
 
+        [HttpPost]
+        [Authorize("Inversionista")]
+        public async Task<IActionResult> Materiales_AccCons(int id)
+        {
+            //TODO: [TENORIO] eliminar el AccionC_material con ID = id.
+            //TODO: [TENORIO] redireccionar correctamente a la misma vista, es decir crear el AccionConsCommand correspondiente
+            return View();
+        }
+
         /// <summary>
         /// GET method of AddPlan view. This page manage the create Plan entity feature.
         /// </summary>
@@ -251,7 +260,6 @@ namespace REYMAN.Controllers
         [Authorize("Inversionista")]
         public async Task<IActionResult> EditAC(int ac_id)
         {
-            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
             var vm = new EditACViewModel();
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
@@ -259,28 +267,51 @@ namespace REYMAN.Controllers
             vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
             vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
 
+            InvestorServices services = new InvestorServices(_context);
+            var ac = services.GetAC(ac_id);
+
+            vm.Id = ac_id;
+            vm.Cantidad = ac.ManoObra.Cantidad;
+            vm.CUC = ac.ManoObra.PrecioCUC;
+            vm.CUP = ac.ManoObra.PrecioCUP;
+            vm.Especialidad = ac.Especialidad.Tipo;
+            vm.Inmueble = ac.ObjetoObra.Inmueble.Direccion;
+            vm.Nombre = ac.Nombre;
+            vm.ObjetoDeObra = ac.ObjetoObra.Nombre;
+            vm.UnidadDeMedida = ac.ManoObra.UnidadMedida.Nombre;
+
             return View(vm);
         }
 
         [HttpPost]
-        public IActionResult EditAC(EditACViewModel vm)
+        public async Task<IActionResult> EditAC(EditACViewModel vm)
         {
-            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+            InvestorServices services = new InvestorServices(_context);
+            string UO = (await _userManager.GetUserAsync(User)).UnidadOrganizativa.Nombre;
+            var ac = services.GetAC(vm.Id);
+            var acNew = new AccionConstructiva()
+            {
+                Especialidad = services.GetEspecialidad(vm.Especialidad),
+                Nombre = vm.Nombre,
+                ManoObra = new ManoObra()
+                {
+                    Cantidad = vm.Cantidad,
+                    PrecioCUC = vm.CUC,
+                    PrecioCUP = vm.CUP,
+                    UnidadMedida = services.GetUM(vm.UnidadDeMedida)
+                },
+                ObjetoObra = services.GetObjetoObra(vm.ObjetoDeObra, vm.Inmueble, UO)
+            };
 
-            return View(vm);
+            services.UpdateAccionConstructiva(acNew, ac);
+            return RedirectToAction("PlanState", new PlanCommand() { PlanID = ac.Plan.PlanID });
         }
 
         [HttpGet]
         [Authorize("Inversionista")]
         public async Task<IActionResult> AddAcMaterial(int ac_id)
         {
-            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
-            var vm = new EditACViewModel();
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
-            vm.Inmuebles = inmueble;
-            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
-            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+            var vm = new NewMaterialViewModel();
 
             return View(vm);
         }
@@ -672,7 +703,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditMateriales()
         {
             var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
@@ -695,7 +726,6 @@ namespace REYMAN.Controllers
                 }
                 catch
                 {
-                    //TODO: (Karle) lanzar un error pa mostrarlo en el view que diga: Ese material no puede ser eliminado porque existe una accion constructiva que la esta usando.
                     var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
                     ViewData["Materiales"] = materiales;
                     return View(true);
@@ -729,7 +759,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditUnidadesMedida()
         {
             var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
@@ -752,7 +782,6 @@ namespace REYMAN.Controllers
                 vm.UnidadMedida = ums;
                 ViewData["Nombre"] = temp.Nombre;
                 return View(vm);
-                //TODO: [Karle] corregir el error para que diga: Esa unidad de medida no puede ser eliminada porque existe un material o una accion constructiva que la esta usando.
             }
         }
 
@@ -772,7 +801,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditEspecialidades()
         {
             var esp = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;
@@ -795,7 +824,6 @@ namespace REYMAN.Controllers
                 ViewData["Nombre"] = temp.Tipo;
                 vm.Especialidad = es;
                 return View(vm);
-                //TODO: [Karle] corregir el error para q diga: Esa Especialidad no puede ser eliminada porque existe una accion constructiva que la esta usando.
             }
 
 

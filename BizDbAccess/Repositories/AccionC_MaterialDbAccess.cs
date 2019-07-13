@@ -42,5 +42,7 @@ namespace BizDbAccess.Repositories
 
             return toUpd;
         }
+
+        public AccionC_Material GetAccionC_Material(int id) => _context.AccCons_Mat.Find(id);
     }
 }

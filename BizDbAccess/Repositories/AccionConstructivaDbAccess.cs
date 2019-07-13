@@ -59,5 +59,10 @@ namespace BizDbAccess.Repositories
                                                 .SingleOrDefault();
         }
 
+        public AccionConstructiva GetAccionCons(int id)
+        {
+            return _context.AccionesCons.Find(id);
+        }
+
     }
 }

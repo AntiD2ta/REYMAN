@@ -3,6 +3,7 @@ using BizDbAccess.GenericInterfaces;
 using DataLayer.EfCode;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BizDbAccess.Repositories

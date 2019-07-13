@@ -149,8 +149,10 @@ namespace REYMAN.Controllers
         public async Task<IActionResult> Materiales_AccCons(int id)
         {
             //TODO: [TENORIO] eliminar el AccionC_material con ID = id.
+            InvestorServices services = new InvestorServices(_context);
+            int ac = services.DeleteAccionC_Material(id);
             //TODO: [TENORIO] redireccionar correctamente a la misma vista, es decir crear el AccionConsCommand correspondiente
-            return View();
+            return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = ac });
         }
 
         /// <summary>
@@ -260,46 +262,92 @@ namespace REYMAN.Controllers
         [Authorize("Inversionista")]
         public async Task<IActionResult> EditAC(int ac_id)
         {
-            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
             var vm = new EditACViewModel();
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
             vm.Inmuebles = inmueble;
             vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
             vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
+
+            InvestorServices services = new InvestorServices(_context);
+            var ac = services.GetAC(ac_id);
+
+            vm.Id = ac_id;
+            vm.Cantidad = ac.ManoObra.Cantidad;
+            vm.CUC = ac.ManoObra.PrecioCUC;
+            vm.CUP = ac.ManoObra.PrecioCUP;
+            vm.Especialidad = ac.Especialidad.Tipo;
+            vm.Inmueble = ac.ObjetoObra.Inmueble.Direccion;
+            vm.Nombre = ac.Nombre;
+            vm.ObjetoDeObra = ac.ObjetoObra.Nombre;
+            vm.UnidadDeMedida = ac.ManoObra.UnidadMedida.Nombre;
 
             return View(vm);
         }
 
         [HttpPost]
-        public IActionResult EditAC(EditACViewModel vm)
+        public async Task<IActionResult> EditAC(EditACViewModel vm)
         {
-            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+            InvestorServices services = new InvestorServices(_context);
+            string UO = (await _userManager.GetUserAsync(User)).UnidadOrganizativa.Nombre;
+            var ac = services.GetAC(vm.Id);
+            var acNew = new AccionConstructiva()
+            {
+                Especialidad = services.GetEspecialidad(vm.Especialidad),
+                Nombre = vm.Nombre,
+                ManoObra = new ManoObra()
+                {
+                    Cantidad = vm.Cantidad,
+                    PrecioCUC = vm.CUC,
+                    PrecioCUP = vm.CUP,
+                    UnidadMedida = services.GetUM(vm.UnidadDeMedida)
+                },
+                ObjetoObra = services.GetObjetoObra(vm.ObjetoDeObra, vm.Inmueble, UO)
+            };
 
-            return View(vm);
+            services.UpdateAccionConstructiva(acNew, ac);
+            return RedirectToAction("PlanState", new PlanCommand() { PlanID = ac.Plan.PlanID });
         }
 
         [HttpGet]
         [Authorize("Inversionista")]
-        public async Task<IActionResult> AddAcMaterial(int ac_id)
+        public IActionResult AddAcMaterial(int ac_id)
         {
-            //TODO: [Teno] te mande la accion constructiva xq no tengo idea de q quieras. Entras a la vista y lo cambias a conveniencia x el id quizas
-            var vm = new EditACViewModel();
-            GetterAll getter = new GetterAll(_getterUtils, _context);
-            var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
-            vm.Inmuebles = inmueble;
-            vm.Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>);
-            vm.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
-
+            var vm = new NewMaterialViewModel
+            {
+                Id = ac_id,
+                Unidades = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>
+            };
             return View(vm);
         }
 
         [HttpPost]
         public IActionResult AddAcMaterial(EditACViewModel vm)
         {
-            //TODO: [Teno] con el Id puedes redirigir nuevamente al plan         
+            InvestorServices services = new InvestorServices(_context);
+            var ac = services.GetAC(vm.Id);
+            var ac_mat = new AccionC_Material
+            {
+                AccionConstructiva = ac,
+                Cantidad = vm.Cantidad,
+                PrecioCUC = vm.CUC,
+                PrecioCUP = vm.CUP
+            };
 
-            return View(vm);
+            Material temp = new Material
+            {
+                Nombre = vm.Nombre,
+                UnidadMedida = services.GetUM(vm.UnidadDeMedida)
+            };
+
+            if (!services.TryGetMaterial(temp, out var material))
+            {
+                material = temp;
+            }
+            ac_mat.Material = material;
+
+            ac.Materiales.Add(ac_mat);
+            return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.Id });
         }
 
         [HttpGet]
@@ -681,7 +729,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("Admin")]
+        [Authorize("LevelTwoAuth")]
         public IActionResult EditMateriales()
         {
             var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;

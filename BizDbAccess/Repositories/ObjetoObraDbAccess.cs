@@ -58,9 +58,6 @@ namespace BizDbAccess.User
                     obj.Inmueble.UnidadOrganizativa.Nombre == nombreUO).SingleOrDefault();
         }
 
-        public ObjetoObra GetObjObra(int id)
-        {
-            return _context.ObjetosObra.Find(id);
-        }
+        public ObjetoObra GetObjObra(int id) => _context.ObjetosObra.Find(id);
     }
 }

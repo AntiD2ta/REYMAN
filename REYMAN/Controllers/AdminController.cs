@@ -116,11 +116,12 @@ namespace REYMAN.Controllers
         [HttpPost]
         public IActionResult PlanState(string button)
         {
-            var action = button.Split("/");
-            if (action[0] == "Add")
-                return RedirectToAction("AddAccionCons", new AccionConsCommand() { PlanID = int.Parse(action[1]) });
-            else
-                return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = int.Parse(button) });
+            var acc = button.Split('/');
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            InvestorServices ins = new InvestorServices(_context);
+            var ac = (getter.GetAll("AccionConstructiva") as IEnumerable<AccionConstructiva>).Where(x => x.AccionConstructivaID == int.Parse(acc[0])).Single();
+            ins.DeleteAC(ac);
+            return RedirectToAction("PlanState", new PlanCommand() { PlanID = int.Parse(acc[1]) });
         }
 
         [HttpGet]
@@ -450,7 +451,7 @@ namespace REYMAN.Controllers
         public IActionResult EditInmuebles(int id)
         {
             InvestorServices adminService = new InvestorServices(_context);
-             GetterAll getter = new GetterAll(_getterUtils, _context);
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             adminService.DeleteInmueble((getter.GetAll("Inmueble") as IEnumerable<Inmueble>)
                 .Where(x => x.InmuebleID == id).Single());
             return RedirectToAction("EditInmuebles", "Admin");
@@ -511,7 +512,7 @@ namespace REYMAN.Controllers
         [HttpPost]
         public async Task<IActionResult> AddInmuebleAdm(InmuebleCommand cmd)
         {
-         
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -525,9 +526,18 @@ namespace REYMAN.Controllers
         [HttpGet]
         public async Task<IActionResult> AddObjObra()
         {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            var inmuebles = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
-            return View(new ObjObraCommand { Inmuebles = inmuebles });
+            if (User.Claims.Any(x => x.Value == "admin"))
+            {
+                GetterAll getter = new GetterAll(_getterUtils, _context);
+                var inmuebles = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>);
+                return View(new ObjObraCommand { Inmuebles = inmuebles.Select(inm=>inm.Direccion) });
+            }
+            else
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                var inmuebles = user.UnidadOrganizativa.Inmuebles.Select(inm => inm.Direccion);
+                return View(new ObjObraCommand { Inmuebles = inmuebles });
+            }
         }
 
         [HttpPost]
@@ -614,8 +624,8 @@ namespace REYMAN.Controllers
                 var user = await _userManager.FindByEmailAsync(cmd.Email);
                 var claims = (await _userManager.GetClaimsAsync(user)).ToList();
                 var permission = claims.Where(x => x.Type == "Permission").SingleOrDefault();
-                if (permission == null) 
-                   await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
+                if (permission == null)
+                    await _userManager.AddClaimAsync(user, new Claim("Permission", cmd.Claim));
                 else if (permission.Value != cmd.Claim)
                 {
                     await _userManager.RemoveClaimAsync(user, permission);

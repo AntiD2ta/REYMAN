@@ -20,7 +20,7 @@
                 <select asp-for="Inmueble" class="form-control" onchange="assign_objects();">
                     @foreach (var item in Model.Inmuebles)
                     {
-                        <option value=@item.InmuebleID>@item.Direccion</option>
+                        <option value=@item.Direccion id=@item.InmuebleID>@item.Direccion</option>
                     }
                 </select>
             </div>
@@ -31,7 +31,7 @@
                 {
                     @foreach (var obj in item.ObjetosDeObra)
                     {
-                        <option value=@obj.ObjetoObraID id=@item.InmuebleID>@obj.Nombre</option>
+                        <option value=@obj.Nombre id=@item.InmuebleID>@obj.Nombre</option>
                     }
                 }
                 </select>
@@ -43,7 +43,7 @@
                 <select asp-for="Especialidad" class="form-control" >
                     @foreach (var item in Model.Especialidades)
                     {
-                        <option value=@item.EspecialidadID>@item.Tipo</option>
+                        <option value=@item.Tipo>@item.Tipo</option>
                     }
                 </select>
                 <span asp-validation-for="Especialidad" class="text-danger"></span>
@@ -53,7 +53,7 @@
                 <select asp-for="UnidadDeMedida" class="form-control" >
                     @foreach (var item in Model.Unidades)
                     {
-                        <option value=@item.UnidadMedidaID>@item.Nombre</option>
+                        <option value=@item.Nombre>@item.Nombre</option>
                     }
                 </select>
                 <span asp-validation-for="UnidadDeMedida" class="text-danger"></span>
@@ -83,7 +83,7 @@
         function assign_objects() {
             var sel = document.getElementById("ObjetoDeObra");
             var op = sel.options;
-            var id = document.getElementById("Inmueble").value;
+            var id = document.getElementById("Inmueble").selectedOptions[0].id;
             var first;
             for (var i = op.length - 1; i >= 0; i--) {
                 if (op[i].id != id) {

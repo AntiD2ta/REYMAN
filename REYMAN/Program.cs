@@ -41,4 +41,5 @@ namespace REYMAN
 //TODO: [karle] Implementar borrar AC y borrar plan(Ya estan puestos los metodos en el backend)
 //TODO: [karle] Cuando se crea una AC, que los nombres de los materiales se autocompleten.
 
+//TODO: Añadir validacion a AddAccionCons
 //TODO: Probar modificar AC

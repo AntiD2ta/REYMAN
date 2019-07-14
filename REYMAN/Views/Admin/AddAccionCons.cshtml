@@ -1,4 +1,4 @@
-﻿@using BizLogic.Planning
+@using BizLogic.Planning
 @using BizData.Entities
 @model AccionConsCommand
 @{
@@ -497,7 +497,7 @@
         }
 
         function DeleteName(name) {
-            if (name.length == 0) return;
+            if (name.length === 0) return;
             console.log("delete");
             var dl = document.getElementById("new_data");
             var op = dl.options;
@@ -522,17 +522,19 @@
         }
 
         function AddName(name) {
-            if (name.length == 0) return;
+            if (name.length === 0) return;
             console.log("add");
             var dl = document.getElementById("data");
             var op = dl.options;
             var pos = find_op(name, "data");
-            if (pos != -1) {
+            if (pos !== -1) {
                 console.log("ok");
                 dl = document.getElementById("new_data");
                 op = dl.options;
                 pos = find_op(name, "new_data");
-                op[pos].id = parseInt(op[pos].id) + 1;
+                if(pos !== -1){
+                    op[pos].id = parseInt(op[pos].id) + 1;
+                }
             }
             else {
                 op = document.createElement("option");

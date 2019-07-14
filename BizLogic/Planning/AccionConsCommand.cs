@@ -12,6 +12,7 @@ namespace BizLogic.Planning
         public Plan Plan { get; set; }
         public Especialidad Especialidad { get; set; }
         public ObjetoObra ObjetoObra { get; set; }
+        public IEnumerable<string> _Materiales { get; set; }
         public ManoObra ManoObra { get; set; }
         public List<(Material material, Decimal? precioCUP, Decimal? precioCUC)> MaterialPrecio { get; set; }
 

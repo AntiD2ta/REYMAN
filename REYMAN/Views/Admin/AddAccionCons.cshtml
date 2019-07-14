@@ -226,7 +226,7 @@
                 </th>
             </tr>
             <tr>
-                <td><input type="text" name="ListItems[0].nameMaterial"></td>
+                <td><input type="text" name="ListItems[0].nameMaterial" list="data" onkeydown="DeleteName(this.value);" onblur="AddName(this.value);"></td>
                 <td>
                     <select class="form-control" name="ListItems[0].unidadMedida">
                         @foreach (var item in Model.UnidadesMedida)
@@ -244,7 +244,19 @@
         </table>
         <input asp-for="PlanID" hidden="hidden" />
         <button type="submit" class="button"> <span>Añadir</span></button>
+
+        <datalist id="data">
+            @foreach(var item in Model._Materiales)
+            {
+                <option>@item</option>
+            }
+        </datalist>
+
+        <datalist id="new_data">
+           
+        </datalist>
     </form>
+
 
     <script>
         function inputdouble() {
@@ -291,6 +303,10 @@
             inp.type = "text";
             //inp.className = "precio";
             inp.name = "ListItems[" + i + "].nameMaterial";
+            inp.addEventListener("keydown", function() { DeleteName(this.value); });
+            inp.addEventListener("blur", function () { AddName(this.value) });
+            inp.setAttribute("list", "data");
+            console.log(inp);
             td.appendChild(inp);
             tr.appendChild(td);
             var td4 = document.createElement("td");
@@ -463,3 +479,75 @@
         }
     </style>
 </body>
+
+@section Scripts{ 
+    <script>
+
+        function find_op(val, name) {
+            var dl = document.getElementById(name);
+            var op = dl.options;
+            var ans = -1;
+            for (var i = 0; i < op.length; ++i) {
+                if (op[i].value === val) {
+                    ans = i;
+                    break;
+                }
+            }
+            return ans;
+        }
+
+        function DeleteName(name) {
+            if (name.length == 0) return;
+            console.log("delete");
+            var dl = document.getElementById("new_data");
+            var op = dl.options;
+            var rm = false;
+            var pos = find_op(name, "new_data");
+            if (pos != -1){
+                if (op[pos].id === "1") {
+                    op[pos].remove();
+                    rm = true;
+                }
+                else {
+                    op[pos].id = parseInt(op[pos].id) - 1;
+                }
+            }
+            if (rm) {
+                dl = document.getElementById("data");
+                op = dl.options;
+                pos = find_op(name, "data");
+                op[pos].remove();
+            }
+            console.log("good by delete");
+        }
+
+        function AddName(name) {
+            if (name.length == 0) return;
+            console.log("add");
+            var dl = document.getElementById("data");
+            var op = dl.options;
+            var pos = find_op(name, "data");
+            if (pos != -1) {
+                console.log("ok");
+                dl = document.getElementById("new_data");
+                op = dl.options;
+                pos = find_op(name, "new_data");
+                op[pos].id = parseInt(op[pos].id) + 1;
+            }
+            else {
+                op = document.createElement("option");
+                op.innerHTML = name;
+                dl.appendChild(op);
+                op = document.createElement("option");
+                op.innerHTML = name;
+                op.id = 1;
+                dl = document.getElementById("new_data");
+                dl.appendChild(op);
+            }
+            console.log("good by add");
+        }
+        
+
+
+    </script>
+}

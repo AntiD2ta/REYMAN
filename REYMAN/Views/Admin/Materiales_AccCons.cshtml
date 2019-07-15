@@ -7,7 +7,7 @@
 }
 
 <div class="main">
-    <h1>Materiales de la Accion Constructiva: @Model.Nombre</h1>
+    <h1>Materiales de la Acción Constructiva: @Model.Nombre</h1>
     <table id="hidden">
         <tr>
             <th> Material </th>
@@ -38,7 +38,5 @@
             }
         }
     </table>
-    <form method="post">
-        <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Añadir</span></button>
-    </form>
+        <a class="button" href="/Admin/AddAcMaterial?ac_id=@Model.AccionConstructivaID"><span>Añadir</span></a>
 </div>

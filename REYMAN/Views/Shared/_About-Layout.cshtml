@@ -1,24 +1,31 @@
 ﻿<!DOCTYPE html>
+
 <html>
 
 <head>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Extra_Headers", required: false)
 </head>
 
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top"></nav>
 
-    <div class="container body-content">
+
+<body>
+
+    <div class="container body-content" style="margin: auto;">
         @RenderBody()
         <footer>
-                <CENTER>
-                    <div> <a style="color:#FF0000" asp-action="About">Acerca de</a> </div>                    
-                    <p>&copy; 2019 - REYMAN</p>
-                </CENTER>
+            <CENTER>
+                <div> <a class="button" style="background-color: blue" asp-action="Login"> <span>Regresar</span></a> </div>
+                <br />
+                <hr />
+
+                <p>&copy; 2019 - REYMAN</p>
+            </CENTER>
         </footer>
     </div>
 

@@ -41,4 +41,8 @@ namespace REYMAN
 //TODO: [karle] Implementar borrar AC y borrar plan(Ya estan puestos los metodos en el backend)
 //TODO: [karle] Cuando se crea una AC, que los nombres de los materiales se autocompleten.
 
-//TODO: Probar modificar AC
+//TODO: [T!] Añadir validacion a AddAccionCons
+//TODO: [T!] Probar modificar AC
+//TODO: [T!] Ponerle el autocompletamiento de raul a añadir material a un AC
+//TODO: [T!] Terminar de rellenar el About con lo q le falte.
+//TODO: [T!] Ver si fa tiene el icon de gmail para ponerselo al EMAIL de el campo email de las targetas de contacto

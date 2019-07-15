@@ -277,6 +277,7 @@ namespace REYMAN.Controllers
             }
         }
 
+        [AllowAnonymous]
         public IActionResult About()
         {
             return View();

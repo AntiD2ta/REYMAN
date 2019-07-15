@@ -442,8 +442,7 @@ namespace REYMAN.Controllers
             cmd.Inmuebles = inmueble;
             cmd.UnidadesMedida = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Select(um => um.Nombre);
             cmd.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
-            //TODO: [TENORIO] Guara en la linea de abajo los nombres de los materiales existentes.
-            cmd._Materiales = new List<string>();
+            cmd._Materiales = (getter.GetAll("Material") as IEnumerable<Material>).Distinct(new MaterialComparer()).Select(m => m.Nombre).ToList();
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             IEnumerable<AccionConstructiva> ac = new List<AccionConstructiva>();
 

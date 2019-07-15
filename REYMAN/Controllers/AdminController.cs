@@ -86,13 +86,12 @@ namespace REYMAN.Controllers
         /// <param name="button">Type of the clicked button.</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult EditPlanes(string button)
+        public IActionResult EditPlanes(int id)
         {
-            var action = button.Split("/");
-            if (action[0] == "Add")
-                return RedirectToAction("AddPlan", "Admin");
-            else
-                return RedirectToAction("PlanState", new PlanCommand() { PlanID = int.Parse(action[1]) });
+            GetterAll getter = new GetterAll(_getterUtils, _context);
+            InvestorServices ins = new InvestorServices(_context);
+            ins.DeletePlan((getter.GetAll("Plan") as IEnumerable<Plan>).Where(x => x.PlanID == id).Single());
+            return RedirectToAction("EditPlanes");
         }
 
         [HttpGet]
@@ -428,6 +427,7 @@ namespace REYMAN.Controllers
                 }
             }
             cmd.AccionConsts = ac.Select(act => act.Nombre);
+            ViewData["Materiales"] = (getter.GetAll("Material") as IEnumerable<Material>).Select(x => x.Nombre);
             return View(cmd);
         }
 
@@ -530,7 +530,7 @@ namespace REYMAN.Controllers
             {
                 GetterAll getter = new GetterAll(_getterUtils, _context);
                 var inmuebles = (getter.GetAll("Inmueble") as IEnumerable<Inmueble>);
-                return View(new ObjObraCommand { Inmuebles = inmuebles.Select(inm=>inm.Direccion) });
+                return View(new ObjObraCommand { Inmuebles = inmuebles.Select(inm => inm.Direccion) });
             }
             else
             {

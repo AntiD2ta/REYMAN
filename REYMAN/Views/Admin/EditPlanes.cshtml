@@ -1,16 +1,14 @@
 ﻿@using BizData.Entities
-@{ 
+@{
     Layout = "AdminLayout";
 }
 @model IEnumerable<Plan>
-
 <style>
     #myTable tr.header, #myTable tr:hover {
         /* Add a grey background color to the table header and on hover */
         background-color: #f7cfcf;
     }
 </style>
-
 <div class="main">
     <h1>Planes</h1>
     <p>
@@ -33,6 +31,8 @@
                     </th>
                     <th>
                     </th>
+                    <th>
+                    </th>
                 </tr>
                 @foreach (var item in Model)
             {
@@ -47,12 +47,15 @@
                             @item.TipoPlan
                         </td>
                         <td>
-                            <button class="button" type="submit" value="Edit/@item.PlanID" name="button">   <span>Editar</span> </button>
+                            <a href="/Admin/PlanState?PlanID=@item.PlanID&Presupuesto=0&Año=0" class="button">   <span>Editar</span> </a>
+                        </td>
+                        <td>
+                            <button name="id" value=@item.PlanID class="button">   <span>Eliminar</span> </button>
                         </td>
                     </tr>
                 }
             </table>
-            <button class="button" type="submit" value="Add" name="button">   <span>Añadir</span> </button>
+            <a href="/Admin/AddPlan" class="button">   <span>Añadir</span> </a>
         </form>
     </section>
 </div>

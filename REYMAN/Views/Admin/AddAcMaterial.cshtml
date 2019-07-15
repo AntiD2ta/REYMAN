@@ -7,7 +7,7 @@
 
 <CENTER>
     <div class="main">
-        <h1>Annadir material</h1>
+        <h1>Añadir material</h1>
         <form method="post">
             <div class="form-group col-md-4 col-md-offset-3">
                 <label>Nombre</label>
@@ -19,14 +19,14 @@
                 <select asp-for="UnidadDeMedida" class="form-control">
                     @foreach (var item in Model.Unidades)
                     {
-                        <option value=@item.UnidadMedidaID>@item.Nombre</option>
+                        <option value=@item.Nombre>@item.Nombre</option>
                     }
                 </select>
                 <span asp-validation-for="UnidadDeMedida" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label>Cantidad</label>
-                <input id="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this);" />
+                <input asp-for="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this);" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">

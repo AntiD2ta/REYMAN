@@ -378,6 +378,12 @@ namespace ServiceLayer.InvestorServices
             _context.Commit();
         }
 
+        public void AddAcMaterial(AccionConstructiva ac , AccionC_Material acm)
+        {
+            ac.Materiales.Add(acm);
+            _context.Commit();
+        }
+
         public int RegisterUnidadMedida(UnidadMedidaCommand cmd, out IImmutableList<ValidationResult> errors)
         {
             var unidadMedida = _runnerUnidadMedida.RunAction(cmd);

@@ -340,13 +340,13 @@ namespace REYMAN.Controllers
                 UnidadMedida = services.GetUM(vm.UnidadDeMedida)
             };
 
-            if (!services.TryGetMaterial(temp, out var material))
+            if (services.TryGetMaterial(temp, out var material))
             {
                 material = temp;
             }
             ac_mat.Material = material;
 
-            ac.Materiales.Add(ac_mat);
+            services.AddAcMaterial(ac, ac_mat);
             return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.Id });
         }
 

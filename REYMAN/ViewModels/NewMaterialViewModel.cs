@@ -10,10 +10,10 @@ namespace REYMAN.ViewModels
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        public int UnidadDeMedida { get; set; }
+        public string UnidadDeMedida { get; set; }
         public int Cantidad { get; set; }
-        public double CUC { get; set; }
-        public double CUP { get; set; }
+        public decimal? CUC { get; set; }
+        public decimal? CUP { get; set; }
 
         public IEnumerable<UnidadMedida> Unidades { get; set; }
     }

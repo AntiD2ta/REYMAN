@@ -19,14 +19,14 @@
                 <select asp-for="UnidadDeMedida" class="form-control">
                     @foreach (var item in Model.Unidades)
                     {
-                        <option value=@item.UnidadMedidaID>@item.Nombre</option>
+                        <option value=@item.Nombre>@item.Nombre</option>
                     }
                 </select>
                 <span asp-validation-for="UnidadDeMedida" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label>Cantidad</label>
-                <input id="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this);" />
+                <input id="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this, '0');" />
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
@@ -43,3 +43,9 @@
         </form>
     </div>
 </CENTER>
+
+@section Scripts{ 
+    <script>
+        parse(document.getElementById('Cantidad'), '0');
+    </script>
+}

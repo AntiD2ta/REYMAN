@@ -38,7 +38,8 @@
             }
         }
     </table>
-    <form method="post">
+    <form>
         <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Añadir</span></button>
+        <button class="button" asp-controller="Admin" asp-action="PlanState" name="PlanID" value="@Model.Plan.PlanID"><span>Volver al plan</span></button>
     </form>
 </div>

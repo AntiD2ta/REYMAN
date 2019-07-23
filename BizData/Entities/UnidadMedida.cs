@@ -9,4 +9,11 @@ namespace BizData.Entities
         public int UnidadMedidaID { get; set; }
         public string Nombre { get; set; }
     }
+
+    public class UMComparer : IEqualityComparer<UnidadMedida>
+    {
+        public bool Equals(UnidadMedida x, UnidadMedida y) => x.Nombre == y.Nombre;
+
+        public int GetHashCode(UnidadMedida obj) => obj.Nombre.GetHashCode();
+    }
 }

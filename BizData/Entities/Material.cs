@@ -25,9 +25,6 @@ namespace BizData.Entities
     {
         public bool Equals(Material x, Material y) => x.Nombre == y.Nombre;
 
-        public int GetHashCode(Material obj)
-        {
-            return obj.Nombre.GetHashCode();
-        }
+        public int GetHashCode(Material obj) => obj.Nombre.GetHashCode();
     }
 }

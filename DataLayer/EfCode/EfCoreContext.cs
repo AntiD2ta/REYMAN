@@ -68,6 +68,11 @@ namespace DataLayer.EfCode
                .IsRequired()
                .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<AccionConstructiva>()
+                .HasOne(ac => ac.Plan)
+                .WithMany(p => p.AccionesConstructivas)
+                .IsRequired(false);
+
             builder.Entity<AccionC_Material>()
                 .HasOne(acm => acm.AccionConstructiva)
                 .WithMany(ac => ac.Materiales)

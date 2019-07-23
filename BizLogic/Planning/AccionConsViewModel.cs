@@ -25,6 +25,7 @@ namespace BizLogic.Planning
 
         public int PlanID { get; set; }
 
+        [Range(minimum:1, maximum: int.MaxValue, ErrorMessage = "Seleccione un Objeto de Obra, si no hay alguno, proceda a crearlo.")]
         public int ObjetoObraID { get; set; }
 
         public int EspecialidadID { get; set; }

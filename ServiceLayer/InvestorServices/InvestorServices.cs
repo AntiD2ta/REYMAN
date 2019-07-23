@@ -95,6 +95,10 @@ namespace ServiceLayer.InvestorServices
 
         public void DeletePlan(Plan plan)
         {
+            for (int i = 0; i < plan.AccionesConstructivas.Count(); i++)
+            {
+                DeleteAC(plan.AccionesConstructivas.First());
+            }
             _planDbAccess.Delete(plan);
             _context.Commit();
         }
@@ -279,7 +283,7 @@ namespace ServiceLayer.InvestorServices
         {
             if (entity.Nombre != null && entity.Nombre != toUpd.Nombre &&
                 _accionConstructivaDbAccess.GetAccionCons(entity.Nombre,
-                entity.ObjetoObra, entity.Plan.TipoPlan) != null)
+                entity.ObjetoObra, entity.Plan) != null)
             {
                 throw new Exception($"Ya existe una Accion Constructiva con nombre {entity.Nombre} en" +
                     $" {entity.ObjetoObra.Nombre}");
@@ -430,11 +434,11 @@ namespace ServiceLayer.InvestorServices
 
         public AccionC_Material UpdateACM(AccionC_Material entity, AccionC_Material toUpd)
         {
-            foreach (var item in toUpd.AccionConstructiva.Materiales)
-            {
-                if (entity.Equals(item))
-                    throw new InvalidOperationException("Ya existe ese material en la acción constructiva actual");
-            }
+            //foreach (var item in toUpd.AccionConstructiva.Materiales)
+            //{
+            //    if (entity.Equals(item))
+            //        throw new InvalidOperationException("Ya existe ese material en la acción constructiva actual");
+            //}
 
             toUpd = _accionC_MaterialDbAccess.Update(entity, toUpd);
             _context.Commit();

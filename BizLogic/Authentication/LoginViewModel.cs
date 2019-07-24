@@ -12,7 +12,7 @@ namespace BizLogic.Authentication
         [StringLength(100), EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "La Contraseña es necesaria."), StringLength(100)]
+        [Required(ErrorMessage = "La Contraseña es incorrecta."), StringLength(100)]
         [DataType(DataType.Password)]
         [DisplayName("Contraseña")]
         public string Password { get; set; }

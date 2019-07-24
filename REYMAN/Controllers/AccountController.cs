@@ -196,7 +196,7 @@ namespace REYMAN.Controllers
                     return RedirectToAction("Index", "Home");
             }
 
-            ModelState.AddModelError(string.Empty, "An error occured trying to login");
+            ModelState.AddModelError(string.Empty, "Su Email o su Contraseña es incorrecta.");
 
             //If we got to here, something went wrong
             return View(lvm);

@@ -9,17 +9,17 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="form-group col-md-4">
                 <label>Cantidad</label>
-                <input asp-for="Cantidad" class="form-control" />
+                <input asp-for="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this, '0');"/>
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label>PrecioCUC</label>
-                <input asp-for="PrecioCUC" class="form-control" />
+                <input asp-for="PrecioCUC" class="form-control" onkeydown="return double_validate(event, this.value);" oninput="precision(this, 2);"/>
                 <span asp-validation-for="PrecioCUC" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
                 <label>PrecioCUP</label>
-                <input asp-for="PrecioCUP" class="form-control" />
+                <input asp-for="PrecioCUP" class="form-control" onkeydown="return double_validate(event, this.value);" oninput="precision(this, 2);"/>
                 <span asp-validation-for="PrecioCUP" class="text-danger"></span>
             </div>
             <input asp-for="AccionCons_MaterialID" hidden="hidden" />
@@ -28,3 +28,9 @@
         </div>
     </CENTER>
 </form>
+
+@section Scripts{
+    <script>
+        parse(document.getElementById('Cantidad'), '0');
+    </script>
+}

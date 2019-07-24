@@ -60,7 +60,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label>Cantidad</label>
-                <input asp-for="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this);"/>
+                <input asp-for="Cantidad" class="form-control" onkeydown="return int_validate(event, this.value);" oninput="parse(this, '0');"/>
                 <span asp-validation-for="Cantidad" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
@@ -80,6 +80,8 @@
 
 @section Scripts{ 
     <script>
+        parse(document.getElementById('Cantidad'), '0');
+
         function assign_objects() {
             var sel = document.getElementById("ObjetoDeObra");
             var op = sel.options;

@@ -89,11 +89,11 @@ function int_validate(e, val) {
     return false;
 }
 
-function parse(caller) {
+function parse(caller, def) {
     if (caller.value !== "")
         caller.value = parseInt(caller.value);
     else
-        caller.value = 0;
+        caller.value = def;
 }
 
 function double_validate(e, val) {
@@ -114,6 +114,6 @@ function precision(caller, digits) {
             return;
         }
     }
-    parse(caller);
+    parse(caller, "");
 }
 

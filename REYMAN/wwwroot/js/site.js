@@ -56,7 +56,7 @@ function set() {
                 ths[i].style.color = "white";
                 ths[i].value = "";
             }
-            this.style.color = "blue";
+            this.style.color ="#F8BCAC";
             this.value = "selected";
         });
     }

@@ -84,7 +84,7 @@ body {
 }
 
 .vertical-menu a {
-    background-color: #eee;
+    background-color: #C00000;
     color: black;
     display: block;
     padding: 12px;
@@ -92,11 +92,11 @@ body {
 }
 
     .vertical-menu a:hover {
-        background-color: #ccc; /* Dark grey background on mouse-over */
+        background-color: #C00000 /* Dark grey background on mouse-over */
     }
 
     .vertical-menu a.active {
-        background-color: #a90005;
+        background-color: #C00000;
         color: white;
     }
 
@@ -104,7 +104,7 @@ body {
 /************************/
 table tr.header, table tr:hover {
     /* Add a grey background color to the table header and on hover */
-    background-color: #f7cfcf;
+    background-color: #F8BCAC;
 }
 
 table {
@@ -124,7 +124,7 @@ th, td {
 
 th {
     color: white;
-    background: #a90005;
+    background: #C00000;
 }
 
     th:first-child, td:first-child {
@@ -132,11 +132,11 @@ th {
     }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2
+    background-color: lightgray;
 }
 
 .fa-check {
-    color: green;
+    color: gray;
 }
 
 .fa-remove {
@@ -178,19 +178,19 @@ tr:nth-child(even) {
     text-decoration: none;
     outline: none;
     color: #fff;
-    background-color: #a90005;
+    background-color: #C00000;
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
 }
 
     .button:hover {
-        background-color: darkred;
-        color:white;
+        background-color: #C00000;
+        color: white;
     }
 
     .button:active {
-        background-color: #3e8e41;
+        background-color: #C00000;
         box-shadow: 0 5px #666;
         transform: translateY(4px);
     }
@@ -202,7 +202,7 @@ tr:nth-child(even) {
     padding: 0;
     width: 25%;
     height: 75%;
-    background-color: #f1f1f1;
+    background-color: #C00000;
     position: fixed;
     overflow: auto;
 }
@@ -214,7 +214,7 @@ tr:nth-child(even) {
     z-index: 1;
     top: inherit;
     left: 0;
-    background-color: #a90005;
+    background-color: #C00000;
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -227,7 +227,7 @@ tr:nth-child(even) {
         color: white;
         display: block;
         border: none;
-        background: none;
+        background: none ;
         width: 100%;
         text-align: left;
         cursor: pointer;
@@ -248,14 +248,14 @@ tr:nth-child(even) {
 
 /* Add an active class to the active dropdown button */
 .active {
-    background-color: darkred;
+    background-color: none;
     color: #636161;
 }
 
 /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
 .dropdown-container {
     display: none;
-    background-color: #646363;
+    background-color:  gray;
     padding-left: 8px;
 }
 
@@ -272,7 +272,7 @@ tr:nth-child(even) {
     color: white;
     display: block;
     border: none;
-    background: none;
+    background: #C00000;
     width: 100%;
     text-align: left;
     cursor: pointer;

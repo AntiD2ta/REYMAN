@@ -32,6 +32,7 @@ namespace REYMAN
 //TODO: [karle] (LLevas 3 pr sin hacer esto) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
 //TODO: [karle] Separame el AddAccionCons en metodos GET y POST, q eso hace q se parta la app si el modelo no es valido cuando tratas de añadir la AC, arregla lo q tengas q arreglar en los views.
 //TODO: [karle] En AddAccionCons los datos de los materiales no se mapean bien, solo los nombres de los materiales.
+//TODO: [karle] Poner los botones de Regresar del About con los colores bien.
 
 //TODO: [RUL0] Poner un boton en el view Materiales_AccCons q te permitar dar atras y volver al PlanState correspondiente.
 

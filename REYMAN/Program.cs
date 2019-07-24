@@ -24,25 +24,16 @@ namespace REYMAN
     }
 }
 
-//MEMO: Cuando una accion constructiva sea creada, solo es requerido que se ponga su nombre y el nombre de los materiales.
-//MEMO: Una Accion constructiva solo va a tener una mano de obra asociada.
-//MEMO: Las monedas no se van a cambiar, solo se va a mostrar los precios en la moneda que fue insertado.
-//MEMO: Vamos a dejar que se ponga un precio en las dos monedas, pero se para los reportes se debe especificar al menos un precio en alguna moneda.
 //TODO: En los reportes solo salen los O.O o los Inmuebles que tengan AC's.
 
 //Front
 //TODO: side-nav-bar si lo abres todo sale un scroll al lado pero se pierden cosas al menos en mi pc
-//TODO: Poner el layout de side-nav a todas las paginas q no lo tenga. Esta fula sin eso.
-//TODO: [Raul] Hacer la pagina de contacto, con nuestros nombres y emails, ponerle el layout que te dice hola <nombre de usuario>
-//TODO: [TENORIO] Arreglar EditAC, rellenar los campos con los datos actuales de esa AC. Arreglar la ortografia del header y comenzarlo todo en mayusculas.
-//TODO: [Raul] Los materiales salgan organizados por orden alfabetico en EditMateriales
 //TODO: [Karle] Cambiaste algo para el AddObjObra, el admin ahora tiene q tener una UO obligado seteada para poder acceder a la pagina, haz un chequeo q si es admin no pida la UO.
 //TODO: [karle] (LLevas 3 pr sin hacer esto) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
-//TODO: [karle] Implementar borrar AC y borrar plan(Ya estan puestos los metodos en el backend)
-//TODO: [karle] Cuando se crea una AC, que los nombres de los materiales se autocompleten.
+//TODO: [karle] Separame el AddAccionCons en metodos GET y POST, q eso hace q se parta la app si el modelo no es valido cuando tratas de añadir la AC, arregla lo q tengas q arreglar en los views.
+//TODO: [RUL0] Poner un boton en el view Materiales_AccCons q te permitar dar atras y volver al PlanState correspondiente.
 
-//TODO: [T!] Añadir validacion a AddAccionCons
-//TODO: [T!] Probar modificar AC
-//TODO: [T!] Ponerle el autocompletamiento de raul a añadir material a un AC
-//TODO: [T!] Terminar de rellenar el About con lo q le falte.
-//TODO: [T!] Ver si fa tiene el icon de gmail para ponerselo al EMAIL de el campo email de las targetas de contacto
+//TODO: [T!] Añadir validacion a AddAccionCons(Tengo q esperar por KL)
+
+//TODO: [Dillo] En el reporte 1, no se calculna bien los importes
+//TODO: [Dillo] En el reporte 5 si no eres admin, q no salga la columna TOTAL

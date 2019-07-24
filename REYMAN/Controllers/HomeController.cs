@@ -12,7 +12,6 @@ using BizData.Entities;
 using ServiceLayer.AdminServices;
 using BizDbAccess.GenericInterfaces;
 using BizDbAccess.Utils;
-//TODO: Documentation of HomeController.
 namespace REYMAN.Controllers
 {
     /// <summary>

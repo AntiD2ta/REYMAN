@@ -1,0 +1,45 @@
+@using BizLogic.Planning
+@using BizData.Entities
+@model AccionConstructiva
+@{
+    Layout = "AdminLayout";
+    ViewData["TiTle"] = "Materiales de la Accion Constructiva";
+}
+
+<div class="main">
+    <h1>Materiales de @Model.Nombre</h1>
+    <table id="hidden">
+        <tr>
+            <th> Material </th>
+            <th> u/m</th>
+            <th> Cantidad </th>
+            <th> PrecioCUC </th>
+            <th> PrecioCUP</th>
+            <th> </th>
+            <th> </th>
+        </tr>
+        @if (Model.Materiales != null)
+            {
+            @foreach (var item in Model.Materiales)
+                {
+                <tr>
+                    <td> @item.Material.Nombre</td>
+                    <td> @item.Material.UnidadMedida.Nombre </td>
+                    <td> @item.Cantidad</td>
+                    <td> @item.PrecioCUC </td>
+                    <td> @item.PrecioCUP </td>
+                    <td><a class="button" href="/Admin/EditAccionCons_Mat?AccionConstructivaID=@Model.AccionConstructivaID&AccionCons_MaterialID=@item.AccionC_MaterialID&Cantidad=@item.Cantidad&PrecioCUP=@item.PrecioCUP&PrecioCUC=@item.PrecioCUC"> <span>Editar</span></a></td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="button" name="id" value=@item.AccionC_MaterialID><span>Eliminar</span></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <form>
+        <button class="button" asp-controller="Admin" asp-action="AddAcMaterial" name="ac_id" value=@Model.AccionConstructivaID><span>Adicionar</span></button>
+        <button class="button" asp-controller="Admin" asp-action="PlanState" name="PlanID" value="@Model.Plan.PlanID"><span>Volver al plan</span></button>
+    </form>
+</div>

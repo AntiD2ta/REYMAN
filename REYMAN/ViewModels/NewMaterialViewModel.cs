@@ -15,6 +15,7 @@ namespace REYMAN.ViewModels
         public double CUC { get; set; }
         public double CUP { get; set; }
 
+        public IEnumerable<string> _Materiales { get; set; }
         public IEnumerable<UnidadMedida> Unidades { get; set; }
     }
 }

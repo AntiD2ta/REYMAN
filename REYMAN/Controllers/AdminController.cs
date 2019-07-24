@@ -146,12 +146,10 @@ namespace REYMAN.Controllers
 
         [HttpPost]
         [Authorize("Inversionista")]
-        public async Task<IActionResult> Materiales_AccCons(int id)
+        public IActionResult Materiales_AccCons(int id)
         {
-            //TODO: [TENORIO] eliminar el AccionC_material con ID = id.
             InvestorServices services = new InvestorServices(_context);
             int ac = services.DeleteAccionC_Material(id);
-            //TODO: [TENORIO] redireccionar correctamente a la misma vista, es decir crear el AccionConsCommand correspondiente
             return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = ac });
         }
 
@@ -313,11 +311,13 @@ namespace REYMAN.Controllers
         [Authorize("Inversionista")]
         public IActionResult AddAcMaterial(int ac_id)
         {
+            GetterAll getter = new GetterAll(_getterUtils, _context);
             var vm = new NewMaterialViewModel
             {
                 Id = ac_id,
-                Unidades = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>
-            };
+                Unidades = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Distinct(new UMComparer()),
+                _Materiales = (getter.GetAll("Material") as IEnumerable<Material>).Distinct(new MaterialComparer()).Select(m => m.Nombre)
+        };
             return View(vm);
         }
 
@@ -342,9 +342,9 @@ namespace REYMAN.Controllers
 
             if (services.TryGetMaterial(temp, out var material))
             {
-                material = temp;
+                temp = material;
             }
-            ac_mat.Material = material;
+            ac_mat.Material = temp;
 
             services.AddAcMaterial(ac, ac_mat);
             return RedirectToAction("Materiales_AccCons", new AccionConsCommand() { AccionConstructivaID = vm.Id });
@@ -434,15 +434,15 @@ namespace REYMAN.Controllers
             {
                 InvestorServices investorServices = new InvestorServices(_context);
                 investorServices.RegisterAccionCons(cmd, out var errors);
-                return RedirectToAction("EditPlanes", "Admin");
+                return RedirectToAction("PlanState", "Admin", new PlanCommand { PlanID = cmd.PlanID });
             }
 
             GetterAll getter = new GetterAll(_getterUtils, _context);
             var inmueble = (await _userManager.FindByEmailAsync(User.Identity.Name)).UnidadOrganizativa.Inmuebles;
             cmd.Inmuebles = inmueble;
-            cmd.UnidadesMedida = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Select(um => um.Nombre);
+            cmd.UnidadesMedida = (getter.GetAll("UnidadMedida") as IEnumerable<UnidadMedida>).Distinct(new UMComparer()).Select(um => um.Nombre);
             cmd.Especialidades = (getter.GetAll("Especialidad") as IEnumerable<Especialidad>);
-            cmd._Materiales = (getter.GetAll("Material") as IEnumerable<Material>).Distinct(new MaterialComparer()).Select(m => m.Nombre).ToList();
+            cmd._Materiales = (getter.GetAll("Material") as IEnumerable<Material>).Distinct(new MaterialComparer()).Select(m => m.Nombre);
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             IEnumerable<AccionConstructiva> ac = new List<AccionConstructiva>();
 
@@ -660,7 +660,9 @@ namespace REYMAN.Controllers
                 }
                 LoginService loginService = new LoginService(_context, _signInManager, _userManager);
                 var us = cmd.ToUsuario();
-                us.UnidadOrganizativa = (getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.UnidadOrganizativaID == cmd.UO).Single();
+                
+                if (cmd.UO != 0)
+                    us.UnidadOrganizativa = (getter1.GetAll("UnidadOrganizativa") as IEnumerable<UnidadOrganizativa>).Where(x => x.UnidadOrganizativaID == cmd.UO).Single();
                 await loginService.EditUserAsync(us, (getter.GetAll("Usuario") as IEnumerable<Usuario>).Where(x => x.Email == cmd.EditEmail).Single());
                 return RedirectToAction("Usuarios", "Admin");
             }
@@ -708,6 +710,7 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
+        [Authorize("LevelTwoAuth")]
         public IActionResult AddMaterial()
         {
             var lvm = new MaterialViewModel();
@@ -740,7 +743,6 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("LevelTwoAuth")]
         public IActionResult EditMateriales()
         {
             var materiales = new GetterAll(_getterUtils, _context).GetAll("Material") as IEnumerable<Material>;
@@ -796,7 +798,6 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("LevelTwoAuth")]
         public IActionResult EditUnidadesMedida()
         {
             var ums = new GetterAll(_getterUtils, _context).GetAll("UnidadMedida") as IEnumerable<UnidadMedida>;
@@ -838,7 +839,6 @@ namespace REYMAN.Controllers
         }
 
         [HttpGet]
-        [Authorize("LevelTwoAuth")]
         public IActionResult EditEspecialidades()
         {
             var esp = new GetterAll(_getterUtils, _context).GetAll("Especialidad") as IEnumerable<Especialidad>;

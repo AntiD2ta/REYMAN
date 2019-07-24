@@ -31,9 +31,13 @@ namespace REYMAN
 //TODO: [Karle] Cambiaste algo para el AddObjObra, el admin ahora tiene q tener una UO obligado seteada para poder acceder a la pagina, haz un chequeo q si es admin no pida la UO.
 //TODO: [karle] (LLevas 3 pr sin hacer esto) En las tablas de mostrar Especialidades y Unidades de Medida, cuando eres admin sale una columna de botones:'Eliminar' pero cuando no eres admin sale el espacio correspondiente a esa columna vacio, quitar ese espacio en este caso.
 //TODO: [karle] Separame el AddAccionCons en metodos GET y POST, q eso hace q se parta la app si el modelo no es valido cuando tratas de añadir la AC, arregla lo q tengas q arreglar en los views.
+//TODO: [karle] En AddAccionCons los datos de los materiales no se mapean bien, solo los nombres de los materiales.
+
 //TODO: [RUL0] Poner un boton en el view Materiales_AccCons q te permitar dar atras y volver al PlanState correspondiente.
 
 //TODO: [T!] Añadir validacion a AddAccionCons(Tengo q esperar por KL)
+//TODO: [T!] Chequear lo de añadir varios materiales en AddAC.
+//TODO: [T!] Hacer la validacion de los precios en el back-end con lo de las comas y puntos, empezar por coger los precios en el model como string.
 
 //TODO: [Dillo] En el reporte 1, no se calculna bien los importes
 //TODO: [Dillo] En el reporte 5 si no eres admin, q no salga la columna TOTAL

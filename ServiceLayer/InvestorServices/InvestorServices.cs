@@ -198,7 +198,7 @@ namespace ServiceLayer.InvestorServices
 
         public long RegisterAccionCons(AccionConsCommand cmd, out IImmutableList<ValidationResult> errors)
         {
-            cmd.Materiales = cmd.ListItems.Where(i => i.nameMaterial != null && (i.precioCUC != null || i.precioCUP != null))
+            cmd.Materiales = cmd.ListItems.Where(i => i.nameMaterial != null)
                                           .Select(i => (i.nameMaterial, i.unidadMedida, i.precioCUP, i.precioCUC));
 
             cmd.Plan = _planDbAccess.GetPlan(cmd.PlanID);

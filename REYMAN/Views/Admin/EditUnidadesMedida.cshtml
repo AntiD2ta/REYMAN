@@ -50,7 +50,10 @@
                   }
             </table>
 
-            <a href="AddUnidadMedida" class="button" type="submit" value="Add">   <span>Añadir</span> </a>
+            @if (!User.HasClaim("Permission", "gerentes"))
+            {
+                <a href="AddUnidadMedida" class="button" type="submit" value="Add">   <span>Añadir</span> </a>
+            }
             </form>
     </section>
 </div>

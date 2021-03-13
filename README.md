@@ -1,6 +1,6 @@
 # REYMAN
 
-Integrantes del proyecto:
--Juan David Menendez del Cueto
+Desarrolladores:
 -Miguel Tenorio Potrony
+-Juan David Menendez del Cueto
 -Karl Lewis Sosa Justiz
